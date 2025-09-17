@@ -1,0 +1,27 @@
+@ReactASP.Server_HostAddress = https://localhost:7254
+
+GET {{ReactASP.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{ReactASP.Server_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "megumi@example.com",
+  "displayName": "Katou Megumi",
+  "password": "P@ssw0rd!"
+}
+
+###
+
+POST {{ReactASP.Server_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+  {
+    "email": "megumi@example.com",
+    "password": "P@ssw0rd!"
+  }
+
+###

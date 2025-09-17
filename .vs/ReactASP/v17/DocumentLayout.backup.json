@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "M:\\ReactASPApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{15A9861F-117A-46C3-8D11-AC251D3ABA77}|ReactASP.Server\\ReactASP.Server.csproj|m:\\reactaspapp\\reactasp.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15A9861F-117A-46C3-8D11-AC251D3ABA77}|ReactASP.Server\\ReactASP.Server.csproj|solutionrelative:reactasp.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\loginuser\\loginusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\loginuser\\loginusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\registeruser\\registerusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\registeruser\\registerusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\refreshtoken\\refreshtokencommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\refreshtoken\\refreshtokencommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\dtos\\refreshtoken\\refreshtokenresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\dtos\\refreshtoken\\refreshtokenresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\refreshtoken\\refreshtokenresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\refreshtoken\\refreshtokenresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegisterUserCommandHandler.cs",
+              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T23:07:15.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoginUserCommandHandler.cs",
+              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB4AAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T23:04:15.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RefreshTokenResponse.cs",
+              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
+              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
+              "RelativeToolTip": "ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T23:01:50.199Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Server\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "ReactASP.Server\\Controllers\\AuthController.cs",
+              "ToolTip": "M:\\ReactASPApp\\ReactASP.Server\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "ReactASP.Server\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwBQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T21:05:07.09Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RefreshTokenCommandHandler.cs",
+              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAowDYAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T19:36:28.685Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RefreshTokenResult.cs",
+              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
+              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T20:39:14.229Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
