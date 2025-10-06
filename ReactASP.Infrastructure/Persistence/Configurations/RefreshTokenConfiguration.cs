@@ -22,6 +22,9 @@ namespace ReactASP.Infrastructure.Persistence.Configurations
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__RefreshTo__UserI__17036CC0");
+
+            b.Property(r => r.CreatedAt).HasColumnType("datetimeoffset");
+            b.Property(r => r.ExpiresAt).HasColumnType("datetimeoffset");
         }
     }
 }

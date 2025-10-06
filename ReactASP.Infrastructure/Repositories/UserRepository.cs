@@ -18,9 +18,9 @@ namespace ReactASP.Infrastructure.Repositories
             _db = db;
         }
 
-        public Task<bool> EmailExistsAsync(string email, CancellationToken ct)
+        public async Task<bool> EmailExistsAsync(string email, CancellationToken ct)
         {
-            return _db.Users.AnyAsync(u => u.Email == email, ct);
+            return await _db.Users.AnyAsync(u => u.Email == email, ct);
         }
 
         public async Task AddAsync(User user, CancellationToken ct)
@@ -28,19 +28,25 @@ namespace ReactASP.Infrastructure.Repositories
             await _db.Users.AddAsync(user, ct);
         }
 
-        public Task SaveChangesAsync(CancellationToken ct)
+        public async Task SaveChangesAsync(CancellationToken ct)
         {
-            return _db.SaveChangesAsync(ct);
+            await _db.SaveChangesAsync(ct);
         }
-        public Task<User?> GetUserByEmailAsync(string email, CancellationToken ct)
+        public async Task<User?> GetUserByEmailAsync(string email, CancellationToken ct)
         {
-            return _db.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
-        }
-
-        public Task<User?> FindUserAsync(Guid userId, CancellationToken ct)
-        {
-            return _db.Users.FindAsync(new object[] {userId}, ct).AsTask();
+            return await _db.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
         }
 
+        public async Task<User?> FindUserAsync(Guid userId, CancellationToken ct)
+        {
+            return await _db.Users.FindAsync(new object[] {userId}, ct).AsTask();
+        }
+
+        public async Task<User?> GetUserByEmailWithTokensAsync(string email, CancellationToken ct)
+        {
+            return await _db.Users
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.Email == email, ct);
+        }
     }
 }

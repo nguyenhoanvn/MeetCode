@@ -10,6 +10,7 @@ using ReactASP.Application.DTOs.RegisterUser;
 using System;
 using System.Net;
 using Ardalis.Result;
+using ReactASP.Server.DTOs.RefreshToken;
 
 namespace ReactASP.Server.Controllers;
 [ApiController]
@@ -35,10 +36,10 @@ public class AuthController : ControllerBase
 
             var resp = new RegisterResponse
             {
-                UserId = result.UserId,
-                Email = result.Email,
-                DisplayName = result.DisplayName,
-                Role = result.Role
+                UserId = result.Value.UserId,
+                Email = result.Value.Email,
+                DisplayName = result.Value.DisplayName,
+                Role = result.Value.Role
             };
 
             return CreatedAtAction(nameof(Register), new { Id = resp.UserId }, resp);
@@ -65,10 +66,10 @@ public class AuthController : ControllerBase
             var result = await _meditator.Send(cmd, ct);
             var resp = new LoginResponse
             {
-                AccessToken = result.AccessToken,
-                RefreshToken = result.RefreshToken,
-                DisplayName = result.DisplayName,
-                Role = result.Role
+                AccessToken = result.Value.AccessToken,
+                RefreshToken = result.Value.RefreshToken,
+                DisplayName = result.Value.DisplayName,
+                Role = result.Value.Role
             };
 
             HttpContext.Response.Cookies.Append(
@@ -98,8 +99,9 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Refresh(CancellationToken ct)
+    public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken ct)
     {
+
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshToken) ||
                 string.IsNullOrWhiteSpace(refreshToken))
         {
@@ -133,6 +135,7 @@ public class AuthController : ControllerBase
 
         var resp = new RefreshTokenResponse {
             AccessToken = result.Value.Jwt,
+            NewRefreshToken = result.Value.RefreshToken
         };
 
         return Ok(resp);

@@ -1,30 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "M:\\ReactASPApp\\",
+  "WorkspaceRootPath": "M:\\Reetlank\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{15A9861F-117A-46C3-8D11-AC251D3ABA77}|ReactASP.Server\\ReactASP.Server.csproj|m:\\reactaspapp\\reactasp.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{15A9861F-117A-46C3-8D11-AC251D3ABA77}|ReactASP.Server\\ReactASP.Server.csproj|solutionrelative:reactasp.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\loginuser\\loginusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reetlank\\reactasp.application\\commands\\loginuser\\loginusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\loginuser\\loginusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\registeruser\\registerusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reetlank\\reactasp.application\\commands\\refreshtoken\\refreshtokencommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\refreshtoken\\refreshtokencommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reetlank\\reactasp.application\\commands\\registeruser\\registerusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\registeruser\\registerusercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\refreshtoken\\refreshtokencommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{15A9861F-117A-46C3-8D11-AC251D3ABA77}|ReactASP.Server\\ReactASP.Server.csproj|m:\\reetlank\\reactasp.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15A9861F-117A-46C3-8D11-AC251D3ABA77}|ReactASP.Server\\ReactASP.Server.csproj|solutionrelative:reactasp.server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reetlank\\reactasp.application\\commands\\refreshtoken\\refreshtokencommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\refreshtoken\\refreshtokencommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\dtos\\refreshtoken\\refreshtokenresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\dtos\\refreshtoken\\refreshtokenresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|m:\\reactaspapp\\reactasp.application\\commands\\refreshtoken\\refreshtokenresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F6CDBFA4-013B-47BE-AC0D-923F5347ADD2}|ReactASP.Application\\ReactASP.Application.csproj|solutionrelative:reactasp.application\\commands\\refreshtoken\\refreshtokenresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACABC465-701A-4F29-ADB2-E46B91A43BAB}|ReactASP.Infrastructure\\ReactASP.Infrastructure.csproj|m:\\reetlank\\reactasp.infrastructure\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACABC465-701A-4F29-ADB2-E46B91A43BAB}|ReactASP.Infrastructure\\ReactASP.Infrastructure.csproj|solutionrelative:reactasp.infrastructure\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +34,92 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RegisterUserCommandHandler.cs",
-              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
-              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
-              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
-              "RelativeToolTip": "ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T23:07:15.643Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LoginUserCommandHandler.cs",
-              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
-              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
-              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
-              "RelativeToolTip": "ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB4AAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T23:04:15.34Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "RefreshTokenResponse.cs",
-              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
-              "RelativeDocumentMoniker": "ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
-              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
-              "RelativeToolTip": "ReactASP.Application\\DTOs\\RefreshToken\\RefreshTokenResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Title": "RefreshTokenCommandHandler.cs",
+              "DocumentMoniker": "M:\\Reetlank\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "ToolTip": "M:\\Reetlank\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAowFAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T23:01:50.199Z",
+              "WhenOpened": "2025-10-06T14:15:01.298Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegisterUserCommandHandler.cs",
+              "DocumentMoniker": "M:\\Reetlank\\ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "ToolTip": "M:\\Reetlank\\ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\RegisterUser\\RegisterUserCommandHandler.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAQwCsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T14:11:01.653Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Server\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "ReactASP.Server\\Controllers\\AuthController.cs",
-              "ToolTip": "M:\\ReactASPApp\\ReactASP.Server\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "ReactASP.Server\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAwwBQAAAAFAAAAAAAAAA==",
+              "Title": "LoginUserCommandHandler.cs",
+              "DocumentMoniker": "M:\\Reetlank\\ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "ToolTip": "M:\\Reetlank\\ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\LoginUser\\LoginUserCommandHandler.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAcwD0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T21:05:07.09Z",
+              "WhenOpened": "2025-10-06T08:50:12.335Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RefreshTokenCommand.cs",
+              "DocumentMoniker": "M:\\Reetlank\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommand.cs",
+              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommand.cs",
+              "ToolTip": "M:\\Reetlank\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommand.cs",
+              "RelativeToolTip": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T08:26:18.387Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "RefreshTokenCommandHandler.cs",
-              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
-              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
-              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
-              "RelativeToolTip": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenCommandHandler.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAowDYAAAAOAAAAAAAAAA==",
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "M:\\Reetlank\\ReactASP.Server\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "ReactASP.Server\\Controllers\\AuthController.cs",
+              "ToolTip": "M:\\Reetlank\\ReactASP.Server\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "ReactASP.Server\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAwwG4AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T19:36:28.685Z",
+              "WhenOpened": "2025-10-06T08:22:56.586Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "RefreshTokenResult.cs",
-              "DocumentMoniker": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
-              "RelativeDocumentMoniker": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
-              "ToolTip": "M:\\ReactASPApp\\ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
-              "RelativeToolTip": "ReactASP.Application\\Commands\\RefreshToken\\RefreshTokenResult.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAABLAAAAAAAAAA==",
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "M:\\Reetlank\\ReactASP.Infrastructure\\Services\\TokenService.cs",
+              "RelativeDocumentMoniker": "ReactASP.Infrastructure\\Services\\TokenService.cs",
+              "ToolTip": "M:\\Reetlank\\ReactASP.Infrastructure\\Services\\TokenService.cs",
+              "RelativeToolTip": "ReactASP.Infrastructure\\Services\\TokenService.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAIwE0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-24T20:39:14.229Z",
+              "WhenOpened": "2025-10-06T08:21:21.842Z",
               "EditorCaption": ""
             }
           ]

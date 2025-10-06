@@ -65,7 +65,8 @@ namespace ReactASP.Server.Services.Auth
 
         public async Task<bool> ValidateRefreshToken(string refreshToken, CancellationToken ct)
         {
-            var hashedRefreshToken = HashToken(refreshToken);
+            /*var hashedRefreshToken = HashToken(refreshToken);*/
+            var hashedRefreshToken = refreshToken;
             var token = await _refreshTokenRepository.GetByToken(hashedRefreshToken, ct);
 
             if (token is null)
@@ -75,7 +76,7 @@ namespace ReactASP.Server.Services.Auth
 
             if (token.ExpiresAt < DateTime.UtcNow || token.IsRevoked) return false;
 
-            return token.TokenHash == HashToken(refreshToken);
+            return token.TokenHash == hashedRefreshToken;
         }
     }
 }

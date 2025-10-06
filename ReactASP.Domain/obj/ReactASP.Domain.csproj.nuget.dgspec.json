@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "M:\\ReactASPApp\\ReactASP.Domain\\ReactASP.Domain.csproj": {}
+    "M:\\Reetlank\\ReactASP.Domain\\ReactASP.Domain.csproj": {}
   },
   "projects": {
-    "M:\\ReactASPApp\\ReactASP.Domain\\ReactASP.Domain.csproj": {
+    "M:\\Reetlank\\ReactASP.Domain\\ReactASP.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "M:\\ReactASPApp\\ReactASP.Domain\\ReactASP.Domain.csproj",
+        "projectUniqueName": "M:\\Reetlank\\ReactASP.Domain\\ReactASP.Domain.csproj",
         "projectName": "ReactASP.Domain",
-        "projectPath": "M:\\ReactASPApp\\ReactASP.Domain\\ReactASP.Domain.csproj",
+        "projectPath": "M:\\Reetlank\\ReactASP.Domain\\ReactASP.Domain.csproj",
         "packagesPath": "C:\\Users\\hoany\\.nuget\\packages\\",
-        "outputPath": "M:\\ReactASPApp\\ReactASP.Domain\\obj\\",
+        "outputPath": "M:\\Reetlank\\ReactASP.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "M:\\Games\\VisualStudio\\Shared\\NuGetPackages"
+          "M:\\Games\\Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\hoany\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

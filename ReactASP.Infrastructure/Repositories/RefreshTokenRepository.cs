@@ -24,9 +24,9 @@ namespace ReactASP.Infrastructure.Repositories
             await _db.RefreshTokens.AddAsync(refreshToken, ct);
         }
 
-        public Task<RefreshToken?> GetByToken(string hashedToken, CancellationToken ct)
+        public async Task<RefreshToken?> GetByToken(string hashedToken, CancellationToken ct)
         {
-            return _db.RefreshTokens.FirstOrDefaultAsync(rt => rt.TokenHash == hashedToken, ct);
+            return await _db.RefreshTokens.FirstOrDefaultAsync(rt => rt.TokenHash == hashedToken, ct);
         }
 
     }

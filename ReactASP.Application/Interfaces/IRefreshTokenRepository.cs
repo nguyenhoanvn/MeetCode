@@ -10,7 +10,6 @@ namespace ReactASP.Application.Interfaces
     public interface IRefreshTokenRepository
     {
         Task AddAsync(RefreshToken refreshToken, CancellationToken ct);
-
         Task<RefreshToken?> GetByToken(string hashedToken, CancellationToken ct);
     }
 }

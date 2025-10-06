@@ -12,17 +12,26 @@
           "FluentValidation.AspNetCore": "11.3.1",
           "FluentValidation.DependencyInjectionExtensions": "12.0.0",
           "MediatR": "13.0.0",
-          "Microsoft.AspNetCore.SpaProxy": "8.0.19",
+          "Microsoft.AspNetCore.SpaProxy": "8.0.20",
           "Microsoft.EntityFrameworkCore": "9.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.8",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.8",
           "Microsoft.OpenApi": "1.6.24",
           "ReactASP.Application": "1.0.0",
           "ReactASP.Infrastructure": "1.0.0",
+          "RestSharp": "112.1.0",
           "Swashbuckle.AspNetCore": "8.1.4"
         },
         "runtime": {
           "ReactASP.Server.dll": {}
+        }
+      },
+      "Ardalis.Result/10.1.0": {
+        "runtime": {
+          "lib/net8.0/Ardalis.Result.dll": {
+            "assemblyVersion": "10.1.0.0",
+            "fileVersion": "10.1.0.0"
+          }
         }
       },
       "Azure.Core/1.38.0": {
@@ -240,11 +249,11 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.0"
         }
       },
-      "Microsoft.AspNetCore.SpaProxy/8.0.19": {
+      "Microsoft.AspNetCore.SpaProxy/8.0.20": {
         "runtime": {
           "lib/net8.0/Microsoft.AspNetCore.SpaProxy.dll": {
-            "assemblyVersion": "8.0.19.0",
-            "fileVersion": "8.0.1925.37204"
+            "assemblyVersion": "8.0.20.0",
+            "fileVersion": "8.0.2025.42002"
           }
         }
       },
@@ -1028,6 +1037,14 @@
           }
         }
       },
+      "RestSharp/112.1.0": {
+        "runtime": {
+          "lib/net8.0/RestSharp.dll": {
+            "assemblyVersion": "112.1.0.0",
+            "fileVersion": "112.1.0.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/8.1.4": {
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "6.0.5",
@@ -1351,6 +1368,7 @@
       },
       "ReactASP.Application/1.0.0": {
         "dependencies": {
+          "Ardalis.Result": "10.1.0",
           "BCrypt.Net-Next": "4.0.3",
           "FluentValidation": "12.0.0",
           "MediatR": "13.0.0",
@@ -1399,6 +1417,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Ardalis.Result/10.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+WgsXh+JRm0d8BZPlBUc5w0+FTda4vbWRa/IF2q4zDoRsU5BXr8w4rTbYEklZIMNgQQZTcNouR/QfBV5I/4XYQ==",
+      "path": "ardalis.result/10.1.0",
+      "hashPath": "ardalis.result.10.1.0.nupkg.sha512"
     },
     "Azure.Core/1.38.0": {
       "type": "package",
@@ -1568,12 +1593,12 @@
       "path": "microsoft.aspnetcore.routing.abstractions/2.3.0",
       "hashPath": "microsoft.aspnetcore.routing.abstractions.2.3.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.SpaProxy/8.0.19": {
+    "Microsoft.AspNetCore.SpaProxy/8.0.20": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-xWtCwORld+CYaee+QOVvjbhNf+mD04ZAafdBwd2YqdYolGsag2thKZLJRfmP2SkXAHNbJJ/9osZqsxnT/N3rMA==",
-      "path": "microsoft.aspnetcore.spaproxy/8.0.19",
-      "hashPath": "microsoft.aspnetcore.spaproxy.8.0.19.nupkg.sha512"
+      "sha512": "sha512-TxWBxx2PiuaL1c5fpQdccNqnSe+Ck+R8EDd2GHG7jo6rlSVqFugceix/QckLmIn0wAQJhiWz//s+O5o/WcbBbQ==",
+      "path": "microsoft.aspnetcore.spaproxy/8.0.20",
+      "hashPath": "microsoft.aspnetcore.spaproxy.8.0.20.nupkg.sha512"
     },
     "Microsoft.AspNetCore.WebUtilities/2.3.0": {
       "type": "package",
@@ -1938,6 +1963,13 @@
       "sha512": "sha512-YqueG52R/Xej4VVbKuRIodjiAhV0HR/XVbLbNrJhCZnzjnSjgMJ/dCdV0akQQxavX6hp/LC6rqLGLcXeQYU7XA==",
       "path": "mono.texttemplating/3.0.0",
       "hashPath": "mono.texttemplating.3.0.0.nupkg.sha512"
+    },
+    "RestSharp/112.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bOUGNZqhhv/QeCXHTKEUil846yBjwWXpzPKjO67kFvaAOoF361z7jLY5BMnuZ6WD2WQRA750sNMcK7MSPCQ5Mg==",
+      "path": "restsharp/112.1.0",
+      "hashPath": "restsharp.112.1.0.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/8.1.4": {
       "type": "package",

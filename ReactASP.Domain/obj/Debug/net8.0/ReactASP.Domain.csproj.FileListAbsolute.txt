@@ -9,3 +9,15 @@ M:\ReactASPApp\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.dll
 M:\ReactASPApp\ReactASP.Domain\obj\Debug\net8.0\refint\ReactASP.Domain.dll
 M:\ReactASPApp\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.pdb
 M:\ReactASPApp\ReactASP.Domain\obj\Debug\net8.0\ref\ReactASP.Domain.dll
+M:\Reetlank\ReactASP.Domain\bin\Debug\net8.0\ReactASP.Domain.deps.json
+M:\Reetlank\ReactASP.Domain\bin\Debug\net8.0\ReactASP.Domain.dll
+M:\Reetlank\ReactASP.Domain\bin\Debug\net8.0\ReactASP.Domain.pdb
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.GeneratedMSBuildEditorConfig.editorconfig
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.AssemblyInfoInputs.cache
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.AssemblyInfo.cs
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.csproj.CoreCompileInputs.cache
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.sourcelink.json
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.dll
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\refint\ReactASP.Domain.dll
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ReactASP.Domain.pdb
+M:\Reetlank\ReactASP.Domain\obj\Debug\net8.0\ref\ReactASP.Domain.dll

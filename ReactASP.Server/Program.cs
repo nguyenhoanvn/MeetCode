@@ -10,6 +10,7 @@ using ReactASP.Application.Commands.RegisterUser;
 using ReactASP.Application.Common;
 using ReactASP.Application.Interfaces;
 using ReactASP.Infrastructure.Persistence;
+using ReactASP.Infrastructure.Persistence.Configurations;
 using ReactASP.Infrastructure.Repositories;
 using ReactASP.Server.Services.Auth;
 
@@ -47,7 +48,9 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ITokenService, TokenAuthenciationService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

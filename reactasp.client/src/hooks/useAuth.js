@@ -10,7 +10,6 @@ export function useAuth() {
         setAccessToken(data.accessToken);
         setUser(data.user);
     };
-
     const handleRegister = async (email, password, displayName) => {
         const data = await register(email, password, displayName);
         setUser(data.user);

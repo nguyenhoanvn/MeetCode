@@ -439,7 +439,7 @@
           }
         }
       },
-      "Microsoft.AspNetCore.SpaProxy/8.0.19": {
+      "Microsoft.AspNetCore.SpaProxy/8.0.20": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.AspNetCore.SpaProxy.dll": {}
@@ -2696,10 +2696,10 @@
         "microsoft.aspnetcore.routing.abstractions.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.SpaProxy/8.0.19": {
-      "sha512": "xWtCwORld+CYaee+QOVvjbhNf+mD04ZAafdBwd2YqdYolGsag2thKZLJRfmP2SkXAHNbJJ/9osZqsxnT/N3rMA==",
+    "Microsoft.AspNetCore.SpaProxy/8.0.20": {
+      "sha512": "TxWBxx2PiuaL1c5fpQdccNqnSe+Ck+R8EDd2GHG7jo6rlSVqFugceix/QckLmIn0wAQJhiWz//s+O5o/WcbBbQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.spaproxy/8.0.19",
+      "path": "microsoft.aspnetcore.spaproxy/8.0.20",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2707,7 +2707,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "build/Microsoft.AspNetCore.SpaProxy.targets",
         "lib/net8.0/Microsoft.AspNetCore.SpaProxy.dll",
-        "microsoft.aspnetcore.spaproxy.8.0.19.nupkg.sha512",
+        "microsoft.aspnetcore.spaproxy.8.0.20.nupkg.sha512",
         "microsoft.aspnetcore.spaproxy.nuspec"
       ]
     },
@@ -6177,19 +6177,19 @@
   },
   "packageFolders": {
     "C:\\Users\\hoany\\.nuget\\packages\\": {},
-    "M:\\Games\\VisualStudio\\Shared\\NuGetPackages": {}
+    "M:\\Games\\Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "M:\\ReactASPApp\\ReactASP.Server\\ReactASP.Server.csproj",
+      "projectUniqueName": "M:\\Reetlank\\ReactASP.Server\\ReactASP.Server.csproj",
       "projectName": "ReactASP.Server",
-      "projectPath": "M:\\ReactASPApp\\ReactASP.Server\\ReactASP.Server.csproj",
+      "projectPath": "M:\\Reetlank\\ReactASP.Server\\ReactASP.Server.csproj",
       "packagesPath": "C:\\Users\\hoany\\.nuget\\packages\\",
-      "outputPath": "M:\\ReactASPApp\\ReactASP.Server\\obj\\",
+      "outputPath": "M:\\Reetlank\\ReactASP.Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "M:\\Games\\VisualStudio\\Shared\\NuGetPackages"
+        "M:\\Games\\Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\hoany\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6208,11 +6208,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "M:\\ReactASPApp\\ReactASP.Application\\ReactASP.Application.csproj": {
-              "projectPath": "M:\\ReactASPApp\\ReactASP.Application\\ReactASP.Application.csproj"
+            "M:\\Reetlank\\ReactASP.Application\\ReactASP.Application.csproj": {
+              "projectPath": "M:\\Reetlank\\ReactASP.Application\\ReactASP.Application.csproj"
             },
-            "M:\\ReactASPApp\\ReactASP.Infrastructure\\ReactASP.Infrastructure.csproj": {
-              "projectPath": "M:\\ReactASPApp\\ReactASP.Infrastructure\\ReactASP.Infrastructure.csproj"
+            "M:\\Reetlank\\ReactASP.Infrastructure\\ReactASP.Infrastructure.csproj": {
+              "projectPath": "M:\\Reetlank\\ReactASP.Infrastructure\\ReactASP.Infrastructure.csproj"
             }
           }
         }
@@ -6227,7 +6227,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -6299,7 +6299,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

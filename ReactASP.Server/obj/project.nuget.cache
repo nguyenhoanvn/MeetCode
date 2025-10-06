@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F5VjJXidATo=",
+  "dgSpecHash": "HaTCvniTwdY=",
   "success": true,
-  "projectFilePath": "M:\\ReactASPApp\\ReactASP.Server\\ReactASP.Server.csproj",
+  "projectFilePath": "M:\\Reetlank\\ReactASP.Server\\ReactASP.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hoany\\.nuget\\packages\\ardalis.result\\10.1.0\\ardalis.result.10.1.0.nupkg.sha512",
     "C:\\Users\\hoany\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
@@ -29,7 +29,7 @@
     "C:\\Users\\hoany\\.nuget\\packages\\microsoft.aspnetcore.responsecaching.abstractions\\2.3.0\\microsoft.aspnetcore.responsecaching.abstractions.2.3.0.nupkg.sha512",
     "C:\\Users\\hoany\\.nuget\\packages\\microsoft.aspnetcore.routing\\2.3.0\\microsoft.aspnetcore.routing.2.3.0.nupkg.sha512",
     "C:\\Users\\hoany\\.nuget\\packages\\microsoft.aspnetcore.routing.abstractions\\2.3.0\\microsoft.aspnetcore.routing.abstractions.2.3.0.nupkg.sha512",
-    "C:\\Users\\hoany\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.19\\microsoft.aspnetcore.spaproxy.8.0.19.nupkg.sha512",
+    "C:\\Users\\hoany\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.20\\microsoft.aspnetcore.spaproxy.8.0.20.nupkg.sha512",
     "C:\\Users\\hoany\\.nuget\\packages\\microsoft.aspnetcore.webutilities\\2.3.0\\microsoft.aspnetcore.webutilities.2.3.0.nupkg.sha512",
     "C:\\Users\\hoany\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "C:\\Users\\hoany\\.nuget\\packages\\microsoft.build.framework\\17.8.3\\microsoft.build.framework.17.8.3.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+bD/4kFURuA=",
+  "dgSpecHash": "1U1q6OZ6c+0=",
   "success": true,
-  "projectFilePath": "M:\\ReactASPApp\\ReactASP.Tests\\ReactASP.Tests.csproj",
+  "projectFilePath": "M:\\Reetlank\\ReactASP.Tests\\ReactASP.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hoany\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\hoany\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",

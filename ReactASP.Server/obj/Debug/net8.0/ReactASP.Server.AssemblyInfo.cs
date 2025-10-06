@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ReactASP.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce7bc69eb50e4d5d87352dd722e098b53a230c0d")]
 [assembly: System.Reflection.AssemblyProductAttribute("ReactASP.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ReactASP.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

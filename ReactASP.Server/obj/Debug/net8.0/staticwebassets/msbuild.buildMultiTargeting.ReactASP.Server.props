@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ReactASP.Server.props" />
+</Project>
