@@ -27,11 +27,6 @@ namespace ReactASP.Infrastructure.Repositories
         {
             await _db.Users.AddAsync(user, ct);
         }
-
-        public async Task SaveChangesAsync(CancellationToken ct)
-        {
-            await _db.SaveChangesAsync(ct);
-        }
         public async Task<User?> GetUserByEmailAsync(string email, CancellationToken ct)
         {
             return await _db.Users.FirstOrDefaultAsync(u => u.Email == email, ct);

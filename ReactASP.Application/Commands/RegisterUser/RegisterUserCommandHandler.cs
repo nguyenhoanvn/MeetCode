@@ -54,7 +54,7 @@ public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCom
             };
 
             await _userRepository.AddAsync(user, ct);
-            await _userRepository.SaveChangesAsync(ct);
+            await _unitOfWork.SaveChangesAsync(ct);
 
             _logger.LogInformation($"An user has been created successfully with Id: {user.UserId}");
 

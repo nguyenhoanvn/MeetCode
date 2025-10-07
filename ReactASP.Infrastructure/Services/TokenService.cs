@@ -32,7 +32,7 @@ namespace ReactASP.Server.Services.Auth
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -65,8 +65,7 @@ namespace ReactASP.Server.Services.Auth
 
         public async Task<bool> ValidateRefreshToken(string refreshToken, CancellationToken ct)
         {
-            /*var hashedRefreshToken = HashToken(refreshToken);*/
-            var hashedRefreshToken = refreshToken;
+            var hashedRefreshToken = HashToken(refreshToken);
             var token = await _refreshTokenRepository.GetByToken(hashedRefreshToken, ct);
 
             if (token is null)

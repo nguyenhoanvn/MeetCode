@@ -17,10 +17,10 @@ namespace ReactASP.Server.Controllers;
 [Route("auth")]
 public class AuthController : ControllerBase
 {
-    private readonly ISender _meditator;
-    public AuthController(ISender meditator)
+    private readonly ISender _mediator;
+    public AuthController(ISender mediator)
     {
-        _meditator = meditator;
+        _mediator = mediator;
     }
 
     [HttpPost("register")]
@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
 
         try
         {
-            var result = await _meditator.Send(cmd, ct);
+            var result = await _mediator.Send(cmd, ct);
 
             var resp = new RegisterResponse
             {
@@ -54,7 +54,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpPost("login")]
+    [HttpGet("login")]
     [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken ct)
@@ -63,7 +63,7 @@ public class AuthController : ControllerBase
 
         try
         {
-            var result = await _meditator.Send(cmd, ct);
+            var result = await _mediator.Send(cmd, ct);
             var resp = new LoginResponse
             {
                 AccessToken = result.Value.AccessToken,
@@ -95,7 +95,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpPost("refresh")]
+    [HttpGet("refresh")]
     [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -110,7 +110,7 @@ public class AuthController : ControllerBase
 
         var cmd = new RefreshTokenCommand(refreshToken);
 
-        var result = await _meditator.Send(cmd, ct);
+        var result = await _mediator.Send(cmd, ct);
 
         if (result.IsUnauthorized())
         {
