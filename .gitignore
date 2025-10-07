@@ -1,1 +1,7 @@
-
+.vs/
+bin/
+obj/
+out/
+appsettings.json
+appsettings.*.json
+Properties/launchSettings.json
