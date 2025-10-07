@@ -1,7 +1,23 @@
+# Visual Studio / Build
 .vs/
 bin/
 obj/
 out/
+
+# ASP.NET configs
 appsettings.json
 appsettings.*.json
 Properties/launchSettings.json
+
+# Logs
+*.log
+
+# User / OS
+*.user
+*.suo
+Thumbs.db
+Desktop.ini
+
+# Node (for reactasp.client)
+reactasp.client/node_modules/
+reactasp.client/.env
