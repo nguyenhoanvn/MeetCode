@@ -3,6 +3,7 @@
 bin/
 obj/
 out/
+Debug/
 
 # ASP.NET configs
 appsettings.json
