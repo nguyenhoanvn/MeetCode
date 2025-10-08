@@ -17,6 +17,7 @@ using ReactASP.Server.Services.Auth;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ReactASP.Infrastructure.Services;
+using ReactASP.Application.Interfaces.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -36,10 +36,10 @@ public class AuthController : ControllerBase
 
             var resp = new RegisterResponse
             {
-                UserId = result.Value.UserId,
-                Email = result.Value.Email,
-                DisplayName = result.Value.DisplayName,
-                Role = result.Value.Role
+                UserId = result.Value.userId,
+                Email = result.Value.email,
+                DisplayName = result.Value.displayName,
+                Role = result.Value.role
             };
 
             return CreatedAtAction(nameof(Register), new { Id = resp.UserId }, resp);
@@ -66,21 +66,21 @@ public class AuthController : ControllerBase
             var result = await _mediator.Send(cmd, ct);
             var resp = new LoginResponse
             {
-                AccessToken = result.Value.AccessToken,
-                RefreshToken = result.Value.RefreshToken,
-                DisplayName = result.Value.DisplayName,
-                Role = result.Value.Role
+                AccessToken = result.Value.accessToken,
+                RefreshToken = result.Value.refreshToken,
+                DisplayName = result.Value.displayName,
+                Role = result.Value.refreshToken
             };
 
             HttpContext.Response.Cookies.Append(
-                "refreshToken",
-                resp.RefreshToken,
+                "accessToken",
+                resp.AccessToken,
                 new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.Strict,
-                    Expires = DateTimeOffset.UtcNow.AddDays(30)
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(30)
                 });
 
             return Ok(resp);
@@ -123,19 +123,19 @@ public class AuthController : ControllerBase
         }
 
         HttpContext.Response.Cookies.Append(
-            "refreshToken",
-            result.Value.RefreshToken,
+            "accessToken",
+            result.Value.jwt,
             new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddDays(30)
+                Expires = DateTimeOffset.UtcNow.AddMinutes(30)
             });
 
         var resp = new RefreshTokenResponse {
-            AccessToken = result.Value.Jwt,
-            NewRefreshToken = result.Value.RefreshToken
+            AccessToken = result.Value.jwt,
+            NewRefreshToken = result.Value.refreshToken
         };
 
         return Ok(resp);
