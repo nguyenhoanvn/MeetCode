@@ -19,4 +19,8 @@ public partial class RefreshToken
 
     public virtual User User { get; set; } = null!;
 
+    public bool IsValid()
+    {
+        return !IsRevoked && ExpiresAt > DateTimeOffset.UtcNow;
+    }
 }

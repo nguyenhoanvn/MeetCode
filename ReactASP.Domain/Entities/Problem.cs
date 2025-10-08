@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
     namespace ReactASP.Domain.Entities;
 
@@ -40,4 +41,9 @@ using System.Collections.Generic;
         public virtual ICollection<TestCase> TestCases { get; set; } = new List<TestCase>();
 
         public virtual ICollection<ProblemTag> Tags { get; set; } = new List<ProblemTag>();
-    }
+
+        public void GenerateSlug()
+        {
+            this.Slug = Regex.Replace(this.Title.ToLowerInvariant().Trim(), @"\s+", "-");
+        }
+}
