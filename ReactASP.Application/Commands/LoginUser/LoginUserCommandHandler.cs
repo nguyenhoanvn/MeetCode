@@ -7,28 +7,24 @@ using System.Threading.Tasks;
 using ReactASP.Application.Interfaces;
 using Ardalis.Result;
 using Microsoft.Extensions.Logging;
+using ReactASP.Application.Interfaces.Services;
 
 namespace ReactASP.Application.Commands.LoginUser
 {
     public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginUserResult>>
     {
         private readonly int RT_EXPIRE_TIME = 30;
-        private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
         private readonly ILogger<LoginUserCommandHandler> _logger;
 
-        public LoginUserCommandHandler(IUserRepository userRepository, 
+        public LoginUserCommandHandler(
             ITokenService tokenService,
-            IRefreshTokenRepository refreshTokenRepository,
-            IUnitOfWork unitOfWork,
+            IUserService userService,
             ILogger<LoginUserCommandHandler> logger)
         {
-            _userRepository = userRepository;
             _tokenService = tokenService;
-            _refreshTokenRepository = refreshTokenRepository;
-            _unitOfWork = unitOfWork;
+            _userService = userService;
             _logger = logger;
         }
 
@@ -36,22 +32,14 @@ namespace ReactASP.Application.Commands.LoginUser
         {
             try
             {
-                // Create new refresh token
+                // Verify email
                 var email = request.Email.Trim().ToLowerInvariant();
+                var user = await _userService.FindUserAsync(email, ct);
 
-                var user = await _userRepository.GetUserByEmailWithTokensAsync(email, ct);
-                if (user is null)
-                {
-                    _logger.LogWarning($"Cannot find the user with email: {email}");
-                    return Result.Invalid(new ValidationError
-                    {
-                        Identifier = nameof(email),
-                        ErrorMessage = "Invalid email"
-                    });
-                }
+                // Verify password
+                var isPasswordMatch = _userService.IsPasswordMatch(request.Password, user.PasswordHash);
 
-                var ok = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
-                if (!ok)
+                if (!isPasswordMatch)
                 {
                     _logger.LogWarning($"Wrong password");
                     return Result.Invalid(new ValidationError
@@ -64,28 +52,18 @@ namespace ReactASP.Application.Commands.LoginUser
                 string accessToken = _tokenService.GenerateJwtToken(user.UserId, user.Email, user.Role);
                 string refreshToken = _tokenService.GenerateRefreshToken();
 
-                Domain.Entities.RefreshToken refreshTokenEntity = new Domain.Entities.RefreshToken
-                {
-                    UserId = user.UserId,
-                    TokenHash = _tokenService.HashToken(refreshToken),
-                    ExpiresAt = DateTimeOffset.UtcNow.AddDays(RT_EXPIRE_TIME),
-                    CreatedAt = DateTimeOffset.UtcNow
-                };
+                await _tokenService.CreateRefreshTokenAsync(user.UserId, refreshToken, ct);
 
-                // Revoke old refresh token
-                var oldRefreshTokenArray = user.RefreshTokens.Where(rt => !rt.IsRevoked && rt.ExpiresAt > DateTimeOffset.UtcNow).ToList(); ;
-                foreach (var oldRefreshToken in oldRefreshTokenArray)
-                {
-                    oldRefreshToken.IsRevoked = true;
-                }
-
-                // Attach refresh token
-                await _refreshTokenRepository.AddAsync(refreshTokenEntity, ct);
-                await _unitOfWork.SaveChangesAsync(ct);
                 _logger.LogInformation($"Login in completed for user with email: {email}");
 
                 return Result.Success(new LoginUserResult(accessToken, refreshToken, user.DisplayName, user.Role));
-            } catch (Exception ex)
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result.Error(ex.Message);
+            }
+            catch (Exception ex)
             {
                 _logger.LogError($"An exception occured while login: {ex.Message}");
                 return Result.Error("An exception occured while login");

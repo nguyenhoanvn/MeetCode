@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace ReactASP.Application.Commands.Profile
 {
     public sealed record ProfileUserResult(
-        Guid UserId,
-        string Email,
-        string DisplayName,
-        string Role,
-        DateTime CreateAt,
-        DateTime? LastLoginAt,
-        int TotalSolved,
-        double TotalScore,
-        int StreakDays
+        Guid userId,
+        string email,
+        string displayName,
+        string role,
+        DateTime createAt,
+        DateTime? lastLoginAt,
+        int totalSolved,
+        double totalScore,
+        int streakDays
         );
 }

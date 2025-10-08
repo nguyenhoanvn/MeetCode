@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ReactASP.Application.Commands.RefreshToken
 {
-    public sealed record RefreshTokenResult(string Jwt, string RefreshToken);
+    public sealed record RefreshTokenResult(string jwt, string refreshToken);
 }
