@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ReactASP.Application.Interfaces.Repositories;
 using ReactASP.Domain.Entities;
 
 namespace ReactASP.Application.Interfaces
 {
-    public interface IProblemRepository
+    public interface IProblemRepository : IRepository<Problem>
     {
-        Task AddAsync(Problem problem, CancellationToken ct);
         Task<Problem?> GetBySlugAsync(string slug, CancellationToken ct);
     }
 }

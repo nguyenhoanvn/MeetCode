@@ -4,12 +4,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Ardalis.Result;
 using ReactASP.Domain.Entities;
 
-namespace ReactASP.Application.Interfaces
+namespace ReactASP.Application.Interfaces.Services
 {
     public interface ISessionService
     {
-        Claim? GetUserClaim(CancellationToken ct);
+        Guid ExtractUserIdFromJwt(CancellationToken ct);
     }
 }

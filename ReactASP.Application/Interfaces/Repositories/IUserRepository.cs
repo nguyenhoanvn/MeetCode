@@ -1,12 +1,12 @@
+using ReactASP.Application.Interfaces.Repositories;
 using ReactASP.Domain.Entities;
 
 namespace ReactASP.Application.Interfaces;
 
-public interface IUserRepository {
+public interface IUserRepository : IRepository<User>{
     Task<bool> EmailExistsAsync(string email, CancellationToken ct);
-    Task AddAsync(User user, CancellationToken ct);
     Task<User?> GetUserByEmailAsync(string email, CancellationToken ct);
-    Task<User?> FindUserAsync(Guid userId, CancellationToken ct);
     Task<User?> GetUserByEmailWithTokensAsync(string email, CancellationToken ct);
+    Task<User?> GetUserByIdWithTokensAsync(Guid userId, CancellationToken ct);
 
 }
