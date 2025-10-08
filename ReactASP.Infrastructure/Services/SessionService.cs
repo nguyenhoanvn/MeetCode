@@ -5,8 +5,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Ardalis.Result;
 using Microsoft.AspNetCore.Http;
 using ReactASP.Application.Interfaces;
+using ReactASP.Application.Interfaces.Services;
 using ReactASP.Domain.Entities;
 
 namespace ReactASP.Infrastructure.Services
@@ -21,9 +23,18 @@ namespace ReactASP.Infrastructure.Services
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
         }
-        public Claim? GetUserClaim(CancellationToken ct)
+        public Guid ExtractUserIdFromJwt(CancellationToken ct)
         {
-            return _httpContextAccessor.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Sub);  
+            var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Sub);
+            if (userClaim == null)
+            {
+                throw new InvalidOperationException("JWT does not contain a 'sub' (UserId) claim");
+            }
+            if (!Guid.TryParse(userClaim.Value, out var userId))
+            {
+                throw new InvalidOperationException($"Invalid userId format in JWT claim: {userClaim.Value}")
+            }
+            return userId;
         }
     }
 }

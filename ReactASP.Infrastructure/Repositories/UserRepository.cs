@@ -22,10 +22,21 @@ namespace ReactASP.Infrastructure.Repositories
         {
             return await _db.Users.AnyAsync(u => u.Email == email, ct);
         }
-
+        public async Task<User> GetByIdAsync(Guid id, CancellationToken ct)
+        {
+            throw new InvalidOperationException();
+        }
         public async Task AddAsync(User user, CancellationToken ct)
         {
             await _db.Users.AddAsync(user, ct);
+        }
+        public async Task UpdateAsync(Guid id, User newUser, CancellationToken ct)
+        {
+            throw new InvalidOperationException();
+        }
+        public async Task DeleteAsync(Guid id, CancellationToken ct)
+        {
+            throw new InvalidOperationException();
         }
         public async Task<User?> GetUserByEmailAsync(string email, CancellationToken ct)
         {

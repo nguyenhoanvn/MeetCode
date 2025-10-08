@@ -13,9 +13,21 @@ namespace ReactASP.Infrastructure.Repositories
     public class ProblemRepository : IProblemRepository
     {
         private readonly AppDbContext _db;
+        public async Task<Problem> GetByIdAsync(Guid id, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
         public async Task AddAsync(Problem problem, CancellationToken ct)
         {
             await _db.Problems.AddAsync(problem, ct);
+        }
+        public async Task UpdateAsync(Guid id, Problem newProblem, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task DeleteAsync(Guid id, CancellationToken ct)
+        {
+            throw new NotImplementedException();
         }
         public async Task<Problem?> GetBySlugAsync(string slug, CancellationToken ct)
         {
