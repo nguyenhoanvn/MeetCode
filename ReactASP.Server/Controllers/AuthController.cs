@@ -11,6 +11,8 @@ using System;
 using System.Net;
 using Ardalis.Result;
 using ReactASP.Server.DTOs.RefreshToken;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ReactASP.Server.Controllers;
 [ApiController]
@@ -18,9 +20,16 @@ namespace ReactASP.Server.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly ISender _mediator;
-    public AuthController(ISender mediator)
+    private readonly IMapper _mapper;
+    private readonly ILogger<AuthController> _logger;
+    public AuthController(
+        ISender mediator,
+        IMapper mapper,
+        ILogger<AuthController> logger)
     {
         _mediator = mediator;
+        _mapper = mapper;
+        _logger = logger;
     }
 
     [HttpPost("register")]
@@ -28,103 +37,69 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken ct)
     {
-        var cmd = new RegisterUserCommand(request.Email, request.DisplayName, request.Password);
-
-        try
+        if (request == null)
         {
-            var result = await _mediator.Send(cmd, ct);
-
-            var resp = new RegisterResponse
-            {
-                UserId = result.Value.userId,
-                Email = result.Value.email,
-                DisplayName = result.Value.displayName,
-                Role = result.Value.role
-            };
-
-            return CreatedAtAction(nameof(Register), new { Id = resp.UserId }, resp);
-        } catch (InvalidOperationException ex)
-        {
-            return ValidationProblem(new ValidationProblemDetails
-            {
-                Title = "Registration Error",
-                Detail = ex.Message,
-                Status = StatusCodes.Status400BadRequest
-            });
+            _logger.LogWarning($"Register failed because request is null");
+            return BadRequest("Invalid request body");
         }
+        _logger.LogInformation($"Register for email {request.Email} started");
+
+        var cmd = _mapper.Map<RegisterUserCommand>(request);
+
+        var result = await _mediator.Send(cmd, ct);
+        if (!result.IsSuccess)
+        {
+            _logger.LogWarning($"Register failed for email {request.Email}: {string.Join("; ", result.Errors)}");
+            return Problem(
+                title: "Error while retrieving Register result",
+                detail: string.Join("; ", result.Errors),
+                statusCode: StatusCodes.Status400BadRequest);
+        }
+
+        var resp = _mapper.Map<RegisterResponse>(result.Value);
+        _logger.LogInformation($"Register success for email {request.Email}");
+
+        return CreatedAtAction(nameof(Register), new { Id = resp.UserId }, resp);
     }
 
-    [HttpGet("login")]
+    [HttpPost("login")]
     [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken ct)
     {
-        var cmd = new LoginUserCommand(request.Email, request.Password);
-
-        try
+        if (request == null)
         {
-            var result = await _mediator.Send(cmd, ct);
-            var resp = new LoginResponse
-            {
-                AccessToken = result.Value.accessToken,
-                RefreshToken = result.Value.refreshToken,
-                DisplayName = result.Value.displayName,
-                Role = result.Value.refreshToken
-            };
-
-            HttpContext.Response.Cookies.Append(
-                "accessToken",
-                resp.AccessToken,
-                new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTimeOffset.UtcNow.AddMinutes(30)
-                });
-
-            return Ok(resp);
-        } catch (InvalidOperationException ex)
-        {
-            return ValidationProblem(new ValidationProblemDetails
-            {
-                Title = "Login Error",
-                Detail = ex.Message,
-                Status = StatusCodes.Status400BadRequest
-            });
+            return BadRequest("Invalid Login request body");
         }
-    }
+        _logger.LogInformation($"Login started for email {request.Email}");
 
-    [HttpGet("refresh")]
-    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken ct)
-    {
-
-        if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshToken) ||
-                string.IsNullOrWhiteSpace(refreshToken))
-        {
-            return Unauthorized("Refresh token is invalid");
-        }
-
-        var cmd = new RefreshTokenCommand(refreshToken);
+        var cmd = _mapper.Map<LoginUserCommand>(request);
 
         var result = await _mediator.Send(cmd, ct);
-
-        if (result.IsUnauthorized())
+        
+        if (!result.IsSuccess)
         {
-            return Unauthorized();
+            _logger.LogWarning($"Login failed for email {request.Email}: {string.Join("; ", result.Errors)}");
+            return Problem(
+                title: "Error while retrieving Login result",
+                detail: string.Join("; ", result.Value),
+                statusCode: StatusCodes.Status400BadRequest);
         }
-
-        if (result.Status != ResultStatus.Ok)
-        {
-            return BadRequest(result.Errors);
-        }
+        var resp = _mapper.Map<LoginResponse>(result.Value);
 
         HttpContext.Response.Cookies.Append(
             "accessToken",
-            result.Value.jwt,
+            resp.AccessToken,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(30)
+            });
+        HttpContext.Response.Cookies.Append(
+            "refreshToken",
+            resp.RefreshToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -133,10 +108,64 @@ public class AuthController : ControllerBase
                 Expires = DateTimeOffset.UtcNow.AddMinutes(30)
             });
 
-        var resp = new RefreshTokenResponse {
-            AccessToken = result.Value.jwt,
-            NewRefreshToken = result.Value.refreshToken
-        };
+        _logger.LogInformation($"Login success for email {request.Email}");
+
+        return Ok(resp);
+    }
+
+    [Authorize(Roles = "user")]
+    [HttpPost("refresh")]
+    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Refresh(CancellationToken ct)
+    {
+        
+        if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
+                string.IsNullOrWhiteSpace(refreshTokenPlain))
+        {
+            _logger.LogWarning("Refresh token failed because of mission token");
+            return Unauthorized("Missing refresh token");
+        }
+        _logger.LogInformation("Refresh token started");
+
+        var cmd = _mapper.Map<RefreshTokenCommand>(refreshTokenPlain);
+
+        var result = await _mediator.Send(cmd, ct);
+
+        if (!result.IsSuccess)
+        {
+            _logger.LogWarning($"Refresh token failed {string.Join("; ", result.Errors)}");
+            return Problem(
+                title: "Error while retrieving Refresh result",
+                detail: string.Join("; ", result.Errors),
+                statusCode: StatusCodes.Status400BadRequest);
+        }
+
+        HttpContext.Response.Cookies.Append(
+            "accessToken",
+            result.Value.AccessToken,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(30)
+            });
+
+        HttpContext.Response.Cookies.Append(
+            "refreshToken",
+            result.Value.RefreshToken,
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddDays(30)
+            });
+
+        _logger.LogInformation("Refresh token success");
+        var resp = _mapper.Map<RefreshTokenResponse>(result.Value);
 
         return Ok(resp);
     }

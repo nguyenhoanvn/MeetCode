@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ReactASP.Infrastructure.Services;
 using ReactASP.Application.Interfaces.Services;
+using ReactASP.Server.Mapping;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,19 +46,30 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 // MediatR (scan app assembly)
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly));
 
+// AutoMapper
+builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(Program).Assembly));
+
 // FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(typeof(RegisterUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+// Logger
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
+
+// Services
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IProblemService, ProblemService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -105,8 +117,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
 
-            ValidIssuer = "Reetlank",
-            ValidAudience = "Reetlank",
+            ValidIssuer = "nguyenhoanvn",
+            ValidAudience = "megumi",
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
         };

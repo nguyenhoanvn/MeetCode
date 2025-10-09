@@ -9,6 +9,6 @@ namespace ReactASP.Application.DTOs.RefreshToken
     public class RefreshTokenResponse
     {
         public string AccessToken { get; set; } = default!;
-        public string NewRefreshToken { get; set; } = default!;
+        public string RefreshToken { get; set; } = default!;
     }
 }
