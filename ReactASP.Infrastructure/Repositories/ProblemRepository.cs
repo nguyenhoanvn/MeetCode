@@ -13,9 +13,15 @@ namespace ReactASP.Infrastructure.Repositories
     public class ProblemRepository : IProblemRepository
     {
         private readonly AppDbContext _db;
-        public async Task<Problem> GetByIdAsync(Guid id, CancellationToken ct)
+
+        public ProblemRepository(AppDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
+        } 
+
+        public async Task<Problem?> GetByIdAsync(Guid id, CancellationToken ct)
+        {
+            return await _db.Problems.FindAsync(id, ct);
         }
         public async Task AddAsync(Problem problem, CancellationToken ct)
         {

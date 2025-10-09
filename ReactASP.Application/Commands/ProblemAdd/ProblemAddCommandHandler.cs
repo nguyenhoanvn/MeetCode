@@ -33,6 +33,7 @@ namespace ReactASP.Application.Commands.ProblemAdd
         {
             try
             {
+                _logger.LogInformation($"Problem add handler started for {request.Title}");
                 var userId = _sessionService.ExtractUserIdFromJwt(ct);
 
                 var problem = await _problemService.CreateProblemAsync(
