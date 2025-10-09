@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Ardalis.Result;
 using Microsoft.Extensions.Logging;
 using ReactASP.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace ReactASP.Application.Commands.RefreshToken
 {
@@ -32,9 +33,9 @@ namespace ReactASP.Application.Commands.RefreshToken
         {
             try
             {
-                // Find refresh token
-                var hashedRefreshToken = _tokenService.HashToken(request.refreshToken);
-                var refreshToken = await _tokenService.FindRefreshTokenAsync(hashedRefreshToken, ct);
+                _logger.LogInformation("Issue refresh token handler started");
+                // Find refresh token 
+                var refreshToken = await _tokenService.FindRefreshTokenByTokenAsync(request.PlainRefreshToken, ct);
 
                 // Find user with refresh token
                 var user = await _userService.FindUserAsync(refreshToken.UserId, ct);

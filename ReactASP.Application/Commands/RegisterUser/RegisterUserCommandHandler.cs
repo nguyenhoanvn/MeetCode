@@ -28,6 +28,7 @@ public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCom
 
         try
         {
+            _logger.LogInformation($"Register handler started for user {request.Email}");
             var email = request.Email.Trim().ToLowerInvariant();
 
             if (await _userRepository.EmailExistsAsync(email, ct))

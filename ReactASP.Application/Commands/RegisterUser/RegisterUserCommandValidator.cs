@@ -6,7 +6,8 @@ public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUse
     public RegisterUserCommandValidator() {
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")
-            .EmailAddress().MaximumLength(255).WithMessage("Email must not greater than 255 characters.");
+            .EmailAddress().WithMessage("Invalid email format.")
+            .MaximumLength(255).WithMessage("Email must not greater than 255 characters.");
 
         RuleFor(x => x.DisplayName)
             .NotEmpty().WithMessage("Display name is required.")

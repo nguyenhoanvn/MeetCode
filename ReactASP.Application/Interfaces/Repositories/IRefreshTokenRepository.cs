@@ -11,5 +11,6 @@ namespace ReactASP.Application.Interfaces
     public interface IRefreshTokenRepository : IRepository<RefreshToken>
     {
         Task<RefreshToken?> GetByToken(string hashedToken, CancellationToken ct);
+        Task<RefreshToken?> GetByUserId(Guid userId, CancellationToken ct);
     }
 }

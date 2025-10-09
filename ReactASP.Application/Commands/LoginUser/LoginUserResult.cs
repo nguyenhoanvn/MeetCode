@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ReactASP.Application.Commands.LoginUser
 {
-    public sealed record LoginUserResult(string accessToken, string refreshToken, string displayName, string role);
+    public sealed record LoginUserResult(string AccessToken, string RefreshToken, string DisplayName, string Role);
 }

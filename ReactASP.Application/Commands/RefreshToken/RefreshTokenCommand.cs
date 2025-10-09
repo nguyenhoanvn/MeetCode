@@ -8,5 +8,5 @@ using Ardalis.Result;
 
 namespace ReactASP.Application.Commands.RefreshToken
 {
-    public sealed record RefreshTokenCommand(string refreshToken) : IRequest<Result<RefreshTokenResult>>;
+    public sealed record RefreshTokenCommand(string PlainRefreshToken) : IRequest<Result<RefreshTokenResult>>;
 }

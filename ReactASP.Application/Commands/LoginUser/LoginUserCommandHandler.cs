@@ -13,7 +13,6 @@ namespace ReactASP.Application.Commands.LoginUser
 {
     public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginUserResult>>
     {
-        private readonly int RT_EXPIRE_TIME = 30;
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
         private readonly ILogger<LoginUserCommandHandler> _logger;
@@ -32,16 +31,17 @@ namespace ReactASP.Application.Commands.LoginUser
         {
             try
             {
+                _logger.LogInformation($"Login handler started for user {request.Email}");
                 // Verify email
                 var email = request.Email.Trim().ToLowerInvariant();
-                var user = await _userService.FindUserAsync(email, ct);
+                var user = await _userService.FindUserByEmailAsync(email, ct);
 
                 // Verify password
                 var isPasswordMatch = _userService.IsPasswordMatch(request.Password, user.PasswordHash);
 
                 if (!isPasswordMatch)
                 {
-                    _logger.LogWarning($"Wrong password");
+                    _logger.LogWarning($"Login failed because password does not match");
                     return Result.Invalid(new ValidationError
                     {
                         Identifier = nameof(request.Password),
@@ -54,7 +54,7 @@ namespace ReactASP.Application.Commands.LoginUser
 
                 await _tokenService.CreateRefreshTokenAsync(user.UserId, refreshToken, ct);
 
-                _logger.LogInformation($"Login in completed for user with email: {email}");
+                _logger.LogInformation($"Login completed for user with email: {email}");
 
                 return Result.Success(new LoginUserResult(accessToken, refreshToken, user.DisplayName, user.Role));
             }
