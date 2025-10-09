@@ -8,7 +8,7 @@ namespace ReactASP.Application.Interfaces.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> GetByIdAsync(Guid id, CancellationToken ct);
+        Task<T?> GetByIdAsync(Guid id, CancellationToken ct);
         Task AddAsync(T entity, CancellationToken ct);
         Task UpdateAsync(Guid oldId, T newEntity, CancellationToken ct);
         Task DeleteAsync(Guid id, CancellationToken ct);

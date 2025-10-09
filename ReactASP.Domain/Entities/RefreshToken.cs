@@ -11,9 +11,9 @@ public partial class RefreshToken
 
     public string TokenHash { get; set; } = null!;
 
-    public DateTimeOffset ExpiresAt { get; set; } = DateTimeOffset.UtcNow.AddDays(10);
+    public DateTimeOffset ExpiresAt { get; set; } = default!;
 
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedAt { get; set; } = default!;
 
     public bool IsRevoked { get; set; } = false;
 
