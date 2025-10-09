@@ -19,9 +19,9 @@ namespace ReactASP.Infrastructure.Repositories
         {
             _db = db;
         }
-        public async Task<RefreshToken> GetById(Guid refreshTokenId, CancellationToken ct)
+        public async Task<RefreshToken?> GetByIdAsync(Guid refreshTokenId, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            return await _db.RefreshTokens.FindAsync(refreshTokenId, ct);
         }
         public async Task AddAsync(RefreshToken refreshToken, CancellationToken ct)
         {
@@ -31,7 +31,7 @@ namespace ReactASP.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
-        public async Task DeletedAsync(Guid refreshTokenId, CancellationToken ct)
+        public async Task DeleteAsync(Guid refreshTokenId, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
@@ -41,5 +41,9 @@ namespace ReactASP.Infrastructure.Repositories
             return await _db.RefreshTokens.FirstOrDefaultAsync(rt => rt.TokenHash == hashedToken, ct);
         }
 
+        public async Task<RefreshToken?> GetByUserId(Guid userId, CancellationToken ct)
+        {
+            return await _db.RefreshTokens.FirstOrDefaultAsync(rt => rt.UserId == userId, ct);
+        }
     }
 }
