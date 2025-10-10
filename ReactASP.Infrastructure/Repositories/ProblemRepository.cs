@@ -27,7 +27,7 @@ namespace ReactASP.Infrastructure.Repositories
         {
             await _db.Problems.AddAsync(problem, ct);
         }
-        public async Task UpdateAsync(Guid id, Problem newProblem, CancellationToken ct)
+        public Task Update(Problem newProblem, CancellationToken ct)
         {
             throw new NotImplementedException();
         }

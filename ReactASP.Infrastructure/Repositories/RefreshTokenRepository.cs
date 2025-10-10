@@ -27,7 +27,7 @@ namespace ReactASP.Infrastructure.Repositories
         {
             await _db.RefreshTokens.AddAsync(refreshToken, ct);
         }
-        public async Task UpdateAsync(Guid refreshTokenId, RefreshToken refreshToken, CancellationToken ct)
+        public Task Update(RefreshToken refreshToken, CancellationToken ct)
         {
             throw new NotImplementedException();
         }

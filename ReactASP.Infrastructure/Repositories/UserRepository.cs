@@ -17,7 +17,6 @@ namespace ReactASP.Infrastructure.Repositories
         {
             _db = db;
         }
-
         public async Task<bool> EmailExistsAsync(string email, CancellationToken ct)
         {
             return await _db.Users.AnyAsync(u => u.Email == email, ct);
@@ -30,9 +29,10 @@ namespace ReactASP.Infrastructure.Repositories
         {
             await _db.Users.AddAsync(user, ct);
         }
-        public async Task UpdateAsync(Guid id, User newUser, CancellationToken ct)
+        public Task Update(User newUser, CancellationToken ct)
         {
-            throw new InvalidOperationException();
+            _db.Users.Update(newUser);
+            return Task.CompletedTask;
         }
         public async Task DeleteAsync(Guid id, CancellationToken ct)
         {
