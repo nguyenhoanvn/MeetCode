@@ -40,6 +40,7 @@ namespace ReactASP.Infrastructure.Services
                 CreatedBy = userId,
                 CreatedAt = DateTimeOffset.UtcNow
             };
+            newProblem.GenerateSlug();
             _logger.LogInformation($"Problem created successfully: {newProblem.ToString()}");
             await _problemRepository.AddAsync(newProblem, ct);
 

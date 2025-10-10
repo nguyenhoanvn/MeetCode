@@ -132,7 +132,7 @@ namespace ReactASP.Server.Services.Auth
                 UserId = userId,
                 TokenHash = HashToken(plainRefreshToken),
                 CreatedAt = DateTimeOffset.UtcNow,
-                ExpiresAt = DateTimeOffset.UtcNow.AddDays(RT_EXPIRE_DAY)
+                ExpiresAt = oldTokenList.Count() > 0 ? oldTokenList[0].ExpiresAt : DateTimeOffset.UtcNow
             };
 
             await _refreshTokenRepository.AddAsync(newRefreshToken, ct);
