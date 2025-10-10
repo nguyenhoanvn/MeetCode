@@ -19,6 +19,8 @@ using System.Text;
 using ReactASP.Infrastructure.Services;
 using ReactASP.Application.Interfaces.Services;
 using ReactASP.Server.Mapping;
+using ReactASP.Server.Helpers;
+using System.IdentityModel.Tokens.Jwt;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,11 +39,10 @@ builder.Services.AddCors(options =>
 
 // EF Core (SQL Server)
 builder.Services.AddDbContext<AppDbContext>(opts =>
-{
-    var cs = builder.Configuration.GetConnectionString("DefaultConnection")
-            ?? "Server=localhost;Database=ReactASP;Trusted_Connection=False;MultipleActiveResultSets=true;Encrypt=False;User Id=sa;Password=123;";
-    opts.UseSqlServer(cs);
-});
+    opts.UseSqlServer(builder.Configuration.GetConnectionString("DB")
+));
+
+
 
 // MediatR (scan app assembly)
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly));
@@ -124,10 +125,28 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        CancellationTokenSource ctSource = new CancellationTokenSource();
+        CancellationToken ct = ctSource.Token;
+        await AppDbInit.SeedUsersAndRolesAsync(services, ct);
+    } catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError($"Failed to seed the database: {ex.Message}");
+    }
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();

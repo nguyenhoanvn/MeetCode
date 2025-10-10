@@ -53,6 +53,7 @@ namespace ReactASP.Application.Commands.LoginUser
                 string refreshToken = _tokenService.GenerateRefreshToken();
 
                 await _tokenService.CreateRefreshTokenAsync(user.UserId, refreshToken, ct);
+                await _userService.UpdateLoginTime(user.UserId, ct);
 
                 _logger.LogInformation($"Login completed for user with email: {email}");
 
