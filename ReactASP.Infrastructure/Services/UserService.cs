@@ -17,12 +17,15 @@ namespace ReactASP.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ILogger<UserService> _logger;
+        private readonly IUnitOfWork _unitOfWork;
         public UserService(
             IUserRepository userRepository,
-            ILogger<UserService> logger)
+            ILogger<UserService> logger,
+            IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
         public async Task<User> FindUserByEmailAsync(string email, CancellationToken ct)
         {
@@ -61,6 +64,21 @@ namespace ReactASP.Infrastructure.Services
             }
             _logger.LogInformation("User {UserId} found successfully", userId);
             return user;
+        }
+
+        public async Task UpdateLoginTime(Guid userId, CancellationToken ct)
+        {
+            _logger.LogInformation("Attempting to update login time for user with ID {UserId}", userId);
+            var user = await _userRepository.GetByIdAsync(userId, ct);
+            if (user == null)
+            {
+                _logger.LogWarning("User not found with ID {UserId}", userId);
+                throw new InvalidOperationException($"User cannot be found with id: {userId}");
+            }
+            user.LastLoginAt = DateTimeOffset.UtcNow;
+            await _userRepository.Update(user, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            _logger.LogInformation("Successfully updated login time for user {UserId}", userId);
         }
     }
 }

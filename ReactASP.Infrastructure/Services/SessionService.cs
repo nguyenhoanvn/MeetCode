@@ -31,7 +31,7 @@ namespace ReactASP.Infrastructure.Services
         public Guid ExtractUserIdFromJwt(CancellationToken ct)
         {
             _logger.LogInformation($"Extracting user Id from JWT (access token)");
-            var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Sub);
+            var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
             if (userClaim == null)
             {
                 _logger.LogWarning("Extract JWT Sub is failed, Sub is invalid");

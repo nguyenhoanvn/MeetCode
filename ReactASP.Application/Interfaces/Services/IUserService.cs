@@ -13,5 +13,6 @@ namespace ReactASP.Application.Interfaces.Services
         Task<User> FindUserByEmailAsync(string email, CancellationToken ct);
         bool IsPasswordMatch(string requestPassword, string userDbPassword);
         Task<User> FindUserAsync(Guid userId, CancellationToken ct);
+        Task UpdateLoginTime(Guid userId, CancellationToken ct);
     }
 }
