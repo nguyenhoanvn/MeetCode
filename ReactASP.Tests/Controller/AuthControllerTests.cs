@@ -9,11 +9,13 @@ using MediatR;
 using AutoMapper;
 using ReactASP.Server.Controllers;
 using Microsoft.Extensions.Logging;
-using ReactASP.Application.DTOs.RegisterUser;
-using ReactASP.Application.Commands.RegisterUser;
 using Ardalis.Result;
 using ReactASP.Application.Commands.LoginUser;
 using Microsoft.AspNetCore.Mvc;
+using ReactASP.Server.DTOs.Request;
+using ReactASP.Server.DTOs.Response;
+using ReactASP.Application.Commands.CommandEntities.Auth;
+using ReactASP.Application.Commands.CommandResults.Auth;
 
 namespace ReactASP.Tests.Controller
 {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.TestHelper;
+using ReactASP.Application.Commands.CommandValidators;
 using ReactASP.Application.Commands.LoginUser;
-using ReactASP.Application.Commands.ProblemAdd;
 
 namespace ReactASP.Tests.Validator
 {

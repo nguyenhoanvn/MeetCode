@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.TestHelper;
-using ReactASP.Application.Commands.RegisterUser;
+using ReactASP.Application.Commands.CommandValidators.Auth;
 
 namespace ReactASP.Tests.Validator
 {
