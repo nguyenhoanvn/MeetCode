@@ -1,6 +1,7 @@
 using FluentValidation;
+using ReactASP.Application.Commands.CommandEntities.Auth;
 
-namespace ReactASP.Application.Commands.RegisterUser;
+namespace ReactASP.Application.Commands.CommandValidators.Auth;
 
 public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand> {
     public RegisterUserCommandValidator() {

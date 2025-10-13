@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Ardalis.Result;
 using MediatR;
+using ReactASP.Application.Commands.CommandResults;
 
-namespace ReactASP.Application.Commands.ProblemAdd
+namespace ReactASP.Application.Commands.CommandEntities
 {
     public sealed record ProblemAddCommand(
         string Title,

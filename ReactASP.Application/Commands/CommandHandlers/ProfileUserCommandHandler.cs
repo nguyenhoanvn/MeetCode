@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using ReactASP.Application.Commands.CommandEntities;
+using ReactASP.Application.Commands.Profile;
 using ReactASP.Application.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReactASP.Application.Commands.Profile
+namespace ReactASP.Application.Commands.CommandHandlers
 {
     public sealed class ProfileUserCommandHandler : IRequestHandler<ProfileUserCommand, ProfileUserResult>
     {

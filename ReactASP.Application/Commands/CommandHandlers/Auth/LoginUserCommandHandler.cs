@@ -8,8 +8,10 @@ using ReactASP.Application.Interfaces;
 using Ardalis.Result;
 using Microsoft.Extensions.Logging;
 using ReactASP.Application.Interfaces.Services;
+using ReactASP.Application.Commands.CommandEntities.Auth;
+using ReactASP.Application.Commands.CommandResults.Auth;
 
-namespace ReactASP.Application.Commands.LoginUser
+namespace ReactASP.Application.Commands.CommandHandlers.Auth
 {
     public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginUserResult>>
     {

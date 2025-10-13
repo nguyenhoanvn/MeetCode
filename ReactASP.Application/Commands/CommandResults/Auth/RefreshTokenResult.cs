@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReactASP.Application.Commands.RefreshToken
+namespace ReactASP.Application.Commands.CommandResults.Auth
 {
     public sealed record RefreshTokenResult(string AccessToken, string RefreshToken);
 }

@@ -6,8 +6,10 @@ using ReactASP.Domain.Entities;
 using ReactASP.Application.Interfaces;
 using Ardalis.Result;
 using Microsoft.Extensions.Logging;
+using ReactASP.Application.Commands.CommandEntities.Auth;
+using ReactASP.Application.Commands.CommandResults.Auth;
 
-namespace ReactASP.Application.Commands.RegisterUser;
+namespace ReactASP.Application.Commands.CommandHandlers.Auth;
 
 public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResult>> {
     

@@ -1,11 +1,12 @@
 ﻿using FluentValidation;
+using ReactASP.Application.Commands.CommandEntities.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReactASP.Application.Commands.LoginUser
+namespace ReactASP.Application.Commands.CommandValidators.Auth
 {
     public sealed class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
     {

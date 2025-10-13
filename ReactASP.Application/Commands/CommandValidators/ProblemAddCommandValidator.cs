@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
+using ReactASP.Application.Commands.CommandEntities;
 
-namespace ReactASP.Application.Commands.ProblemAdd
+namespace ReactASP.Application.Commands.CommandValidators
 {
     public sealed class ProblemAddCommandValidator : AbstractValidator<ProblemAddCommand>
     {

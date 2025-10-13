@@ -12,6 +12,8 @@ using ReactASP.Domain.Entities;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.AspNetCore.Http;
 using ReactASP.Application.Interfaces.Services;
+using ReactASP.Application.Commands.CommandEntities;
+using ReactASP.Application.Commands.CommandResults;
 
 namespace ReactASP.Application.Commands.ProblemAdd
 {
