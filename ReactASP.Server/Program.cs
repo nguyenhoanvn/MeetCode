@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ReactASP.Application.Commands.RegisterUser;
 using ReactASP.Application.Common;
 using ReactASP.Application.Interfaces;
 using ReactASP.Infrastructure.Persistence;
@@ -21,6 +20,9 @@ using ReactASP.Application.Interfaces.Services;
 using ReactASP.Server.Mapping;
 using ReactASP.Server.Helpers;
 using System.IdentityModel.Tokens.Jwt;
+using ReactASP.Application.Commands.CommandEntities.Auth;
+using StackExchange.Redis;
+using ReactASP.Application.Interfaces.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,7 +44,12 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
     opts.UseSqlServer(builder.Configuration.GetConnectionString("DB")
 ));
 
-
+// Redis
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var config = builder.Configuration.GetConnectionString("Redis");
+    return ConnectionMultiplexer.Connect(config!);
+});
 
 // MediatR (scan app assembly)
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly));
@@ -71,6 +78,8 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IProblemService, ProblemService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICacheService, RedisService>();
+builder.Services.AddScoped<IEmailService, GmailService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

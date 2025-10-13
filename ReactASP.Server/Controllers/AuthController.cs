@@ -1,18 +1,17 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ReactASP.Application.Commands.LoginUser;
-using ReactASP.Application.Commands.RefreshToken;
-using ReactASP.Application.Commands.RegisterUser;
 using ReactASP.Application.DTOs.LoginUser;
-using ReactASP.Application.DTOs.RefreshToken;
-using ReactASP.Application.DTOs.RegisterUser;
 using System;
 using System.Net;
 using Ardalis.Result;
-using ReactASP.Server.DTOs.RefreshToken;
+using ReactASP.Server.DTOs.Request;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using ReactASP.Server.DTOs.Response;
+using ReactASP.Application.Commands.CommandEntities.Auth;
+using System.Security.Cryptography;
+using ReactASP.Application.Commands.CommandResults.Auth;
 
 namespace ReactASP.Server.Controllers;
 [ApiController]
@@ -167,6 +166,52 @@ public class AuthController : ControllerBase
         _logger.LogInformation("Refresh token success");
         var resp = _mapper.Map<RefreshTokenResponse>(result.Value);
 
+        return Ok(resp);
+    }
+
+    [HttpPost("forgot-password")]
+    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request, CancellationToken ct)
+    {
+        _logger.LogInformation("Forgot password started");
+        var cmd = _mapper.Map<ForgotPasswordCommand>(request);
+        var result = await _mediator.Send(cmd, ct);
+
+        if (!result.IsSuccess)
+        {
+            _logger.LogWarning($"Forgot password failed {string.Join("; ", result.Errors)}");
+            return Problem(
+                title: "Error while retrieving ForgotPassword result",
+                detail: string.Join("; ", result.Errors),
+                statusCode: StatusCodes.Status400BadRequest);
+        }
+
+        _logger.LogInformation("Forgot password ended");
+        var resp = _mapper.Map<ForgotPasswordResponse>(result);
+        return Ok(resp);
+    }
+
+    [HttpPost("reset-password")]
+    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken ct)
+    {
+        var cmd = _mapper.Map<ResetPasswordCommand>(request);
+
+        var result = await _mediator.Send(cmd, ct);
+
+        if (!result.IsSuccess)
+        {
+            return Problem(
+                title: "Error while retrieving ResetPassword result",
+                detail: string.Join("; ", result.Errors),
+                statusCode: StatusCodes.Status400BadRequest);
+        }
+
+        var resp = _mapper.Map<ResetPasswordResponse>(result);
         return Ok(resp);
     }
 }

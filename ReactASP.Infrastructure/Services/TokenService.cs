@@ -8,7 +8,6 @@ using Ardalis.Result;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using ReactASP.Application.Commands.RefreshToken;
 using ReactASP.Application.Interfaces;
 using ReactASP.Application.Interfaces.Services;
 using ReactASP.Domain.Entities;

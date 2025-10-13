@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using ReactASP.Application.Commands.ProblemAdd;
-using ReactASP.Server.DTOs.ProblemAdd;
+using ReactASP.Application.Commands.CommandEntities;
+using ReactASP.Application.Commands.CommandResults;
+using ReactASP.Server.DTOs.Request;
+using ReactASP.Server.DTOs.Response;
 
 namespace ReactASP.Server.Mapping
 {

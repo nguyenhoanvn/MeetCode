@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using ReactASP.Application.Commands.LoginUser;
-using ReactASP.Application.Commands.RefreshToken;
-using ReactASP.Application.Commands.RegisterUser;
+using ReactASP.Application.Commands.CommandEntities.Auth;
+using ReactASP.Application.Commands.CommandResults.Auth;
 using ReactASP.Application.DTOs.LoginUser;
-using ReactASP.Application.DTOs.RefreshToken;
-using ReactASP.Application.DTOs.RegisterUser;
-using ReactASP.Server.DTOs.RefreshToken;
+using ReactASP.Server.DTOs.Request;
+using ReactASP.Server.DTOs.Response;
 
 namespace ReactASP.Server.Mapping
 {
@@ -24,6 +22,14 @@ namespace ReactASP.Server.Mapping
             // RefreshToken
             CreateMap<RefreshTokenRequest, RefreshTokenCommand>();
             CreateMap<RefreshTokenResult, RefreshTokenResponse>();
+
+            // ForgotPassword
+            CreateMap<ForgotPasswordRequest, ForgotPasswordCommand>();
+            CreateMap<ForgotPasswordResult, ForgotPasswordResponse>();
+
+            // ResetPassword
+            CreateMap<ResetPasswordRequest, ResetPasswordCommand>();
+            CreateMap<ResetPasswordResult, ResetPasswordResponse>();
         }
     }
 }

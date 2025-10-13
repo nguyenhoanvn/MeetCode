@@ -4,8 +4,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ReactASP.Application.Commands.ProblemAdd;
-using ReactASP.Server.DTOs.ProblemAdd;
+using ReactASP.Application.Commands.CommandEntities;
+using ReactASP.Server.DTOs.Request;
+using ReactASP.Server.DTOs.Response;
 
 namespace ReactASP.Server.Controllers
 {
