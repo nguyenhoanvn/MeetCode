@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReactASP.Application.DTOs.UserProfile
+namespace ReactASP.Server.DTOs.Response
 {
     public class UserProfileResponse
     {

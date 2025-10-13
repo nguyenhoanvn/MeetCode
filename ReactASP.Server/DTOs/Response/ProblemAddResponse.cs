@@ -1,4 +1,4 @@
-﻿namespace ReactASP.Server.DTOs.ProblemAdd
+﻿namespace ReactASP.Server.DTOs.Response
 {
     public sealed class ProblemAddResponse
     {

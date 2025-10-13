@@ -1,4 +1,4 @@
-﻿namespace ReactASP.Server.DTOs.RefreshToken
+﻿namespace ReactASP.Server.DTOs.Request
 {
     public sealed class RefreshTokenRequest
     {

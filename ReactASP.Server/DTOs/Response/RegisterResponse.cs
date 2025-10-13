@@ -1,6 +1,6 @@
 using System;
 
-namespace ReactASP.Application.DTOs.RegisterUser;
+namespace ReactASP.Server.DTOs.Response;
 
 public sealed class RegisterResponse
 {

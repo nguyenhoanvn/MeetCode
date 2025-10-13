@@ -1,4 +1,4 @@
-﻿namespace ReactASP.Application.DTOs.LoginUser
+﻿namespace ReactASP.Server.DTOs.Request
 {
     public sealed class LoginRequest
     {

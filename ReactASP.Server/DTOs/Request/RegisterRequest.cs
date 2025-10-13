@@ -1,4 +1,4 @@
-namespace ReactASP.Application.DTOs.RegisterUser;
+namespace ReactASP.Server.DTOs.Request;
 
 public sealed class RegisterRequest
 {
