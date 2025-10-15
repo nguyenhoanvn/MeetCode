@@ -37,7 +37,7 @@ namespace ReactASP.Infrastructure.Services
                 _logger.LogWarning("User not found for provided email");
                 throw new InvalidOperationException($"User with email: {email} not found");
             }
-            _logger.LogWarning("User not found for provided email");
+            _logger.LogInformation("User found for provided email");
             return user;
         }
 
@@ -66,19 +66,6 @@ namespace ReactASP.Infrastructure.Services
             return user;
         }
 
-        public async Task UpdateLoginTime(Guid userId, CancellationToken ct)
-        {
-            _logger.LogInformation("Attempting to update login time for user with ID {UserId}", userId);
-            var user = await _userRepository.GetByIdAsync(userId, ct);
-            if (user == null)
-            {
-                _logger.LogWarning("User not found with ID {UserId}", userId);
-                throw new InvalidOperationException($"User cannot be found with id: {userId}");
-            }
-            user.LastLoginAt = DateTimeOffset.UtcNow;
-            await _userRepository.Update(user, ct);
-            await _unitOfWork.SaveChangesAsync(ct);
-            _logger.LogInformation("Successfully updated login time for user {UserId}", userId);
-        }
+        
     }
 }

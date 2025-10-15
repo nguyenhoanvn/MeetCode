@@ -8,8 +8,11 @@ namespace ReactASP.Application.Interfaces.Services
 {
     public interface ICacheService
     {
-        Task SetValueAsync(string key, string value, TimeSpan expiry);
-        Task<string?> GetValueAsync(string key);
+        // Individual value
+        Task SetValueAsync<T>(string key, T value, TimeSpan expiry);
+        Task<T?> GetValueAsync<T>(string key);
         Task RemoveValueAsync(string key);
+        Task<bool> ExistsAsync(string key);
+        Task RemoveRangeAsync(params string[] keys);
     }
 }

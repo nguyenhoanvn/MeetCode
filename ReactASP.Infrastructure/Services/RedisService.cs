@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ReactASP.Application.Interfaces.Services;
 using StackExchange.Redis;
@@ -17,19 +18,51 @@ namespace ReactASP.Infrastructure.Services
             _cacheDatabase = connection.GetDatabase();
         }
 
-        public async Task SetValueAsync(string key, string value, TimeSpan expiry)
+        public async Task SetValueAsync<T>(string key, T value, TimeSpan expiry)
         {
-            await _cacheDatabase.StringSetAsync(key, value, expiry);
+            string data;
+
+            if (value is string strValue)
+            {
+                data = strValue;
+            }
+            else if (value is ValueType)
+            {
+                data = value.ToString() ?? string.Empty;
+            }
+            else
+            {
+                data = JsonSerializer.Serialize(value);
+            }
+
+            await _cacheDatabase.StringSetAsync(key, data, expiry);
         }
-        public async Task<string?> GetValueAsync(string key)
+        public async Task<T?> GetValueAsync<T>(string key)
         {
-            var value = await _cacheDatabase.StringGetAsync(key);
-            return value.HasValue ? value.ToString() : null;
+            var data = await _cacheDatabase.StringGetAsync(key);
+            if (!data.HasValue)
+                return default;
+
+            if (typeof(T) == typeof(string))
+            {
+                return (T)(object)data.ToString();
+            }
+
+            return JsonSerializer.Deserialize<T>(data!);
         }
 
         public async Task RemoveValueAsync(string key)
         {
             await _cacheDatabase.KeyDeleteAsync(key);
+        }
+        public async Task<bool> ExistsAsync(string key)
+        {
+            return await _cacheDatabase.KeyExistsAsync(key);
+        }
+        public async Task RemoveRangeAsync(params string[] keys)
+        {
+            var redisKey = keys.Select(k => (RedisKey)k).ToArray();
+            await _cacheDatabase.KeyDeleteAsync(redisKey);
         }
     }
 }

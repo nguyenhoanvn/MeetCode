@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.Core;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using ReactASP.Application.Interfaces;
 using ReactASP.Application.Interfaces.Services;
@@ -49,9 +50,19 @@ namespace ReactASP.Infrastructure.Services
             if (saved <= 0)
             {
                 _logger.LogWarning($"Failed to add problem {title} to the database");
-                throw new InvalidOperationException("Failed to add new problem to the database");
+                throw new InvalidOperationException("Failed to save the new problem to the database.");
             }
             return newProblem;
+        }
+        public async Task<IEnumerable<Problem>> ReadAllProblemsAsync(CancellationToken ct)
+        {
+            _logger.LogInformation("Attempting to retrieve all problems");
+            return await _problemRepository.GetAsync(ct);
+        }
+        public async Task<Problem?> FindProblemByIdAsync(Guid problemId, CancellationToken ct)
+        {
+            _logger.LogInformation($"Attempting to retrieve problem with id: {problemId}");
+            return await _problemRepository.GetByIdAsync(problemId, ct);
         }
     }
 }
