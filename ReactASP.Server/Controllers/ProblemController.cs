@@ -3,10 +3,12 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ReactASP.Application.Commands.CommandEntities;
-using ReactASP.Server.DTOs.Request;
-using ReactASP.Server.DTOs.Response;
+using ReactASP.Application.Commands.CommandEntities.Problem;
+using ReactASP.Application.Commands.CommandResults.Problem;
+using ReactASP.Server.DTOs.Request.Problem;
+using ReactASP.Server.DTOs.Response.Problem;
 
 namespace ReactASP.Server.Controllers
 {
@@ -46,20 +48,26 @@ namespace ReactASP.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            if (!result.IsSuccess)
-            {
-                _logger.LogWarning($"Add failed for problem {request.Title}: {string.Join("; ", result.Errors)}");
-                return Problem(
-                    title: "Failed to add problem",
-                    detail: string.Join("; ", result.Errors),
-                    statusCode: StatusCodes.Status400BadRequest);
-            }
-
             _logger.LogInformation($"Problem add success {request.Title}");
 
             var resp = _mapper.Map<ProblemAddResponse>(result.Value);
 
             return CreatedAtAction(nameof(AddProblem), new { Id = resp.ProblemId }, resp);
+        }
+
+        [HttpGet()]
+        [ProducesResponseType(typeof(ProblemAllResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ProblemList(CancellationToken ct)
+        {
+            _logger.LogInformation("Attempting to read all problems");
+
+            var cmd = new ProblemAllCommand();
+            var result = await _mediator.Send(cmd, ct);
+
+            _logger.LogInformation("Read problems completed");
+            var resp = _mapper.Map<ProblemAllResult>(result);
+            return Ok(resp);
         }
     }
 }

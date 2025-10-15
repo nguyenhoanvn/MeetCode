@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ReactASP.Application.Common;
+using ReactASP.Server.Middlewares;
 using ReactASP.Application.Interfaces;
 using ReactASP.Infrastructure.Persistence;
 using ReactASP.Infrastructure.Persistence.Configurations;
@@ -52,7 +52,12 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 });
 
 // MediatR (scan app assembly)
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly));
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ResultBehaviorHandler<,>));
+});
 
 // AutoMapper
 builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(Program).Assembly));
@@ -73,13 +78,14 @@ builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
 
-// Services
+// Services 
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IProblemService, ProblemService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICacheService, RedisService>();
 builder.Services.AddScoped<IEmailService, GmailService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -167,8 +173,9 @@ app.MapFallbackToFile("index.html");
 
 app.UseCors("AllowReactApp");
 
-// Middleware
-app.UseMiddleware<ValidationExceptionMiddleware>();
+// Middlewares
+app.UseMiddleware<ValidationExceptionHandler>();
+app.UseMiddleware<ExceptionHandler>();
 
 app.UseAuthentication();
 app.UseAuthorization();

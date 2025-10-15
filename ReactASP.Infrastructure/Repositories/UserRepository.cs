@@ -17,6 +17,10 @@ namespace ReactASP.Infrastructure.Repositories
         {
             _db = db;
         }
+        public async Task<IEnumerable<User>> GetAsync(CancellationToken ct)
+        {
+            return await _db.Users.ToListAsync();
+        }
         public async Task<bool> EmailExistsAsync(string email, CancellationToken ct)
         {
             return await _db.Users.AnyAsync(u => u.Email == email, ct);

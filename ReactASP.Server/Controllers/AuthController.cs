@@ -1,17 +1,17 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ReactASP.Application.DTOs.LoginUser;
 using System;
 using System.Net;
 using Ardalis.Result;
-using ReactASP.Server.DTOs.Request;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using ReactASP.Server.DTOs.Response;
 using ReactASP.Application.Commands.CommandEntities.Auth;
 using System.Security.Cryptography;
 using ReactASP.Application.Commands.CommandResults.Auth;
+using ReactASP.Application.Interfaces.Services;
+using ReactASP.Server.DTOs.Request.Auth;
+using ReactASP.Server.DTOs.Response.Auth;
 
 namespace ReactASP.Server.Controllers;
 [ApiController]
@@ -21,14 +21,17 @@ public class AuthController : ControllerBase
     private readonly ISender _mediator;
     private readonly IMapper _mapper;
     private readonly ILogger<AuthController> _logger;
+    private readonly IAuthService _authService;
     public AuthController(
         ISender mediator,
         IMapper mapper,
-        ILogger<AuthController> logger)
+        ILogger<AuthController> logger,
+        IAuthService authService)
     {
         _mediator = mediator;
         _mapper = mapper;
         _logger = logger;
+        _authService = authService;
     }
 
     [HttpPost("register")]
@@ -46,14 +49,6 @@ public class AuthController : ControllerBase
         var cmd = _mapper.Map<RegisterUserCommand>(request);
 
         var result = await _mediator.Send(cmd, ct);
-        if (!result.IsSuccess)
-        {
-            _logger.LogWarning($"Register failed for email {request.Email}: {string.Join("; ", result.Errors)}");
-            return Problem(
-                title: "Error while retrieving Register result",
-                detail: string.Join("; ", result.Errors),
-                statusCode: StatusCodes.Status400BadRequest);
-        }
 
         var resp = _mapper.Map<RegisterResponse>(result.Value);
         _logger.LogInformation($"Register success for email {request.Email}");
@@ -76,14 +71,6 @@ public class AuthController : ControllerBase
 
         var result = await _mediator.Send(cmd, ct);
         
-        if (!result.IsSuccess)
-        {
-            _logger.LogWarning($"Login failed for email {request.Email}: {string.Join("; ", result.Errors)}");
-            return Problem(
-                title: "Error while retrieving Login result",
-                detail: string.Join("; ", result.Value),
-                statusCode: StatusCodes.Status400BadRequest);
-        }
         var resp = _mapper.Map<LoginResponse>(result.Value);
 
         HttpContext.Response.Cookies.Append(
@@ -132,15 +119,6 @@ public class AuthController : ControllerBase
 
         var result = await _mediator.Send(cmd, ct);
 
-        if (!result.IsSuccess)
-        {
-            _logger.LogWarning($"Refresh token failed {string.Join("; ", result.Errors)}");
-            return Problem(
-                title: "Error while retrieving Refresh result",
-                detail: string.Join("; ", result.Errors),
-                statusCode: StatusCodes.Status400BadRequest);
-        }
-
         HttpContext.Response.Cookies.Append(
             "accessToken",
             result.Value.AccessToken,
@@ -170,7 +148,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
-    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ForgotPasswordResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request, CancellationToken ct)
@@ -179,39 +157,24 @@ public class AuthController : ControllerBase
         var cmd = _mapper.Map<ForgotPasswordCommand>(request);
         var result = await _mediator.Send(cmd, ct);
 
-        if (!result.IsSuccess)
-        {
-            _logger.LogWarning($"Forgot password failed {string.Join("; ", result.Errors)}");
-            return Problem(
-                title: "Error while retrieving ForgotPassword result",
-                detail: string.Join("; ", result.Errors),
-                statusCode: StatusCodes.Status400BadRequest);
-        }
-
         _logger.LogInformation("Forgot password ended");
-        var resp = _mapper.Map<ForgotPasswordResponse>(result);
+        var resp = _mapper.Map<ForgotPasswordResponse>(result.Value);
         return Ok(resp);
     }
 
     [HttpPost("reset-password")]
-    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResetPasswordResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken ct)
     {
-        var cmd = _mapper.Map<ResetPasswordCommand>(request);
+        var email = await _authService.GetEmailFromOtpAsync(request.Code);
+        var cmd = _mapper.Map<ResetPasswordCommand>(request,
+            opt => opt.Items["Email"] = email);
 
         var result = await _mediator.Send(cmd, ct);
 
-        if (!result.IsSuccess)
-        {
-            return Problem(
-                title: "Error while retrieving ResetPassword result",
-                detail: string.Join("; ", result.Errors),
-                statusCode: StatusCodes.Status400BadRequest);
-        }
-
-        var resp = _mapper.Map<ResetPasswordResponse>(result);
+        var resp = _mapper.Map<ResetPasswordResponse>(result.Value);
         return Ok(resp);
     }
 }

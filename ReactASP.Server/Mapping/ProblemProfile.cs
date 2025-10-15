@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ReactASP.Application.Commands.CommandEntities;
-using ReactASP.Application.Commands.CommandResults;
-using ReactASP.Server.DTOs.Request;
-using ReactASP.Server.DTOs.Response;
+using ReactASP.Application.Commands.CommandEntities.Problem;
+using ReactASP.Application.Commands.CommandResults.Problem;
+using ReactASP.Server.DTOs.Request.Problem;
+using ReactASP.Server.DTOs.Response.Problem;
 
 namespace ReactASP.Server.Mapping
 {
@@ -13,6 +13,11 @@ namespace ReactASP.Server.Mapping
             // Problem add
             CreateMap<ProblemAddRequest, ProblemAddCommand>();
             CreateMap<ProblemAddResult, ProblemAddResponse>();
+
+            // Problem read
+            CreateMap<ProblemAllResult, ProblemAllResponse>();
+
+            // Problem 
         }
     }
 }

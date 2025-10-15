@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using ReactASP.Application.Commands.CommandEntities.Auth;
 using ReactASP.Application.Commands.CommandResults.Auth;
-using ReactASP.Application.DTOs.LoginUser;
-using ReactASP.Server.DTOs.Request;
-using ReactASP.Server.DTOs.Response;
+using ReactASP.Server.DTOs.Request.Auth;
+using ReactASP.Server.DTOs.Response.Auth;
 
 namespace ReactASP.Server.Mapping
 {
@@ -28,7 +27,8 @@ namespace ReactASP.Server.Mapping
             CreateMap<ForgotPasswordResult, ForgotPasswordResponse>();
 
             // ResetPassword
-            CreateMap<ResetPasswordRequest, ResetPasswordCommand>();
+            CreateMap<ResetPasswordRequest, ResetPasswordCommand>()
+                .ForCtorParam("Email", opt => opt.MapFrom((src, ctx) => ctx.Items["Email"]));
             CreateMap<ResetPasswordResult, ResetPasswordResponse>();
         }
     }

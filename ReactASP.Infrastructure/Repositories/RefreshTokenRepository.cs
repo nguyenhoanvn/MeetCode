@@ -19,6 +19,12 @@ namespace ReactASP.Infrastructure.Repositories
         {
             _db = db;
         }
+
+        public async Task<IEnumerable<RefreshToken>> GetAsync(CancellationToken ct)
+        {
+            return await _db.RefreshTokens.ToListAsync(ct);
+        }
+
         public async Task<RefreshToken?> GetByIdAsync(Guid refreshTokenId, CancellationToken ct)
         {
             return await _db.RefreshTokens.FindAsync(refreshTokenId, ct);

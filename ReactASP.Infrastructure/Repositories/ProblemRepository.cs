@@ -19,6 +19,10 @@ namespace ReactASP.Infrastructure.Repositories
             _db = db;
         } 
 
+        public async Task<IEnumerable<Problem>> GetAsync(CancellationToken ct)
+        {
+            return await _db.Problems.ToListAsync(ct);
+        }
         public async Task<Problem?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             return await _db.Problems.FindAsync(id, ct);
