@@ -12,10 +12,10 @@ using Microsoft.Extensions.Logging;
 using Ardalis.Result;
 using ReactASP.Application.Commands.LoginUser;
 using Microsoft.AspNetCore.Mvc;
-using ReactASP.Server.DTOs.Request;
-using ReactASP.Server.DTOs.Response;
 using ReactASP.Application.Commands.CommandEntities.Auth;
 using ReactASP.Application.Commands.CommandResults.Auth;
+using ReactASP.Server.DTOs.Request.Auth;
+using ReactASP.Server.DTOs.Response.Auth;
 
 namespace ReactASP.Tests.Controller
 {
