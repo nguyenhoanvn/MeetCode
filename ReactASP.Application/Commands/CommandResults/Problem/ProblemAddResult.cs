@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReactASP.Application.Commands.CommandResults
+namespace ReactASP.Application.Commands.CommandResults.Problem
 {
     public sealed record ProblemAddResult(
         Guid problemId,
