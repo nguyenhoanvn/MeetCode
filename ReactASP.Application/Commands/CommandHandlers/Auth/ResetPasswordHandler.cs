@@ -13,12 +13,12 @@ using ReactASP.Application.Interfaces.Services;
 
 namespace ReactASP.Application.Commands.CommandHandlers.Auth
 {
-    public sealed class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, Result<ResetPasswordResult>>
+    public sealed class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, Result<ResetPasswordResult>>
     {
         private readonly ICacheService _cacheService;
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
-        public ResetPasswordCommandHandler(ICacheService cacheService,
+        public ResetPasswordHandler(ICacheService cacheService,
             IUserService userService,
             IUnitOfWork unitOfWork)
         {
@@ -29,7 +29,8 @@ namespace ReactASP.Application.Commands.CommandHandlers.Auth
 
         public async Task<Result<ResetPasswordResult>> Handle(ResetPasswordCommand request, CancellationToken ct)
         {
-            var code = _cacheService.GetValueAsync("ResetPasswordOTP");
+            var cacheKey = $"auth:resetpassword:email:{request.Email}";
+            var code = _cacheService.GetValueAsync<string>(cacheKey);
 
             if (code.Result == null)
             {
@@ -57,11 +58,12 @@ namespace ReactASP.Application.Commands.CommandHandlers.Auth
                 return Result.Success(resultPasswordSame);
             }
             user.PasswordHash = newPasswordHash;
-            await _cacheService.RemoveValueAsync("ResetPasswordOTP");
+            await _cacheService.RemoveValueAsync($"auth:resetpassword:email:{request.Email}");
+            await _cacheService.RemoveValueAsync($"auth:resetpassword:otp:{code}");
             await _unitOfWork.SaveChangesAsync(ct);
 
             var result = new ResetPasswordResult(Message: "Password changed successfully");
-            return Result.Success();
+            return Result.Success(result);
         }
     }
 }

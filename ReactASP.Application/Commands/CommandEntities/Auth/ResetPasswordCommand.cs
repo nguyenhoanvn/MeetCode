@@ -9,5 +9,9 @@ using ReactASP.Application.Commands.CommandResults.Auth;
 
 namespace ReactASP.Application.Commands.CommandEntities.Auth
 {
-    public sealed record ResetPasswordCommand(string Code, string Email, string NewPassword) : IRequest<Result<ResetPasswordResult>>;
+    public sealed record ResetPasswordCommand(
+        string Code,
+        string Email,
+        string NewPassword
+        ) : IRequest<Result<ResetPasswordResult>>;
 }

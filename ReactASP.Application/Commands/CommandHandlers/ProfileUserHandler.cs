@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace ReactASP.Application.Commands.CommandHandlers
 {
-    public sealed class ProfileUserCommandHandler : IRequestHandler<ProfileUserCommand, ProfileUserResult>
+    public sealed class ProfileUserHandler : IRequestHandler<ProfileUserCommand, ProfileUserResult>
     {
         private readonly IUserRepository _userRepository;
 
-        public ProfileUserCommandHandler(IUserRepository userRepository)
+        public ProfileUserHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
