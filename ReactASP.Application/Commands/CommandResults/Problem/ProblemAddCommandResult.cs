@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReactASP.Application.Commands.CommandResults.Problem
 {
-    public sealed record ProblemAddResult(
+    public sealed record ProblemAddCommandResult(
         Guid problemId,
         string slug,
         string title,
