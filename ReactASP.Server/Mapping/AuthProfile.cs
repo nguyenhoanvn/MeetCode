@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ReactASP.Application.Commands.CommandEntities.Auth;
 using ReactASP.Application.Commands.CommandResults.Auth;
+using ReactASP.Application.Queries.QueryEntities.Auth;
+using ReactASP.Application.Queries.QueryResults.Auth;
 using ReactASP.Server.DTOs.Request.Auth;
 using ReactASP.Server.DTOs.Response.Auth;
 
@@ -11,8 +13,8 @@ namespace ReactASP.Server.Mapping
         public AuthProfile()
         {
             // Login
-            CreateMap<LoginRequest, LoginUserCommand>();
-            CreateMap<LoginUserResult, LoginResponse>();
+            CreateMap<LoginRequest, LoginUserQuery>();
+            CreateMap<LoginUserQueryResult, LoginResponse>();
 
             // Register
             CreateMap<RegisterRequest, RegisterUserCommand>();
@@ -23,8 +25,8 @@ namespace ReactASP.Server.Mapping
             CreateMap<RefreshTokenResult, RefreshTokenResponse>();
 
             // ForgotPassword
-            CreateMap<ForgotPasswordRequest, ForgotPasswordCommand>();
-            CreateMap<ForgotPasswordResult, ForgotPasswordResponse>();
+            CreateMap<ForgotPasswordRequest, ForgotPasswordQuery>();
+            CreateMap<ForgotPasswordQueryResult, ForgotPasswordResponse>();
 
             // ResetPassword
             CreateMap<ResetPasswordRequest, ResetPasswordCommand>()

@@ -16,7 +16,6 @@ namespace ReactASP.Server.Services.Auth
 {
     public class TokenService : ITokenService
     {
-        private readonly int RT_EXPIRE_DAY = 30;
 
         private readonly IConfiguration _config;
         private readonly IRefreshTokenRepository _refreshTokenRepository;

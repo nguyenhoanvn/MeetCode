@@ -12,6 +12,7 @@ using ReactASP.Application.Commands.CommandResults.Auth;
 using ReactASP.Application.Interfaces.Services;
 using ReactASP.Server.DTOs.Request.Auth;
 using ReactASP.Server.DTOs.Response.Auth;
+using ReactASP.Application.Queries.QueryEntities.Auth;
 
 namespace ReactASP.Server.Controllers;
 [ApiController]
@@ -67,7 +68,7 @@ public class AuthController : ControllerBase
         }
         _logger.LogInformation($"Login started for email {request.Email}");
 
-        var cmd = _mapper.Map<LoginUserCommand>(request);
+        var cmd = _mapper.Map<LoginUserQuery>(request);
 
         var result = await _mediator.Send(cmd, ct);
         
@@ -154,7 +155,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request, CancellationToken ct)
     {
         _logger.LogInformation("Forgot password started");
-        var cmd = _mapper.Map<ForgotPasswordCommand>(request);
+        var cmd = _mapper.Map<ForgotPasswordQuery>(request);
         var result = await _mediator.Send(cmd, ct);
 
         _logger.LogInformation("Forgot password ended");
