@@ -16,7 +16,7 @@ using ReactASP.Application.Commands.CommandResults.Problem;
 
 namespace ReactASP.Application.Commands.CommandHandlers.Problem
 {
-    public sealed class ProblemAddHandler : IRequestHandler<ProblemAddCommand, Result<ProblemAddResult>>
+    public sealed class ProblemAddHandler : IRequestHandler<ProblemAddCommand, Result<ProblemAddCommandResult>>
     {
         private readonly ILogger<ProblemAddHandler> _logger;
         private readonly ISessionService _sessionService;
@@ -30,7 +30,7 @@ namespace ReactASP.Application.Commands.CommandHandlers.Problem
             _problemService = problemService;
             _logger = logger;
         }
-        public async Task<Result<ProblemAddResult>> Handle(ProblemAddCommand request, CancellationToken ct)
+        public async Task<Result<ProblemAddCommandResult>> Handle(ProblemAddCommand request, CancellationToken ct)
         {
             _logger.LogInformation($"Problem add handler started for {request.Title}");
             var userId = _sessionService.ExtractUserIdFromJwt(ct);
@@ -45,7 +45,7 @@ namespace ReactASP.Application.Commands.CommandHandlers.Problem
                 ct);
 
             _logger.LogInformation("New problem added successfully");
-            return Result.Success(new ProblemAddResult(problem.ProblemId,
+            return Result.Success(new ProblemAddCommandResult(problem.ProblemId,
                 problem.Slug,
                 problem.Title,
                 problem.StatementMd,

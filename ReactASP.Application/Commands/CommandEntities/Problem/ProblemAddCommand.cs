@@ -15,5 +15,5 @@ namespace ReactASP.Application.Commands.CommandEntities.Problem
         string Difficulty,
         int TimeLimitMs,
         int MemoryLimitMb
-        ) : IRequest<Result<ProblemAddResult>>;
+        ) : IRequest<Result<ProblemAddCommandResult>>;
 }

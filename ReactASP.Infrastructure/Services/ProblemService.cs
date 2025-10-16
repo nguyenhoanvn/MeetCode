@@ -64,5 +64,11 @@ namespace ReactASP.Infrastructure.Services
             _logger.LogInformation($"Attempting to retrieve problem with id: {problemId}");
             return await _problemRepository.GetByIdAsync(problemId, ct);
         }
+
+        public async Task<Problem?> FindProblemBySlugAsync(string problemSlug, CancellationToken ct)
+        {
+            _logger.LogInformation($"Attempting to retrieve problem with slug: {problemSlug}");
+            return await _problemRepository.GetBySlugAsync(problemSlug, ct);
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace ReactASP.Application.Interfaces.Services
         Task<Problem> CreateProblemAsync(string title, string statementMd, string difficulty, int timeLimitMs, int memoryLimitMb, Guid createdBy, CancellationToken ct);
         Task<IEnumerable<Problem>> ReadAllProblemsAsync(CancellationToken ct);
         Task<Problem?> FindProblemByIdAsync(Guid problemId, CancellationToken ct);
+        Task<Problem?> FindProblemBySlugAsync(string problemSlug, CancellationToken ct);
         
     }
 }

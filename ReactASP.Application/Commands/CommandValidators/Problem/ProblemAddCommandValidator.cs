@@ -15,7 +15,7 @@ namespace ReactASP.Application.Commands.CommandValidators.Problem
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Problem title is required.")
                 .MaximumLength(255).WithMessage("Problem title must less than 255 characters.")
-                .Matches("^[a-zA-Z]").WithMessage("Problem must contain only alphabetical characters.");
+                .Matches("^[a-zA-Z0-9]+$").WithMessage("Problem must contain only alphabetical/numeric characters.");
             RuleFor(x => x.Difficulty)
                 .NotEmpty().WithMessage("Problem difficulty is required.")
                 .Must(d => new[] { "easy", "medium", "hard" }.Contains(d.ToLowerInvariant())).WithMessage("Problem difficulty invalid.");
