@@ -26,7 +26,26 @@ namespace ReactASP.Server.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception at {Path}", context.Request.Path);
+                if (ex is FluentValidation.ValidationException validationEx)
+                {
+                    var errors = validationEx.Errors
+                        .GroupBy(e => e.PropertyName)
+                        .ToDictionary(
+                            g => g.Key,
+                            g => g.Select(e => e.ErrorMessage).ToArray()
+                        );
 
+                    var validationResponse = new
+                    {
+                        message = "Validation failed.",
+                        errors
+                    };
+
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsJsonAsync(validationResponse);
+                    return;
+                }
                 var status = ex switch
                 {
                     InvalidOperationException => StatusCodes.Status400BadRequest,
@@ -41,7 +60,8 @@ namespace ReactASP.Server.Middlewares
 
                 var response = new
                 {
-                    error = ex.Message,
+                    message = ex.Message,
+                    source = ex.Source,
                     status
                 };
 

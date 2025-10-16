@@ -32,14 +32,7 @@ namespace ReactASP.Server.Middlewares
 
             if (failures.Any())
             {
-                var errors = failures
-                    .GroupBy(e => e.PropertyName)
-                    .ToDictionary(
-                        g => g.Key,
-                        g => g.Select(e => e.ErrorMessage).ToArray()
-                    );
-
-                throw new FluentValidation.ValidationException("Validation failed", failures);
+                throw new FluentValidation.ValidationException(failures);
             }
             return await next();
         }
