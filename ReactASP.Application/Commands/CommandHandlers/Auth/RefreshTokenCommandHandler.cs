@@ -14,16 +14,16 @@ using ReactASP.Application.Commands.CommandResults.Auth;
 
 namespace ReactASP.Application.Commands.CommandHandlers.Auth
 {
-    public sealed class RefreshTokenHandler : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenResult>>
+    public sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenResult>>
     {
 
         private readonly ITokenService _tokenService;
-        private readonly ILogger<RefreshTokenHandler> _logger;
+        private readonly ILogger<RefreshTokenCommandHandler> _logger;
         private readonly IUserService _userService;
 
-        public RefreshTokenHandler(
+        public RefreshTokenCommandHandler(
             ITokenService tokenService,
-            ILogger<RefreshTokenHandler> logger,
+            ILogger<RefreshTokenCommandHandler> logger,
             IUserService userService)
         {
             _tokenService = tokenService;

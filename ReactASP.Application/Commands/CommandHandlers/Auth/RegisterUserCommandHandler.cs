@@ -11,17 +11,17 @@ using ReactASP.Application.Commands.CommandResults.Auth;
 
 namespace ReactASP.Application.Commands.CommandHandlers.Auth;
 
-public sealed class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResult>>
+public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResult>>
 {
 
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<RegisterUserHandler> _logger;
+    private readonly ILogger<RegisterUserCommandHandler> _logger;
 
 
-    public RegisterUserHandler(IUserRepository userRepository,
+    public RegisterUserCommandHandler(IUserRepository userRepository,
         IUnitOfWork unitOfWork,
-        ILogger<RegisterUserHandler> logger)
+        ILogger<RegisterUserCommandHandler> logger)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
