@@ -45,15 +45,12 @@ public class AuthController : ControllerBase
             _logger.LogWarning($"Register failed because request is null");
             return BadRequest("Invalid request body");
         }
-        _logger.LogInformation($"Register for email {request.Email} started");
 
         var cmd = _mapper.Map<RegisterUserCommand>(request);
 
         var result = await _mediator.Send(cmd, ct);
 
         var resp = _mapper.Map<RegisterResponse>(result.Value);
-        _logger.LogInformation($"Register success for email {request.Email}");
-
         return CreatedAtAction(nameof(Register), new { Id = resp.UserId }, resp);
     }
 
@@ -66,7 +63,6 @@ public class AuthController : ControllerBase
         {
             return BadRequest("Invalid Login request body");
         }
-        _logger.LogInformation($"Login started for email {request.Email}");
 
         var cmd = _mapper.Map<LoginUserQuery>(request);
 
@@ -95,8 +91,6 @@ public class AuthController : ControllerBase
                 Expires = DateTimeOffset.UtcNow.AddMinutes(30)
             });
 
-        _logger.LogInformation($"Login success for email {request.Email}");
-
         return Ok(resp);
     }
 
@@ -106,15 +100,13 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Refresh(CancellationToken ct)
-    {
-        
+    { 
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
                 string.IsNullOrWhiteSpace(refreshTokenPlain))
         {
             _logger.LogWarning("Refresh token failed because of mission token");
             return Unauthorized("Missing refresh token");
         }
-        _logger.LogInformation("Refresh token started");
 
         var cmd = _mapper.Map<RefreshTokenCommand>(refreshTokenPlain);
 
@@ -142,7 +134,6 @@ public class AuthController : ControllerBase
                 Expires = DateTimeOffset.UtcNow.AddDays(30)
             });
 
-        _logger.LogInformation("Refresh token success");
         var resp = _mapper.Map<RefreshTokenResponse>(result.Value);
 
         return Ok(resp);

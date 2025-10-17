@@ -176,6 +176,7 @@ app.UseCors("AllowReactApp");
 // Middlewares
 app.UseMiddleware<ValidationExceptionHandler>();
 app.UseMiddleware<ExceptionHandler>();
+app.UseMiddleware<RequestLoggingHandler>();
 
 app.UseAuthentication();
 app.UseAuthorization();
