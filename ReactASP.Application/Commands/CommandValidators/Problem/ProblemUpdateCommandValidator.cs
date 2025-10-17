@@ -8,25 +8,22 @@ using ReactASP.Application.Commands.CommandEntities.Problem;
 
 namespace ReactASP.Application.Commands.CommandValidators.Problem
 {
-    public sealed class ProblemAddCommandValidator : AbstractValidator<ProblemAddCommand>
+    public class ProblemUpdateCommandValidator : AbstractValidator<ProblemUpdateCommand>
     {
-        public ProblemAddCommandValidator()
+        public ProblemUpdateCommandValidator()
         {
-            RuleFor(x => x.Title)
+            RuleFor(x => x.Slug)
+                .NotEmpty().WithMessage("Slug is required.")
+                .Matches(@"^[a-z0-9]+(?:-[a-z0-9]+)*$").WithMessage("Invalid slug input");
+            RuleFor(x => x.NewStatementMd)
+                .NotEmpty().WithMessage("Problem statement is required");
+            RuleFor(x => x.NewTitle)
                 .NotEmpty().WithMessage("Problem title is required.")
                 .MaximumLength(255).WithMessage("Problem title must less than 255 characters.")
                 .Matches("^[a-zA-Z0-9]+$").WithMessage("Problem must contain only alphabetical/numeric characters.");
-            RuleFor(x => x.StatementMd)
-                .NotEmpty().WithMessage("Problem statement is required");
-            RuleFor(x => x.Difficulty)
+            RuleFor(x => x.NewDifficulty)
                 .NotEmpty().WithMessage("Problem difficulty is required.")
                 .Must(d => new[] { "easy", "medium", "hard" }.Contains(d.ToLowerInvariant())).WithMessage("Problem difficulty invalid.");
-            RuleFor(x => x.TimeLimitMs)
-                .NotEmpty().WithMessage("Problem time limit is required.")
-                .Must(t => t > 0 && t < int.MaxValue).WithMessage("Problem time limit invalid.");
-            RuleFor(x => x.MemoryLimitMb)
-                .NotEmpty().WithMessage("Problem memory is required.")
-                .Must(m => m >= 0 && m < int.MaxValue).WithMessage("Problem memory is invalid");
         }
     }
 }

@@ -22,7 +22,7 @@
             {
                 await _next(context);
                 _logger.LogInformation($"Request {fullUrl} executed successfully");
-            } catch (Exception ex)
+            } catch (Exception)
             {
                 _logger.LogWarning($"Request {fullUrl} failed with exception");
                 throw;
