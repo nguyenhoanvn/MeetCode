@@ -14,6 +14,7 @@ namespace ReactASP.Application.Interfaces.Services
         Task<Problem?> FindProblemByIdAsync(Guid problemId, CancellationToken ct);
         Task<Problem?> FindProblemBySlugAsync(string problemSlug, CancellationToken ct);
         Task<Problem?> UpdateProblemAsync(Problem newProblem, CancellationToken ct);
+        Task DeleteProblemAsync(Problem problemToDelete, CancellationToken ct);
         
     }
 }

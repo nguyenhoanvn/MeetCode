@@ -36,9 +36,10 @@ namespace ReactASP.Infrastructure.Repositories
             _db.Problems.Update(newProblem);
             await Task.CompletedTask;
         }
-        public async Task DeleteAsync(Guid id, CancellationToken ct)
+        public async Task DeleteAsync(Problem problemToDelete, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            _db.Problems.Remove(problemToDelete);
+            await Task.CompletedTask;
         }
         public async Task<Problem?> GetBySlugAsync(string slug, CancellationToken ct)
         {

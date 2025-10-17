@@ -37,7 +37,7 @@ namespace ReactASP.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
-        public async Task DeleteAsync(Guid refreshTokenId, CancellationToken ct)
+        public async Task DeleteAsync(RefreshToken tokenToDelete, CancellationToken ct)
         {
             throw new NotImplementedException();
         }

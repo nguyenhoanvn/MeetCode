@@ -38,7 +38,7 @@ namespace ReactASP.Infrastructure.Repositories
             _db.Users.Update(newUser);
             return Task.CompletedTask;
         }
-        public async Task DeleteAsync(Guid id, CancellationToken ct)
+        public async Task DeleteAsync(User userToDelete, CancellationToken ct)
         {
             throw new InvalidOperationException();
         }
