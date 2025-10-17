@@ -9,5 +9,10 @@ using ReactASP.Application.Commands.CommandResults.Problem;
 
 namespace ReactASP.Application.Commands.CommandEntities.Problem
 {
-    public sealed record ProblemUpdateCommand(ReactASP.Domain.Entities.Problem Problem) : IRequest<Result<ProblemUpdateCommandResult>>;
+    public sealed record ProblemUpdateCommand(
+        string Slug,
+        string NewTitle,
+        string NewStatementMd,
+        string NewDifficulty
+        ) : IRequest<Result<ProblemUpdateCommandResult>>;
 }

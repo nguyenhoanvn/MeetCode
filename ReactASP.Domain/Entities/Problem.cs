@@ -16,9 +16,9 @@ using System.Text.RegularExpressions;
 
         public string Difficulty { get; set; } = null!;
 
-        public int TimeLimitMs { get; set; }
+        public int TimeLimitMs { get; set; } = 1;
 
-        public int MemoryLimitMb { get; set; }
+        public int MemoryLimitMb { get; set; } = 1;
 
         public Guid CreatedBy { get; set; }
 
@@ -44,6 +44,6 @@ using System.Text.RegularExpressions;
 
         public void GenerateSlug()
         {
-            this.Slug = Regex.Replace(this.Title.ToLowerInvariant().Trim(), @"\s+", "-");
+            this.Slug = Regex.Replace(this.Title.ToLowerInvariant().Trim(), @"\s+", "-").ToLowerInvariant();
         }
 }

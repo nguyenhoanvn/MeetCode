@@ -13,6 +13,7 @@ namespace ReactASP.Application.Interfaces.Services
         Task<IEnumerable<Problem>> ReadAllProblemsAsync(CancellationToken ct);
         Task<Problem?> FindProblemByIdAsync(Guid problemId, CancellationToken ct);
         Task<Problem?> FindProblemBySlugAsync(string problemSlug, CancellationToken ct);
+        Task<Problem?> UpdateProblemAsync(Problem newProblem, CancellationToken ct);
         
     }
 }

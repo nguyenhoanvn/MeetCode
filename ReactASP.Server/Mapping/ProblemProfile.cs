@@ -26,6 +26,14 @@ namespace ReactASP.Server.Mapping
                 .ForCtorParam("TotalSubmissionCount", opt => opt.MapFrom((src, ctx) => ctx.Items["TotalSubmissionCount"]))
                 .ForCtorParam("ScoreAcceptedCount", opt => opt.MapFrom((src, ctx) => ctx.Items["ScoreAcceptedCount"]))
                 .ForCtorParam("AcceptanceRate", opt => opt.MapFrom((src, ctx) => ctx.Items["AcceptanceRate"]));
+
+            // Problem update
+            CreateMap<ProblemUpdateCommandResult, ProblemUpdateResponse>()
+                .ConstructUsing(src => new ProblemUpdateResponse(
+                    src.UpdatedProblem.Slug,
+                    src.UpdatedProblem.Title,
+                    src.UpdatedProblem.StatementMd,
+                    src.UpdatedProblem.Difficulty));
         }
     }
 }

@@ -93,5 +93,22 @@ namespace ReactASP.Server.Controllers
             });
             return Ok(resp);
         }
+
+        [HttpPost("update")]
+        [ProducesResponseType(typeof(ProblemUpdateResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ProblemUpdate([FromBody] ProblemUpdateCommand request, CancellationToken ct)
+        {
+            var fullUrl = $"{HttpContext.Request.Method} {HttpContext.Request.Path}{HttpContext.Request.QueryString}";
+            _logger.LogInformation($"Incoming request: {fullUrl}");
+
+            var result = await _mediator.Send(request, ct);
+            _logger.LogInformation($"Request retrieved result successful");
+
+            var resp = _mapper.Map<ProblemUpdateResponse>(result.Value);
+            return Ok(resp);
+        }
+
     }
 }

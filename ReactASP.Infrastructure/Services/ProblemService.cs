@@ -70,5 +70,14 @@ namespace ReactASP.Infrastructure.Services
             _logger.LogInformation($"Attempting to retrieve problem with slug: {problemSlug}");
             return await _problemRepository.GetBySlugAsync(problemSlug, ct);
         }
+
+        public async Task<Problem?> UpdateProblemAsync(Problem newProblem, CancellationToken ct)
+        {
+            _logger.LogInformation($"Attempting to update problem to {newProblem.ToString}");
+            await _problemRepository.Update(newProblem, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            _logger.LogInformation($"Update problem successfully to {newProblem.ToString}");
+            return newProblem;
+        }
     }
 }
