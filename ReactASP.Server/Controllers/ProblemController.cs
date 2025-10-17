@@ -99,5 +99,16 @@ namespace ReactASP.Server.Controllers
             return Ok(resp);
         }
 
+        [HttpPost("delete")]
+        [ProducesResponseType(typeof(ProblemDeleteCommandResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ProblemDelete([FromBody] ProblemDeleteCommand request, CancellationToken ct)
+        {
+            var result = await _mediator.Send(request, ct);
+
+            var resp = result.Value;
+            return Ok(resp);
+        }
     }
 }

@@ -79,5 +79,13 @@ namespace ReactASP.Infrastructure.Services
             _logger.LogInformation($"Update problem successfully to {newProblem.ToString}");
             return newProblem;
         }
+
+        public async Task DeleteProblemAsync(Problem problemToDelete, CancellationToken ct)
+        {
+            _logger.LogInformation($"Attempting to delete problem: {problemToDelete}");
+            await _problemRepository.DeleteAsync(problemToDelete, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+            _logger.LogInformation($"Delete successfully for {problemToDelete}");
+        }
     }
 }
