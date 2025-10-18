@@ -130,7 +130,7 @@ namespace MeetCode.Infrastructure.Services
                 UserId = userId,
                 TokenHash = HashToken(plainRefreshToken),
                 CreatedAt = DateTimeOffset.UtcNow,
-                ExpiresAt = oldTokenList.Count() > 0 ? oldTokenList[0].ExpiresAt : DateTimeOffset.UtcNow
+                ExpiresAt = oldTokenList.Count() > 0 ? oldTokenList[0].ExpiresAt : DateTimeOffset.UtcNow.AddDays(30)
             };
 
             await _refreshTokenRepository.AddAsync(newRefreshToken, ct);
