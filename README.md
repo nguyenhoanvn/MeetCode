@@ -35,7 +35,6 @@ A web-based coding challenge platform
 + Not yet demonstrated in scalability, in theory, this project should have an acceptable scalability
 + Performance might also be an issue in some certain module
 + Seeding data might be small to some people as this project is made and test on a single computer, not a dedicated server
-+ The system might look overengineering
 + This project is a solo project
 
 ## Architecture
