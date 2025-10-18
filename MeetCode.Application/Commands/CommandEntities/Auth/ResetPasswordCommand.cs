@@ -11,7 +11,6 @@ namespace MeetCode.Application.Commands.CommandEntities.Auth
 {
     public sealed record ResetPasswordCommand(
         string Code,
-        string Email,
         string NewPassword
         ) : IRequest<Result<ResetPasswordResult>>;
 }

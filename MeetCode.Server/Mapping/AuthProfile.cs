@@ -29,8 +29,7 @@ namespace MeetCode.Server.Mapping
             CreateMap<ForgotPasswordQueryResult, ForgotPasswordResponse>();
 
             // ResetPassword
-            CreateMap<ResetPasswordRequest, ResetPasswordCommand>()
-                .ForCtorParam("Email", opt => opt.MapFrom((src, ctx) => ctx.Items["Email"]));
+            CreateMap<ResetPasswordRequest, ResetPasswordCommand>();
             CreateMap<ResetPasswordResult, ResetPasswordResponse>();
         }
     }

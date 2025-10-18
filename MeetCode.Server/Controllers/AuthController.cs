@@ -22,17 +22,14 @@ public class AuthController : ControllerBase
     private readonly ISender _mediator;
     private readonly IMapper _mapper;
     private readonly ILogger<AuthController> _logger;
-    private readonly IAuthService _authService;
     public AuthController(
         ISender mediator,
         IMapper mapper,
-        ILogger<AuthController> logger,
-        IAuthService authService)
+        ILogger<AuthController> logger)
     {
         _mediator = mediator;
         _mapper = mapper;
         _logger = logger;
-        _authService = authService;
     }
 
     [HttpPost("register")]
@@ -160,9 +157,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken ct)
     {
-        var email = await _authService.GetEmailFromOtpAsync(request.Code);
-        var cmd = _mapper.Map<ResetPasswordCommand>(request,
-            opt => opt.Items["Email"] = email);
+        var cmd = _mapper.Map<ResetPasswordCommand>(request);
 
         var result = await _mediator.Send(cmd, ct);
 

@@ -8,7 +8,6 @@ namespace MeetCode.Application.Interfaces.Services
 {
     public interface ICacheService
     {
-        // Individual value
         Task SetValueAsync<T>(string key, T value, TimeSpan expiry);
         Task<T?> GetValueAsync<T>(string key);
         Task RemoveValueAsync(string key);
