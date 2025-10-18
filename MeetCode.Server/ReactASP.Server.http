@@ -1,0 +1,27 @@
+@MeetCode.Server_HostAddress = https://localhost:7254
+
+GET {{MeetCode.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{MeetCode.Server_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "megumi@example.com",
+  "displayName": "Katou Megumi",
+  "password": "P@ssw0rd!"
+}
+
+###
+
+POST {{MeetCode.Server_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+  {
+    "email": "megumi@example.com",
+    "password": "P@ssw0rd!"
+  }
+
+###

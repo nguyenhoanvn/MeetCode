@@ -1,0 +1,39 @@
+﻿using AutoMapper;
+using MeetCode.Application.Commands.CommandEntities.Problem;
+using MeetCode.Application.Commands.CommandResults.Problem;
+using MeetCode.Application.Queries.QueryResults.Problem;
+using MeetCode.Server.DTOs.Request.Problem;
+using MeetCode.Server.DTOs.Response.Problem;
+
+namespace MeetCode.Server.Mapping
+{
+    public class ProblemProfile : Profile
+    {
+        public ProblemProfile()
+        {
+            // Problem add
+            CreateMap<ProblemAddRequest, ProblemAddCommand>();
+            CreateMap<ProblemAddCommandResult, ProblemAddResponse>();
+
+            // Problem read all
+            CreateMap<ProblemAllQueryResult, ProblemAllResponse>();
+
+            // Problem read one
+            CreateMap<ProblemReadQueryResult, ProblemReadResponse>()
+                .ForCtorParam("Title", opt => opt.MapFrom((src, ctx) => ctx.Items["Title"]))
+                .ForCtorParam("StatementMd", opt => opt.MapFrom((src, ctx) => ctx.Items["StatementMd"]))
+                .ForCtorParam("Difficulty", opt => opt.MapFrom((src, ctx) => ctx.Items["Difficulty"]))
+                .ForCtorParam("TotalSubmissionCount", opt => opt.MapFrom((src, ctx) => ctx.Items["TotalSubmissionCount"]))
+                .ForCtorParam("ScoreAcceptedCount", opt => opt.MapFrom((src, ctx) => ctx.Items["ScoreAcceptedCount"]))
+                .ForCtorParam("AcceptanceRate", opt => opt.MapFrom((src, ctx) => ctx.Items["AcceptanceRate"]));
+
+            // Problem update
+            CreateMap<ProblemUpdateCommandResult, ProblemUpdateResponse>()
+                .ConstructUsing(src => new ProblemUpdateResponse(
+                    src.UpdatedProblem.Slug,
+                    src.UpdatedProblem.Title,
+                    src.UpdatedProblem.StatementMd,
+                    src.UpdatedProblem.Difficulty));
+        }
+    }
+}
