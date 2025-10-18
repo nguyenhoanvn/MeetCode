@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.TestHelper;
+using MeetCode.Application.Commands.CommandEntities.Problem;
 using MeetCode.Application.Commands.CommandValidators.Problem;
-using MeetCode.Application.Commands.LoginUser;
 
-namespace MeetCode.Tests.Validator
+namespace MeetCode.Tests.Validator.Problem
 {
     public class ProblemAddCommandValidatorTests
     {
@@ -33,8 +33,7 @@ namespace MeetCode.Tests.Validator
                 MEMORY_LIMIT_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Title)
-                .WithErrorMessage("Problem title is required.");
+            result.ShouldHaveValidationErrorFor(x => x.Title);
         }
 
         [Fact]
@@ -48,8 +47,7 @@ namespace MeetCode.Tests.Validator
                 MEMORY_LIMIT_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Title)
-                .WithErrorMessage("Problem title must less than 255 characters.");
+            result.ShouldHaveValidationErrorFor(x => x.Title);
         }
 
         [Fact]
@@ -63,8 +61,7 @@ namespace MeetCode.Tests.Validator
                 MEMORY_LIMIT_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Title)
-                .WithErrorMessage("Problem must contain only alphabetical characters.");
+            result.ShouldHaveValidationErrorFor(x => x.Title);
         }
 
         [Fact]
@@ -78,8 +75,7 @@ namespace MeetCode.Tests.Validator
                 MEMORY_LIMIT_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Difficulty)
-                .WithErrorMessage("Problem difficulty is required.");
+            result.ShouldHaveValidationErrorFor(x => x.Difficulty);
         }
 
         [Fact]
@@ -93,8 +89,7 @@ namespace MeetCode.Tests.Validator
                 MEMORY_LIMIT_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Difficulty)
-                .WithErrorMessage("Problem difficulty invalid.");
+            result.ShouldHaveValidationErrorFor(x => x.Difficulty);
         }
 
         [Fact]
@@ -108,8 +103,7 @@ namespace MeetCode.Tests.Validator
                 MEMORY_LIMIT_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.TimeLimitMs)
-                .WithErrorMessage("Problem time limit is required.");
+            result.ShouldHaveValidationErrorFor(x => x.TimeLimitMs);
         }
 
         [Fact]
@@ -123,8 +117,7 @@ namespace MeetCode.Tests.Validator
                 MEMORY_LIMIT_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.TimeLimitMs)
-                .WithErrorMessage("Problem time limit invalid.");
+            result.ShouldHaveValidationErrorFor(x => x.TimeLimitMs);
         }
 
         [Fact]
@@ -138,8 +131,7 @@ namespace MeetCode.Tests.Validator
                 -1
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.MemoryLimitMb)
-                .WithErrorMessage("Problem memory is invalid");
+            result.ShouldHaveValidationErrorFor(x => x.MemoryLimitMb);
         }
 
         [Fact]

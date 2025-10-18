@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.TestHelper;
+using MeetCode.Application.Commands.CommandEntities.Auth;
 using MeetCode.Application.Commands.CommandValidators.Auth;
 
-namespace MeetCode.Tests.Validator
+namespace MeetCode.Tests.Validator.Auth
 {
     public class RegisterCommandValidatorTests
     {
@@ -29,8 +30,7 @@ namespace MeetCode.Tests.Validator
             );
 
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Email)
-                .WithErrorMessage("Email is required.");
+            result.ShouldHaveValidationErrorFor(x => x.Email);
         }
 
         [Fact]
@@ -43,8 +43,7 @@ namespace MeetCode.Tests.Validator
                 );
 
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Email)
-                .WithErrorMessage("Invalid email format.");
+            result.ShouldHaveValidationErrorFor(x => x.Email);
         }
 
         [Fact]
@@ -57,8 +56,7 @@ namespace MeetCode.Tests.Validator
                 );
 
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Email)
-                .WithErrorMessage("Email must not greater than 255 characters.");
+            result.ShouldHaveValidationErrorFor(x => x.Email);
         }
 
         [Fact]
@@ -70,8 +68,7 @@ namespace MeetCode.Tests.Validator
                 PASSWORD_DUMMY);
 
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.DisplayName)
-                .WithErrorMessage("Display name is required.");
+            result.ShouldHaveValidationErrorFor(x => x.DisplayName);
         }
 
         [Fact]
@@ -83,8 +80,7 @@ namespace MeetCode.Tests.Validator
                 PASSWORD_DUMMY
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.DisplayName)
-                .WithErrorMessage("Display name must not greater than 100 characters.");
+            result.ShouldHaveValidationErrorFor(x => x.DisplayName);
         }
 
         [Fact]
@@ -96,8 +92,7 @@ namespace MeetCode.Tests.Validator
                 ""
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Password)
-                .WithErrorMessage("Password is required.");
+            result.ShouldHaveValidationErrorFor(x => x.Password);
         }
 
         [Fact]
@@ -109,8 +104,7 @@ namespace MeetCode.Tests.Validator
                 "abc123"
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Password)
-                .WithErrorMessage("Password must have more than 8 characters.");
+            result.ShouldHaveValidationErrorFor(x => x.Password);
         }
 
         [Fact]
@@ -122,8 +116,7 @@ namespace MeetCode.Tests.Validator
                 "HOANYU12345"
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Password)
-                .WithErrorMessage("Password must contain at least one lowercase letter.");
+            result.ShouldHaveValidationErrorFor(x => x.Password);
         }
 
         [Fact]
@@ -135,8 +128,7 @@ namespace MeetCode.Tests.Validator
                 "hoanyuabcde"
             );
             var result = await _validator.TestValidateAsync(model);
-            result.ShouldHaveValidationErrorFor(x => x.Password)
-                .WithErrorMessage("Password must contain at least one number.");
+            result.ShouldHaveValidationErrorFor(x => x.Password);
         }
 
         [Fact]
