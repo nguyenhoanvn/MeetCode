@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MeetCode.Application.Interfaces.Repositories;
+using MeetCode.Domain.Entities;
+using MeetCode.Infrastructure.Persistence;
+
+namespace MeetCode.Infrastructure.Repositories
+{
+    public class UserRepository : IUserRepository
+    {
+        private readonly AppDbContext _db;
+        public UserRepository(AppDbContext db)
+        {
+            _db = db;
+        }
+        public async Task<IEnumerable<User>> GetAsync(CancellationToken ct)
+        {
+            return await _db.Users.ToListAsync();
+        }
+        public async Task<bool> EmailExistsAsync(string email, CancellationToken ct)
+        {
+            return await _db.Users.AnyAsync(u => u.Email == email, ct);
+        }
+        public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct)
+        {
+            return await _db.Users.FindAsync(id, ct);
+        }
+        public async Task AddAsync(User user, CancellationToken ct)
+        {
+            await _db.Users.AddAsync(user, ct);
+        }
+        public Task Update(User newUser, CancellationToken ct)
+        {
+            _db.Users.Update(newUser);
+            return Task.CompletedTask;
+        }
+        public async Task DeleteAsync(User userToDelete, CancellationToken ct)
+        {
+            throw new InvalidOperationException();
+        }
+        public async Task<User?> GetUserByEmailAsync(string email, CancellationToken ct)
+        {
+            return await _db.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
+        }
+
+        public async Task<User?> GetUserByEmailWithTokensAsync(string email, CancellationToken ct)
+        {
+            return await _db.Users
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.Email == email, ct);
+        }
+
+        public async Task<User?> GetUserByIdWithTokensAsync(Guid userId, CancellationToken ct)
+        {
+            return await _db.Users
+                .Include(u => u.RefreshTokens)
+                .FirstOrDefaultAsync(u => u.UserId == userId, ct);
+        }
+    }
+}

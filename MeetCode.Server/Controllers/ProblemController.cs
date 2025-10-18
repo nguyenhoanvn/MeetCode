@@ -1,0 +1,114 @@
+﻿using Ardalis.Result;
+using AutoMapper;
+using MediatR;
+using MeetCode.Application.Commands.CommandEntities.Problem;
+using MeetCode.Application.Commands.CommandResults.Problem;
+using MeetCode.Server.DTOs.Request.Problem;
+using MeetCode.Server.DTOs.Response.Problem;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using MeetCode.Application.Queries.QueryEntities.Problem;
+
+namespace MeetCode.Server.Controllers
+{
+    [Route("problems")]
+    [ApiController]
+    public class ProblemController : ControllerBase
+    {
+        private readonly ISender _mediator;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ProblemController> _logger;
+
+        public ProblemController(
+            ISender mediator,
+            IMapper mapper,
+            ILogger<ProblemController> logger)
+        {
+            _mediator = mediator;
+            _mapper = mapper;
+            _logger = logger;
+        }
+        [Authorize(Roles = "moderator")]
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(ProblemAddResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> AddProblem([FromBody] ProblemAddRequest request, CancellationToken ct)
+        {     
+            if (request == null)
+            {
+                _logger.LogWarning($"Add failed for problem because request is null");
+                return BadRequest("Invalid request body");
+            }
+
+            var cmd = _mapper.Map<ProblemAddCommand>(request);
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = _mapper.Map<ProblemAddResponse>(result.Value);
+
+            return CreatedAtAction(nameof(AddProblem), new { Id = resp.ProblemId }, resp);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ProblemAllResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ProblemList(CancellationToken ct)
+        {
+            var cmd = new ProblemAllQuery();
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = _mapper.Map<ProblemAllResponse>(result.Value);
+            return Ok(resp);
+        }
+
+        [HttpGet("{slug}")]
+        [ProducesResponseType(typeof(ProblemReadResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ProblemRead([FromRoute]string slug, CancellationToken ct)
+        {
+            var cmd = new ProblemReadQuery(slug);
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = _mapper.Map<ProblemReadResponse>(result.Value, opt =>
+            {
+                opt.Items["Title"] = result.Value.Problem.Title;
+                opt.Items["StatementMd"] = result.Value.Problem.StatementMd;
+                opt.Items["Difficulty"] = result.Value.Problem.Difficulty;
+                opt.Items["TotalSubmissionCount"] = result.Value.Problem.TotalSubmissionCount;
+                opt.Items["ScoreAcceptedCount"] = result.Value.Problem.ScoreAcceptedCount;
+                opt.Items["AcceptanceRate"] = result.Value.Problem.AcceptanceRate;
+            });
+
+            return Ok(resp);
+        }
+
+        [HttpPost("update")]
+        [ProducesResponseType(typeof(ProblemUpdateResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ProblemUpdate([FromBody] ProblemUpdateCommand request, CancellationToken ct)
+        {
+            var result = await _mediator.Send(request, ct);
+
+            var resp = _mapper.Map<ProblemUpdateResponse>(result.Value);
+            return Ok(resp);
+        }
+
+        [HttpPost("delete")]
+        [ProducesResponseType(typeof(ProblemDeleteCommandResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ProblemDelete([FromBody] ProblemDeleteCommand request, CancellationToken ct)
+        {
+            var result = await _mediator.Send(request, ct);
+
+            var resp = result.Value;
+            return Ok(resp);
+        }
+    }
+}
