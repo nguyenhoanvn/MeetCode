@@ -13,26 +13,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MeetCode.Application.Commands.CommandHandlers.Auth
 {
-    public sealed class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, Result<ResetPasswordResult>>
+    public sealed class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, Result<ResetPasswordResult>>
     {
         private readonly ICacheService _cacheService;
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
-        public ResetPasswordHandler(ICacheService cacheService,
+        private readonly IAuthService _authService;
+        public ResetPasswordCommandHandler(ICacheService cacheService,
             IUserService userService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IAuthService authService)
         {
             _cacheService = cacheService;
             _userService = userService;
             _unitOfWork = unitOfWork;
+            _authService = authService;
         }
 
         public async Task<Result<ResetPasswordResult>> Handle(ResetPasswordCommand request, CancellationToken ct)
         {
-            var cacheKey = $"auth:resetpassword:email:{request.Email}";
-            var code = _cacheService.GetValueAsync<string>(cacheKey);
+            var email = await _authService.GetEmailFromOtpAsync(request.Code);
+            var cacheKey = $"auth:resetpassword:email:{email}";
+            var code = await _cacheService.GetValueAsync<string>(cacheKey);
 
-            if (code.Result == null)
+            if (code == null)
             {
                 return Result.Invalid(new ValidationError
                 {
@@ -42,7 +46,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
             }
 
             int requestCode = int.Parse(request.Code);
-            int cacheCode = int.Parse(code.Result);
+            int cacheCode = int.Parse(code);
 
             if (cacheCode != requestCode)
             {
@@ -50,7 +54,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
                 return Result.Success(resultUnmatch);
             }
 
-            var user = await _userService.FindUserByEmailAsync(request.Email, ct);
+            var user = await _userService.FindUserByEmailAsync(email, ct);
             var newPasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
             if (newPasswordHash.Equals(user.PasswordHash))
             {
@@ -58,7 +62,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
                 return Result.Success(resultPasswordSame);
             }
             user.PasswordHash = newPasswordHash;
-            await _cacheService.RemoveValueAsync($"auth:resetpassword:email:{request.Email}");
+            await _cacheService.RemoveValueAsync($"auth:resetpassword:email:{email}");
             await _cacheService.RemoveValueAsync($"auth:resetpassword:otp:{code}");
             await _unitOfWork.SaveChangesAsync(ct);
 

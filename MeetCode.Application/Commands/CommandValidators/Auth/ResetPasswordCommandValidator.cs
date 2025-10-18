@@ -8,20 +8,18 @@ using MeetCode.Application.Commands.CommandEntities.Auth;
 
 namespace MeetCode.Application.Commands.CommandValidators.Auth
 {
-    public class ResetPasswordValidator : AbstractValidator<ResetPasswordCommand>
+    public class ResetPasswordCommandValidator : AbstractValidator<ResetPasswordCommand>
     {
-        public ResetPasswordValidator()
+        public ResetPasswordCommandValidator()
         {
-            RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email is required.")
-                .EmailAddress().WithMessage("Email not in format.");
             RuleFor(x => x.Code)
                 .NotEmpty().WithMessage("OTP is required.")
-                .Length(6).WithMessage("Invalid OTP length.");
+                .Length(6).WithMessage("Invalid OTP.")
+                .Matches("^[0-9]$+").WithMessage("OTP must contains numeric characters only");
             RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(8).WithMessage("Password must have more than 8 characters.")
-                .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter.")
+                .Matches("[a-zA-Z]").WithMessage("Password must contain at least one alphabetical letter.")
                 .Matches("[0-9]").WithMessage("Password must contain at least one number.");
         }
     }
