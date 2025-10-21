@@ -37,7 +37,7 @@ namespace MeetCode.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
-        public async Task DeleteAsync(RefreshToken tokenToDelete, CancellationToken ct)
+        public async Task Delete(RefreshToken tokenToDelete, CancellationToken ct)
         {
             throw new NotImplementedException();
         }

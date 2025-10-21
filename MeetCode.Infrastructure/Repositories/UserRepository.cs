@@ -38,7 +38,7 @@ namespace MeetCode.Infrastructure.Repositories
             _db.Users.Update(newUser);
             return Task.CompletedTask;
         }
-        public async Task DeleteAsync(User userToDelete, CancellationToken ct)
+        public async Task Delete(User userToDelete, CancellationToken ct)
         {
             throw new InvalidOperationException();
         }

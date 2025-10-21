@@ -75,6 +75,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
 
 // Services 
 builder.Services.AddScoped<ISessionService, SessionService>();
@@ -84,8 +85,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICacheService, RedisService>();
 builder.Services.AddScoped<IEmailService, GmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(Program).Assembly)
+    .AddControllersAsServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

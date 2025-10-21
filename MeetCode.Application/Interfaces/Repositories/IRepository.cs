@@ -12,6 +12,6 @@ namespace MeetCode.Application.Interfaces.Repositories
         Task<T?> GetByIdAsync(Guid id, CancellationToken ct);
         Task AddAsync(T entity, CancellationToken ct);
         Task Update(T newEntity, CancellationToken ct);
-        Task DeleteAsync(T entityToDelete, CancellationToken ct);
+        Task Delete(T entityToDelete, CancellationToken ct);
     }
 }
