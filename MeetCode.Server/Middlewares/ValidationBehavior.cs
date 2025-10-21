@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Ardalis.Result;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,13 @@ namespace MeetCode.Server.Middlewares
         }
 
         public async Task<TResponse> Handle(
-            TRequest request,
-            RequestHandlerDelegate<TResponse> next,
-            CancellationToken ct)
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
         {
+            if (!_validators.Any())
+                return await next();
+
             var context = new ValidationContext<TRequest>(request);
             var failures = _validators
                 .Select(v => v.Validate(context))
@@ -32,8 +36,13 @@ namespace MeetCode.Server.Middlewares
 
             if (failures.Any())
             {
-                throw new ValidationException(failures);
+                var validationErrors = failures
+                    .Select(f => new ValidationError(f.PropertyName, f.ErrorMessage))
+                    .ToList();
+
+                return (TResponse)(object)Result.Invalid(validationErrors);
             }
+
             return await next();
         }
     }

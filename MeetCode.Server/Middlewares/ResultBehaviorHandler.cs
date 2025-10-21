@@ -1,12 +1,12 @@
 ﻿using Ardalis.Result;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace MeetCode.Server.Middlewares
 {
     public class ResultBehaviorHandler<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : notnull
-        where TResponse : Result
+    where TRequest : notnull
     {
         private readonly ILogger<ResultBehaviorHandler<TRequest, TResponse>> _logger;
 
@@ -15,15 +15,20 @@ namespace MeetCode.Server.Middlewares
             _logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
+        public async Task<TResponse> Handle(
+            TRequest request,
+            RequestHandlerDelegate<TResponse> next,
+            CancellationToken ct)
         {
             var response = await next();
 
-            if (response is Result result && !result.IsSuccess)
+            if (response is Result result)
             {
-                var errorMessage = string.Join("; ", result.Errors);
-                _logger.LogWarning("Command {CommandName} failed: {Errors}", typeof(TRequest).Name, errorMessage);
-                throw new BadHttpRequestException(errorMessage);
+                if (result.Status == ResultStatus.Error)
+                {
+                    _logger.LogError("{Request} failed: {Errors}", typeof(TRequest).Name, string.Join(", ", result.Errors));
+                    throw new Exception(string.Join(", ", result.Errors));
+                }
             }
 
             return response;
