@@ -42,18 +42,12 @@ namespace MeetCode.Application.Commands.CommandHandlers.Problem
                 request.TimeLimitMs,
                 request.MemoryLimitMb,
                 userId,
+                request.TagIds,
                 ct);
 
             _logger.LogInformation("New problem added successfully");
-            return Result.Success(new ProblemAddCommandResult(problem.ProblemId,
-                problem.Slug,
-                problem.Title,
-                problem.StatementMd,
-                problem.Difficulty,
-                problem.TimeLimitMs,
-                problem.MemoryLimitMb,
-                problem.CreatedAt,
-                problem.CreatedBy));
+            var result = new ProblemAddCommandResult(problem);
+            return Result.Success(result);
         }
     }
 }

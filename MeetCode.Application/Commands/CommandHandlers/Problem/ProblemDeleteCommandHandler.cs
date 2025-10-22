@@ -8,6 +8,7 @@ using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Problem;
 using MeetCode.Application.Commands.CommandResults.Problem;
 using MeetCode.Application.Interfaces.Services;
+using MeetCode.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace MeetCode.Application.Commands.CommandHandlers.Problem
@@ -26,17 +27,17 @@ namespace MeetCode.Application.Commands.CommandHandlers.Problem
 
         public async Task<Result<ProblemDeleteCommandResult>> Handle(ProblemDeleteCommand request, CancellationToken ct)
         {
-            _logger.LogInformation($"Attempting to delete problem with slug: {request.Slug}");
+            _logger.LogInformation($"Attempting to delete problem with slug: {request.ProblemId}");
 
-            var problem = await _problemService.FindProblemBySlugAsync(request.Slug, ct);
+            var problem = await _problemService.FindProblemByIdAsync(request.ProblemId, ct);
             if (problem == null)
             {
-                _logger.LogWarning($"Delete failed because cannot found problem with slug {request.Slug}");
-                throw new InvalidOperationException($"Delete failed because cannot found problem with slug {request.Slug}");
+                _logger.LogWarning($"Delete failed because cannot found problem with Id {request.ProblemId}");
+                return Result.NotFound($"Delete failed because cannot found problem with Id {request.ProblemId}");
             }
             await _problemService.DeleteProblemAsync(problem, ct);
-            _logger.LogInformation($"Delete problem with slug {request.Slug} successfully");
-            var result = new ProblemDeleteCommandResult($"Delete problem with slug {request.Slug} successfully");
+            _logger.LogInformation($"Delete problem with Id {request.ProblemId} successfully");
+            var result = new ProblemDeleteCommandResult($"Delete problem with Id {request.ProblemId} successfully");
             return Result.Success(result);
         }
     }

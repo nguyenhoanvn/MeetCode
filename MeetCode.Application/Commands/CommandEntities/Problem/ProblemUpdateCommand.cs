@@ -10,9 +10,10 @@ using MeetCode.Application.Commands.CommandResults.Problem;
 namespace MeetCode.Application.Commands.CommandEntities.Problem
 {
     public sealed record ProblemUpdateCommand(
-        string Slug,
+        Guid ProblemId,
         string NewTitle,
         string NewStatementMd,
-        string NewDifficulty
+        string NewDifficulty,
+        IEnumerable<Guid> TagIds
         ) : IRequest<Result<ProblemUpdateCommandResult>>;
 }

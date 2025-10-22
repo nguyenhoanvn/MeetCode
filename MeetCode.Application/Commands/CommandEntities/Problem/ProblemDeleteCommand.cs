@@ -9,5 +9,5 @@ using MeetCode.Application.Commands.CommandResults.Problem;
 
 namespace MeetCode.Application.Commands.CommandEntities.Problem
 {
-    public sealed record ProblemDeleteCommand(string Slug) : IRequest<Result<ProblemDeleteCommandResult>>;
+    public sealed record ProblemDeleteCommand(Guid ProblemId) : IRequest<Result<ProblemDeleteCommandResult>>;
 }

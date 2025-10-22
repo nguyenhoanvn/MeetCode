@@ -12,9 +12,8 @@ namespace MeetCode.Application.Commands.CommandValidators.Problem
     {
         public ProblemDeleteCommandValidator()
         {
-            RuleFor(x => x.Slug)
-                .NotEmpty().WithMessage("Slug is required.")
-                .Matches(@"^[a-z0-9]+(?:-[a-z0-9]+)*$").WithMessage("Invalid slug input");
+            RuleFor(x => x.ProblemId)
+                .NotEmpty().WithMessage("ProblemId is required.");
         }
     }
 }

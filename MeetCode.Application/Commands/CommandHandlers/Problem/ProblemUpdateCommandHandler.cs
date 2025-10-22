@@ -26,24 +26,13 @@ namespace MeetCode.Application.Commands.CommandHandlers.Problem
         }
         public async Task<Result<ProblemUpdateCommandResult>> Handle(ProblemUpdateCommand request, CancellationToken ct)
         {
-            _logger.LogInformation($"Attempting to update problem with slug {request.Slug}");
-            var problem = await _problemService.FindProblemBySlugAsync(request.Slug, ct);
-            
-            if (problem == null)
-            {
-                _logger.LogWarning($"Problem with slug {request.Slug} cannot be found");
-                throw new InvalidOperationException($"Problem with slug {request.Slug} cannot be found");
-            }
+            _logger.LogInformation($"Attempting to update problem with id {request.ProblemId}");  
 
-            problem.Title = request.NewTitle;
-            problem.Difficulty = request.NewDifficulty;
-            problem.StatementMd = request.NewStatementMd;
-            problem.GenerateSlug();
-            var updatedProblem = await _problemService.UpdateProblemAsync(problem, ct);
+            var updatedProblem = await _problemService.UpdateProblemAsync(request, ct);
             if (updatedProblem == null)
             {
                 _logger.LogWarning($"Updated problem cannot be found");
-                throw new InvalidOperationException($"Updated problem cannot be found");
+                return Result.NotFound($"Updated problem cannot be found");
             }
 
             var result = new ProblemUpdateCommandResult(updatedProblem);

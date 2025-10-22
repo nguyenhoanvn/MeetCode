@@ -12,9 +12,8 @@ namespace MeetCode.Application.Commands.CommandValidators.Problem
     {
         public ProblemUpdateCommandValidator()
         {
-            RuleFor(x => x.Slug)
-                .NotEmpty().WithMessage("Slug is required.")
-                .Matches(@"^[a-z0-9]+(?:-[a-z0-9]+)*$").WithMessage("Invalid slug input");
+            RuleFor(x => x.ProblemId)
+                .NotEmpty().WithMessage("Problem Id is required.");
             RuleFor(x => x.NewStatementMd)
                 .NotEmpty().WithMessage("Problem statement is required");
             RuleFor(x => x.NewTitle)

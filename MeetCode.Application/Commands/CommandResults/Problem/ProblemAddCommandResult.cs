@@ -3,18 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MeetCode.Domain.Entities;
 
 namespace MeetCode.Application.Commands.CommandResults.Problem
 {
-    public sealed record ProblemAddCommandResult(
-        Guid problemId,
-        string slug,
-        string title,
-        string statementMd,
-        string difficulty,
-        int timeLimitMs,
-        int memoryLimitMb,
-        DateTimeOffset createdAt,
-        Guid createdBy
+    public sealed record ProblemAddCommandResult(MeetCode.Domain.Entities.Problem Problem
         );
 }

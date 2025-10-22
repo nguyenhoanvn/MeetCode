@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Ardalis.Result;
 using MediatR;
 using MeetCode.Application.Commands.CommandResults.Problem;
+using MeetCode.Domain.Entities;
 
 namespace MeetCode.Application.Commands.CommandEntities.Problem
 {
@@ -14,6 +15,7 @@ namespace MeetCode.Application.Commands.CommandEntities.Problem
         string StatementMd,
         string Difficulty,
         int TimeLimitMs,
-        int MemoryLimitMb
+        int MemoryLimitMb,
+        List<Guid> TagIds
         ) : IRequest<Result<ProblemAddCommandResult>>;
 }
