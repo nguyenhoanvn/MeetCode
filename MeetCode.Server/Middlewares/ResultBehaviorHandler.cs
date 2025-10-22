@@ -22,13 +22,13 @@ namespace MeetCode.Server.Middlewares
         {
             var response = await next();
 
-            if (response is Result result)
+            if (response is Ardalis.Result.IResult result && !result.IsOk())
             {
-                if (result.Status == ResultStatus.Error)
-                {
-                    _logger.LogError("{Request} failed: {Errors}", typeof(TRequest).Name, string.Join(", ", result.Errors));
-                    throw new Exception(string.Join(", ", result.Errors));
-                }
+                _logger.LogError(
+                    "Handler {HandlerName} failed: {Errors}",
+                    typeof(TRequest).Name,
+                    string.Join(", ", result.Errors)
+                );
             }
 
             return response;

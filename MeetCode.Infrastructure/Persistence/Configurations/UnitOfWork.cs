@@ -41,6 +41,7 @@ namespace MeetCode.Infrastructure.Persistence.Configurations
         {
             if (_transaction != null)
             {
+                await _context.SaveChangesAsync(ct);
                 await _transaction.CommitAsync(ct);
                 await _transaction.DisposeAsync();
                 _transaction = null;

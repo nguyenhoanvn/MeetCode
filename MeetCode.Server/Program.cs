@@ -21,6 +21,7 @@ using MeetCode.Infrastructure.Persistence;
 using MeetCode.Infrastructure.Persistence.Configurations;
 using MeetCode.Server.Middlewares;
 using MeetCode.Server.Helpers;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -87,9 +88,14 @@ builder.Services.AddScoped<IEmailService, GmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITagService, TagService>();
 
-builder.Services.AddControllers()
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<TrimStringsFilter>();
+})
     .AddApplicationPart(typeof(Program).Assembly)
-    .AddControllersAsServices();
+    .AddControllersAsServices()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

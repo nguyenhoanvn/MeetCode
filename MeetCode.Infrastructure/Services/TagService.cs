@@ -69,5 +69,10 @@ namespace MeetCode.Infrastructure.Services
             await _tagRepository.Delete(problemToDelete, ct);
             await _unitOfWork.SaveChangesAsync(ct);
         }
+
+        public async Task<IEnumerable<ProblemTag>> GetInRange(IEnumerable<Guid> tagIds, CancellationToken ct)
+        {
+            return await _tagRepository.GetByIdsAsync(tagIds, ct);
+        }
     }
 }

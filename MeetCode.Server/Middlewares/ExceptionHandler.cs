@@ -1,4 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Net;
+using MeetCode.Domain.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
 namespace MeetCode.Server.Middlewares
@@ -11,7 +15,7 @@ namespace MeetCode.Server.Middlewares
         public ExceptionHandler(
             RequestDelegate next,
             ILogger<ExceptionHandler> logger
-            )
+        )
         {
             _next = next;
             _logger = logger;
@@ -26,6 +30,7 @@ namespace MeetCode.Server.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception at {Path}", context.Request.Path);
+
                 if (ex is FluentValidation.ValidationException validationEx)
                 {
                     var errors = validationEx.Errors
@@ -46,23 +51,42 @@ namespace MeetCode.Server.Middlewares
                     await context.Response.WriteAsJsonAsync(validationResponse);
                     return;
                 }
-                var status = ex switch
-                {
-                    InvalidOperationException => StatusCodes.Status400BadRequest,
-                    BadHttpRequestException => StatusCodes.Status400BadRequest,
-                    UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-                    SqlException => StatusCodes.Status500InternalServerError,
-                    TimeoutException => StatusCodes.Status504GatewayTimeout,
-                    RedisConnectionException => StatusCodes.Status503ServiceUnavailable,
-                    HttpRequestException => StatusCodes.Status502BadGateway,
-                    _ => StatusCodes.Status500InternalServerError
-                };
 
-                var response = new
+                int status;
+                string message = ex.Message;
+
+                var exType = ex.GetType();
+                if (exType.IsGenericType &&
+                    exType.GetGenericTypeDefinition() == typeof(DuplicateEntityException<>))
                 {
-                    message = ex.Message,
-                    source = ex.Source,
-                    status
+                    status = StatusCodes.Status409Conflict;
+                }
+                else if (exType.IsGenericType &&
+                    exType.GetGenericTypeDefinition() == typeof(EntityNotFoundException<>))
+                {
+                    status = StatusCodes.Status404NotFound;
+                }
+                else
+                {
+                    status = ex switch
+                    {
+                        InvalidOperationException => StatusCodes.Status400BadRequest,
+                        BadHttpRequestException => StatusCodes.Status400BadRequest,
+                        UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
+                        DbUpdateException => StatusCodes.Status500InternalServerError,
+                        TimeoutException => StatusCodes.Status504GatewayTimeout,
+                        RedisConnectionException => StatusCodes.Status503ServiceUnavailable,
+                        HttpRequestException => StatusCodes.Status502BadGateway,
+                        _ => StatusCodes.Status500InternalServerError
+                    };
+                }
+
+                var response = new ProblemDetails
+                {
+                    Title = $"{nameof(ex)}",
+                    Status = status,
+                    Detail = ex.Message,
+                    Instance = context.Request.Path
                 };
 
                 context.Response.StatusCode = status;
