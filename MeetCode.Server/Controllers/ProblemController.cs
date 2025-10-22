@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MeetCode.Application.Queries.QueryEntities.Problem;
+using Ardalis.Result.AspNetCore;
 
 namespace MeetCode.Server.Controllers
 {
@@ -30,85 +31,69 @@ namespace MeetCode.Server.Controllers
             _mapper = mapper;
             _logger = logger;
         }
-        [Authorize(Roles = "moderator")]
         [HttpPost("create")]
-        [ProducesResponseType(typeof(ProblemAddResponse), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AddProblem([FromBody] ProblemAddRequest request, CancellationToken ct)
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status201Created)]
+        [ExpectedFailures(ResultStatus.Forbidden, ResultStatus.Conflict, ResultStatus.Error)]
+        public async Task<Result<ProblemResponse>> AddProblem([FromBody] ProblemAddRequest request, CancellationToken ct)
         {     
-            if (request == null)
-            {
-                _logger.LogWarning($"Add failed for problem because request is null");
-                return BadRequest("Invalid request body");
-            }
-
             var cmd = _mapper.Map<ProblemAddCommand>(request);
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<ProblemAddResponse>(result.Value);
-
-            return CreatedAtAction(nameof(AddProblem), new { Id = resp.ProblemId }, resp);
+            return result.Map(value => _mapper.Map<ProblemResponse>(value));
         }
 
         [HttpGet]
+        [TranslateResultToActionResult]
         [ProducesResponseType(typeof(ProblemAllResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ProblemList(CancellationToken ct)
+        [ExpectedFailures(ResultStatus.Error)]
+        public async Task<Result<ProblemAllResponse>> ProblemList(CancellationToken ct)
         {
             var cmd = new ProblemAllQuery();
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<ProblemAllResponse>(result.Value);
-            return Ok(resp);
+            return result.Map(value => _mapper.Map<ProblemAllResponse>(value));
         }
 
         [HttpGet("{slug}")]
-        [ProducesResponseType(typeof(ProblemReadResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ProblemRead([FromRoute]string slug, CancellationToken ct)
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error)]
+        public async Task<Result<ProblemResponse>> ProblemRead([FromRoute]string slug, CancellationToken ct)
         {
             var cmd = new ProblemReadQuery(slug);
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<ProblemReadResponse>(result.Value, opt =>
-            {
-                opt.Items["Title"] = result.Value.Problem.Title;
-                opt.Items["StatementMd"] = result.Value.Problem.StatementMd;
-                opt.Items["Difficulty"] = result.Value.Problem.Difficulty;
-                opt.Items["TotalSubmissionCount"] = result.Value.Problem.TotalSubmissionCount;
-                opt.Items["ScoreAcceptedCount"] = result.Value.Problem.ScoreAcceptedCount;
-                opt.Items["AcceptanceRate"] = result.Value.Problem.AcceptanceRate;
-            });
-
-            return Ok(resp);
+            return result.Map(value => _mapper.Map<ProblemResponse>(value));
         }
 
-        [HttpPost("update")]
-        [ProducesResponseType(typeof(ProblemUpdateResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ProblemUpdate([FromBody] ProblemUpdateCommand request, CancellationToken ct)
+        [HttpPut("update/{problemId}")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Conflict, ResultStatus.Forbidden, ResultStatus.Error)]
+        public async Task<Result<ProblemResponse>> ProblemUpdate([FromRoute] Guid problemId, [FromBody] ProblemUpdateRequest request, CancellationToken ct)
         {
-            var result = await _mediator.Send(request, ct);
+            var cmd = _mapper.Map<ProblemUpdateCommand>((problemId, request));
 
-            var resp = _mapper.Map<ProblemUpdateResponse>(result.Value);
-            return Ok(resp);
+            var result = await _mediator.Send(cmd, ct);
+
+            return result.Map(value => _mapper.Map<ProblemResponse>(value));
         }
 
-        [HttpPost("delete")]
-        [ProducesResponseType(typeof(ProblemDeleteCommandResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ProblemDelete([FromBody] ProblemDeleteCommand request, CancellationToken ct)
+        [HttpPost("delete/{problemId}")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemMessageResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error, ResultStatus.Forbidden)]
+        public async Task<Result<ProblemMessageResponse>> ProblemDelete([FromRoute] Guid problemId, [FromBody] ProblemDeleteRequest request, CancellationToken ct)
         {
-            var result = await _mediator.Send(request, ct);
+            var cmd = _mapper.Map<ProblemDeleteCommand>((problemId, request));
 
-            var resp = result.Value;
-            return Ok(resp);
+            var result = await _mediator.Send(cmd, ct);
+
+            return result.Map(value => _mapper.Map<ProblemMessageResponse>(value));
         }
     }
 }

@@ -37,13 +37,13 @@ namespace MeetCode.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<TagAddResponse>(result.Value);
+            var resp = _mapper.Map<TagResponse>(result.Value);
 
             return CreatedAtAction(nameof(CreateTag), new { Id = resp.TagId }, resp);
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(TagAllResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TagResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> TagList(CancellationToken ct)
         {
@@ -53,14 +53,14 @@ namespace MeetCode.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<TagAllResponse>(result.Value);
+            var resp = _mapper.Map<TagResponse>(result.Value);
 
             return Ok(resp);
         }
 
         [HttpGet("{name}")]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(TagReadResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TagResponse), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Invalid)]
         public async Task<IActionResult> TagRead([FromRoute] string name, CancellationToken ct)
         {
@@ -70,16 +70,15 @@ namespace MeetCode.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<TagReadResponse>(result.Value);
+            var resp = _mapper.Map<TagResponse>(result.Value);
             return Ok(resp); 
         }
 
         [HttpPost("update/{tagId}")]
-        [ProducesResponseType(typeof(TagUpdateResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TagResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> TagUpdate([FromRoute] Guid tagId, [FromBody] TagUpdateRequest request, CancellationToken ct)
         {
-            var cmd = _mapper.Map<TagUpdateCommand>(request, opt =>
-                opt.Items["TagId"] = tagId);
+            var cmd = _mapper.Map<TagUpdateCommand>((tagId, request));
 
             var result = await _mediator.Send(cmd, ct);
 
@@ -89,7 +88,7 @@ namespace MeetCode.Server.Controllers
         }
 
         [HttpPost("delete/{tagId}")]
-        [ProducesResponseType(typeof(TagDeleteResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TagResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> TagDelete([FromRoute] Guid tagId, [FromBody] TagDeleteRequest request, CancellationToken ct)
         {
             var cmd = _mapper.Map<TagDeleteCommand>(request, opt =>
@@ -97,7 +96,7 @@ namespace MeetCode.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<TagDeleteResponse>(result.Value);
+            var resp = _mapper.Map<TagResponse>(result.Value);
 
             return Ok(resp);
         }

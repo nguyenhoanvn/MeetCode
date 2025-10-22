@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using MeetCode.Application.Commands.CommandEntities.Problem;
 using MeetCode.Application.Commands.CommandResults.Problem;
+using MeetCode.Application.Queries.QueryEntities.Problem;
 using MeetCode.Application.Queries.QueryResults.Problem;
+using MeetCode.Domain.Entities;
 using MeetCode.Server.DTOs.Request.Problem;
 using MeetCode.Server.DTOs.Response.Problem;
+using MeetCode.Server.DTOs.Response.Tag;
 
 namespace MeetCode.Server.Mapping
 {
@@ -11,29 +14,51 @@ namespace MeetCode.Server.Mapping
     {
         public ProblemProfile()
         {
-            // Problem add
+            CreateMap<Problem, ProblemResponse>()
+            .ConstructUsing(src => new ProblemResponse(
+                src.ProblemId,
+                src.Title,
+                src.StatementMd,
+                src.Difficulty,
+                src.TotalSubmissionCount,
+                src.ScoreAcceptedCount,
+                src.AcceptanceRate,
+                src.Tags.Select(t => new TagResponse(t.TagId, t.Name)).ToList()
+            ));
+            // Add
             CreateMap<ProblemAddRequest, ProblemAddCommand>();
-            CreateMap<ProblemAddCommandResult, ProblemAddResponse>();
+            CreateMap<ProblemAddCommandResult, ProblemResponse>()
+                .ConstructUsing((src, context) =>
+                    context.Mapper.Map<ProblemResponse>(src.Problem));
 
-            // Problem read all
-            CreateMap<ProblemAllQueryResult, ProblemAllResponse>();
+            // Get all
+            CreateMap<ProblemAllQueryResult, ProblemAllResponse>()
+                .ConstructUsing((src, context) => new ProblemAllResponse(
+                    context.Mapper.Map<IEnumerable<ProblemResponse>>(src.ProblemList)
+                    ));
 
-            // Problem read one
-            CreateMap<ProblemReadQueryResult, ProblemReadResponse>()
-                .ForCtorParam("Title", opt => opt.MapFrom((src, ctx) => ctx.Items["Title"]))
-                .ForCtorParam("StatementMd", opt => opt.MapFrom((src, ctx) => ctx.Items["StatementMd"]))
-                .ForCtorParam("Difficulty", opt => opt.MapFrom((src, ctx) => ctx.Items["Difficulty"]))
-                .ForCtorParam("TotalSubmissionCount", opt => opt.MapFrom((src, ctx) => ctx.Items["TotalSubmissionCount"]))
-                .ForCtorParam("ScoreAcceptedCount", opt => opt.MapFrom((src, ctx) => ctx.Items["ScoreAcceptedCount"]))
-                .ForCtorParam("AcceptanceRate", opt => opt.MapFrom((src, ctx) => ctx.Items["AcceptanceRate"]));
+            // Read 
+            CreateMap<ProblemReadQueryResult, ProblemResponse>()
+                .ConstructUsing((src, context) =>
+                    context.Mapper.Map<ProblemResponse>(src.Problem));
 
-            // Problem update
-            CreateMap<ProblemUpdateCommandResult, ProblemUpdateResponse>()
-                .ConstructUsing(src => new ProblemUpdateResponse(
-                    src.UpdatedProblem.Slug,
-                    src.UpdatedProblem.Title,
-                    src.UpdatedProblem.StatementMd,
-                    src.UpdatedProblem.Difficulty));
+            // Update
+            CreateMap<(Guid problemId, ProblemUpdateRequest request), ProblemUpdateCommand>()
+                .ConstructUsing(src => new ProblemUpdateCommand(
+                    src.problemId,
+                    src.request.NewTitle,
+                    src.request.NewStatementMd,
+                    src.request.NewDifficulty,
+                    src.request.TagIds));
+            CreateMap<ProblemUpdateCommandResult, ProblemResponse>()
+                .ConstructUsing((src, context) =>
+                    context.Mapper.Map<ProblemResponse>(src.UpdatedProblem));
+
+            // Delete
+            CreateMap<(Guid problemId, ProblemDeleteRequest request), ProblemDeleteCommand>()
+                .ConstructUsing(src => new ProblemDeleteCommand(
+                    src.problemId));
+            CreateMap<ProblemDeleteCommandResult, ProblemMessageResponse>();
         }
     }
 }
