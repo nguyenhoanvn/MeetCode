@@ -21,12 +21,27 @@ namespace MeetCode.Infrastructure.Repositories
 
         public async Task<IEnumerable<Problem>> GetAsync(CancellationToken ct)
         {
-            return await _db.Problems.ToListAsync(ct);
+            return await _db.Problems
+                .Include(p => p.Tags)
+                .Include(p => p.TestCases)
+                .Include(p => p.Submissions)
+                .ToListAsync(ct);
         }
         public async Task<Problem?> GetByIdAsync(Guid id, CancellationToken ct)
         {
-            return await _db.Problems.FindAsync(id, ct);
+            var problem = await _db.Problems
+                .Include(p => p.Tags)
+                .Include(p => p.TestCases)
+                .Include(p => p.Submissions)
+                .FirstOrDefaultAsync(p => p.ProblemId == id, ct);
+            return problem;
         }
+
+        public async Task<IEnumerable<Problem>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task AddAsync(Problem problem, CancellationToken ct)
         {
             await _db.Problems.AddAsync(problem, ct);
@@ -43,7 +58,11 @@ namespace MeetCode.Infrastructure.Repositories
         }
         public async Task<Problem?> GetBySlugAsync(string slug, CancellationToken ct)
         {
-            return await _db.Problems.FirstOrDefaultAsync(p => p.Slug == slug, ct);
+            return await _db.Problems
+                .Include(p => p.Tags)
+                .Include(p => p.TestCases)
+                .Include(p => p.Submissions)
+                .FirstOrDefaultAsync(p => p.Slug == slug, ct);
         }
     }
 }

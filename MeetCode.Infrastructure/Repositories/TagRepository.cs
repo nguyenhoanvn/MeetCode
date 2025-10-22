@@ -25,7 +25,10 @@ namespace MeetCode.Infrastructure.Repositories
         {
             return await _db.ProblemTags.FindAsync(id, ct);
         }
-
+        public async Task<IEnumerable<ProblemTag>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct)
+        {
+            return await _db.ProblemTags.Where(p => ids.Contains(p.TagId)).ToListAsync(ct);
+        }
         public async Task AddAsync(ProblemTag entity, CancellationToken ct)
         {
             await _db.ProblemTags.AddAsync(entity, ct);

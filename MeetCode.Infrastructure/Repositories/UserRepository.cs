@@ -29,6 +29,11 @@ namespace MeetCode.Infrastructure.Repositories
         {
             return await _db.Users.FindAsync(id, ct);
         }
+
+        public async Task<IEnumerable<User>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
         public async Task AddAsync(User user, CancellationToken ct)
         {
             await _db.Users.AddAsync(user, ct);
