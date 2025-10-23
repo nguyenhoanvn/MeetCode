@@ -36,6 +36,12 @@ namespace MeetCode.Application.Commands.CommandHandlers.Tag
                 return Result.Error($"Tag {request.TagId} does not exist");
             }
 
+            if (tag.Problems.Count() != 0)
+            {
+                _logger.LogWarning($"Tag {request.TagId} got relationship with another enity");
+                return Result.Error($"Tag {request.TagId} got relationship with another enity");
+            }
+
             await _tagService.DeleteTagAsync(tag, ct);
             _logger.LogInformation($"Tag {request.TagId} deleted successfully");
 

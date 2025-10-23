@@ -27,19 +27,19 @@ namespace MeetCode.Application.Commands.CommandHandlers.Tag
 
         public async Task<Result<TagUpdateCommandResult>> Handle(TagUpdateCommand request, CancellationToken ct)
         {
-            _logger.LogInformation($"Attempting to update tag {request.Name}");
+            _logger.LogInformation($"Attempting to update tag {request.TagId}");
 
             var tag = await _tagService.FindTagByIdAsync(request.TagId, ct);
             if (tag == null)
             {
-                _logger.LogWarning($"No existing tag with name {request.Name}");
-                return Result.NotFound($"No existing tag with name {request.Name}");
+                _logger.LogWarning($"No existing tag with id {request.TagId}");
+                return Result.NotFound($"No existing tag with id {request.TagId}");
             }
 
-            tag.Name = request.Name;
+            tag.Name = request.NewTagName;
 
             await _tagService.UpdateTagAsync(tag, ct);
-            _logger.LogInformation($"Tag {request.Name} updated successfully to {tag.Name}");
+            _logger.LogInformation($"Tag {request.NewTagName} updated successfully ");
             var result = new TagUpdateCommandResult(tag);
             return Result.Success(result);
         }

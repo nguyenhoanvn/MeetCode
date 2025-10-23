@@ -26,12 +26,12 @@ namespace MeetCode.Application.Queries.QueryHandlers.Tag
 
         public async Task<Result<TagReadQueryResult>> Handle(TagReadQuery request, CancellationToken ct)
         {
-            _logger.LogInformation($"Attempting to retrieve tag {request.Name}");
-            var tag = await _tagService.FindTagByNameAsync(request.Name, ct);
+            _logger.LogInformation($"Attempting to retrieve tag {request.TagId}");
+            var tag = await _tagService.FindTagByIdAsync(request.TagId, ct);
             if (tag == null)
             {
-                _logger.LogWarning($"Tag with name {request.Name} does not exist");
-                return Result.NotFound($"Tag with name {request.Name} does not exist");
+                _logger.LogWarning($"Tag with id {request.TagId} does not exist");
+                return Result.NotFound($"Tag with id {request.TagId} does not exist");
             }
 
             var result = new TagReadQueryResult(tag);
