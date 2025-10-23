@@ -10,5 +10,5 @@ using MeetCode.Domain.Entities;
 
 namespace MeetCode.Application.Commands.CommandEntities.Tag
 {
-    public sealed record TagUpdateCommand(Guid TagId, string Name) : IRequest<Result<TagUpdateCommandResult>>;
+    public sealed record TagUpdateCommand(Guid TagId, string NewTagName) : IRequest<Result<TagUpdateCommandResult>>;
 }

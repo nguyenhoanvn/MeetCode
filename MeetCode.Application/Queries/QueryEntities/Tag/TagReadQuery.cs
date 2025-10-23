@@ -9,5 +9,5 @@ using MeetCode.Application.Queries.QueryResults.Tag;
 
 namespace MeetCode.Application.Queries.QueryEntities.Tag
 {
-    public sealed record TagReadQuery(string Name) : IRequest<Result<TagReadQueryResult>>;
+    public sealed record TagReadQuery(Guid TagId) : IRequest<Result<TagReadQueryResult>>;
 }
