@@ -16,15 +16,46 @@
         public async Task InvokeAsync(HttpContext context)
         {
             var fullUrl = $"{context.Request.Method} {context.Request.Path}{context.Request.QueryString}";
-            _logger.LogInformation($"Incoming request: {fullUrl}");
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+            _logger.LogInformation("Incoming request: {RequestUrl}", fullUrl);
 
             try
             {
                 await _next(context);
-                _logger.LogInformation($"Request {fullUrl} executed successfully");
-            } catch (Exception)
+                stopwatch.Stop();
+                var statusCode = context.Response.StatusCode;
+                if (statusCode == 200)
+                {
+                    _logger.LogInformation(
+                        "Request {RequestUrl} executed successfully in {ElapsedMs}ms",
+                        fullUrl,
+                        stopwatch.ElapsedMilliseconds);
+                }
+                else if (statusCode >= 400 && statusCode < 500)
+                {
+                    _logger.LogWarning(
+                        "Request {RequestUrl} failed with client error {StatusCode} in {ElapsedMs}ms",
+                        fullUrl,
+                        statusCode,
+                        stopwatch.ElapsedMilliseconds);
+                }
+                else
+                {
+                    _logger.LogInformation(
+                        "Request {RequestUrl} completed with status {StatusCode} in {ElapsedMs}ms",
+                        fullUrl,
+                        statusCode,
+                        stopwatch.ElapsedMilliseconds);
+                }
+            }
+            catch (Exception ex)
             {
-                _logger.LogWarning($"Request {fullUrl} failed with exception");
+                stopwatch.Stop();
+                _logger.LogError(ex,
+                    "Request {RequestUrl} failed with EXCEPTION in {ElapsedMs}ms",
+                    fullUrl,
+                    stopwatch.ElapsedMilliseconds);
                 throw;
             }
         }
