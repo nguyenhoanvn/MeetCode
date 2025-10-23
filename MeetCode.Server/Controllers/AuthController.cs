@@ -54,22 +54,18 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken ct)
+    public async Task<Result<LoginResponse>> Login([FromBody] LoginRequest request, CancellationToken ct)
     {
-        if (request == null)
-        {
-            return BadRequest("Invalid Login request body");
-        }
 
         var cmd = _mapper.Map<LoginUserQuery>(request);
 
         var result = await _mediator.Send(cmd, ct);
-        
-        var resp = _mapper.Map<LoginResponse>(result.Value);
+
+        var resp = result.Map(value => _mapper.Map<LoginResponse>(value));
 
         HttpContext.Response.Cookies.Append(
             "accessToken",
-            resp.AccessToken,
+            resp.Value.AccessToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -79,7 +75,7 @@ public class AuthController : ControllerBase
             });
         HttpContext.Response.Cookies.Append(
             "refreshToken",
-            resp.RefreshToken,
+            resp.Value.RefreshToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -88,7 +84,7 @@ public class AuthController : ControllerBase
                 Expires = DateTimeOffset.UtcNow.AddMinutes(30)
             });
 
-        return Ok(resp);
+        return resp;
     }
 
     [Authorize(Roles = "user")]
@@ -96,22 +92,24 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Refresh(CancellationToken ct)
+    public async Task<Result<RefreshTokenResponse>> Refresh(CancellationToken ct)
     { 
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
                 string.IsNullOrWhiteSpace(refreshTokenPlain))
         {
             _logger.LogWarning("Refresh token failed because of mission token");
-            return Unauthorized("Missing refresh token");
+            return Result.Unauthorized("Missing refresh token");
         }
 
         var cmd = _mapper.Map<RefreshTokenCommand>(refreshTokenPlain);
 
         var result = await _mediator.Send(cmd, ct);
 
+        var resp = result.Map(value => _mapper.Map<RefreshTokenResponse>(value));
+
         HttpContext.Response.Cookies.Append(
             "accessToken",
-            result.Value.AccessToken,
+            resp.Value.AccessToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -122,7 +120,7 @@ public class AuthController : ControllerBase
 
         HttpContext.Response.Cookies.Append(
             "refreshToken",
-            result.Value.RefreshToken,
+            resp.Value.RefreshToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -131,37 +129,35 @@ public class AuthController : ControllerBase
                 Expires = DateTimeOffset.UtcNow.AddDays(30)
             });
 
-        var resp = _mapper.Map<RefreshTokenResponse>(result.Value);
-
-        return Ok(resp);
+        return resp;
     }
 
     [HttpPost("forgot-password")]
     [ProducesResponseType(typeof(ForgotPasswordResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request, CancellationToken ct)
+    public async Task<Result<ForgotPasswordResponse>> ForgotPassword([FromBody] ForgotPasswordRequest request, CancellationToken ct)
     {
-        _logger.LogInformation("Forgot password started");
         var cmd = _mapper.Map<ForgotPasswordQuery>(request);
+
         var result = await _mediator.Send(cmd, ct);
 
-        _logger.LogInformation("Forgot password ended");
-        var resp = _mapper.Map<ForgotPasswordResponse>(result.Value);
-        return Ok(resp);
+        var resp = result.Map(value => _mapper.Map<ForgotPasswordResponse>(value));
+        return resp;
     }
 
     [HttpPost("reset-password")]
     [ProducesResponseType(typeof(ResetPasswordResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken ct)
+    public async Task<Result<ResetPasswordResponse>> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken ct)
     {
         var cmd = _mapper.Map<ResetPasswordCommand>(request);
 
         var result = await _mediator.Send(cmd, ct);
 
-        var resp = _mapper.Map<ResetPasswordResponse>(result.Value);
-        return Ok(resp);
+        var resp = result.Map(value => _mapper.Map<ResetPasswordResponse>(value));
+
+        return resp;
     }
 }

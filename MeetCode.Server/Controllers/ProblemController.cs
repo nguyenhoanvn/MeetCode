@@ -20,18 +20,15 @@ namespace MeetCode.Server.Controllers
     {
         private readonly ISender _mediator;
         private readonly IMapper _mapper;
-        private readonly ILogger<ProblemController> _logger;
 
         public ProblemController(
             ISender mediator,
-            IMapper mapper,
-            ILogger<ProblemController> logger)
+            IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _logger = logger;
         }
-        [HttpPost("create")]
+        [HttpPost]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status201Created)]
         [ExpectedFailures(ResultStatus.Forbidden, ResultStatus.Conflict, ResultStatus.Error)]
@@ -70,7 +67,7 @@ namespace MeetCode.Server.Controllers
             return result.Map(value => _mapper.Map<ProblemResponse>(value));
         }
 
-        [HttpPut("update/{problemId}")]
+        [HttpPut("{problemId}")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Conflict, ResultStatus.Forbidden, ResultStatus.Error)]
@@ -83,7 +80,7 @@ namespace MeetCode.Server.Controllers
             return result.Map(value => _mapper.Map<ProblemResponse>(value));
         }
 
-        [HttpPost("delete/{problemId}")]
+        [HttpDelete("{problemId}")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(ProblemMessageResponse), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error, ResultStatus.Forbidden)]
@@ -93,7 +90,9 @@ namespace MeetCode.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            return result.Map(value => _mapper.Map<ProblemMessageResponse>(value));
+            var resp = result.Map(value => _mapper.Map<ProblemMessageResponse>(value));
+
+            return resp;
         }
     }
 }
