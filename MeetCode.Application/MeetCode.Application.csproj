@@ -20,9 +20,5 @@
  <ItemGroup>
     <ProjectReference Include="..\MeetCode.Domain\MeetCode.Domain.csproj" />
   </ItemGroup>
-	
- <ItemGroup>
-   <Folder Include="Commands\CommandValidators\Tag\" />
- </ItemGroup>
 
 </Project>
