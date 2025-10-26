@@ -94,5 +94,20 @@ namespace MeetCode.Server.Controllers
 
             return resp;
         }
+
+        [HttpGet("search")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemAllResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error)]
+        public async Task<Result<ProblemAllResponse>> ProblemSearch([FromQuery] string name, CancellationToken ct)
+        {
+            var cmd = new ProblemSearchQuery(name);
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = result.Map(value => _mapper.Map<ProblemAllResponse>(value));
+
+            return resp;
+        }
     }
 }

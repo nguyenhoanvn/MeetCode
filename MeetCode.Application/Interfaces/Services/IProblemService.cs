@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace MeetCode.Application.Interfaces.Services
         Task<Problem?> FindProblemBySlugAsync(string problemSlug, CancellationToken ct);
         Task<Problem?> UpdateProblemAsync(ProblemUpdateCommand problem, CancellationToken ct);
         Task DeleteProblemAsync(Problem problemToDelete, CancellationToken ct);
+        Task<IEnumerable<Problem>> ReadAllProblemsBySlugAsync(string slug, CancellationToken ct);
         
     }
 }

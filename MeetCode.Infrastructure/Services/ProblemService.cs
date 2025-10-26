@@ -133,5 +133,11 @@ namespace MeetCode.Infrastructure.Services
             }
             _logger.LogInformation($"Delete successfully for {problemToDelete}");
         }
+
+        public async Task<IEnumerable<Problem>> ReadAllProblemsBySlugAsync(string slug, CancellationToken ct)
+        {
+            _logger.LogInformation($"Attempting to retrieve all problems with slug {slug}");
+            return await _problemRepository.GetAllBySlugAsync(slug, ct);
+        }
     }
 }

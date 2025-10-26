@@ -64,5 +64,13 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(p => p.Submissions)
                 .FirstOrDefaultAsync(p => p.Slug == slug, ct);
         }
+        public async Task<IEnumerable<Problem>> GetAllBySlugAsync(string slug, CancellationToken ct)
+        {
+            return await _db.Problems
+                .Include(p => p.Tags)
+                .Include(p => p.TestCases)
+                .Include(p => p.Submissions)
+                .Where(p => p.Slug.Contains(slug)).ToListAsync();
+        }
     }
 }

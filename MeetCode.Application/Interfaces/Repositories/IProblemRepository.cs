@@ -10,5 +10,6 @@ namespace MeetCode.Application.Interfaces.Repositories
     public interface IProblemRepository : IRepository<Problem>
     {
         Task<Problem?> GetBySlugAsync(string slug, CancellationToken ct);
+        Task<IEnumerable<Problem>> GetAllBySlugAsync(string slug, CancellationToken ct);
     }
 }
