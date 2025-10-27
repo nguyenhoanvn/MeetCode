@@ -115,7 +115,7 @@ namespace MeetCode.Infrastructure.Services
             problem.UpdateTags(tagList);
 
             await _unitOfWork.BeginTransactionAsync(ct);
-            await _problemRepository.Update(problem, ct);
+            await _problemRepository.Update(problem);
             await _unitOfWork.CommitTransactionAsync(ct);
             _logger.LogInformation($"Update problem successfully to {problem.ToString}");
             return problem;
@@ -124,7 +124,7 @@ namespace MeetCode.Infrastructure.Services
         public async Task DeleteProblemAsync(Problem problemToDelete, CancellationToken ct)
         {
             _logger.LogInformation($"Attempting to delete problem: {problemToDelete}");
-            await _problemRepository.Delete(problemToDelete, ct);
+            await _problemRepository.Delete(problemToDelete);
             var saved = await _unitOfWork.SaveChangesAsync(ct);
             if (saved <= 0)
             {

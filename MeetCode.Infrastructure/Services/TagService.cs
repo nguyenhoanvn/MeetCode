@@ -59,14 +59,14 @@ namespace MeetCode.Infrastructure.Services
 
         public async Task<ProblemTag?> UpdateTagAsync(ProblemTag newTag, CancellationToken ct)
         {
-            await _tagRepository.Update(newTag, ct);
+            await _tagRepository.Update(newTag);
             await _unitOfWork.SaveChangesAsync(ct);
             return newTag;
         }
 
         public async Task DeleteTagAsync(ProblemTag problemToDelete, CancellationToken ct)
         {
-            await _tagRepository.Delete(problemToDelete, ct);
+            await _tagRepository.Delete(problemToDelete);
             await _unitOfWork.SaveChangesAsync(ct);
         }
 

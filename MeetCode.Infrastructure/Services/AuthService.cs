@@ -37,7 +37,7 @@ namespace MeetCode.Infrastructure.Services
                 throw new InvalidOperationException($"User cannot be found with id: {userId}");
             }
             user.LastLoginAt = DateTimeOffset.UtcNow;
-            await _userRepository.Update(user, ct);
+            await _userRepository.Update(user);
             await _unitOfWork.SaveChangesAsync(ct);
             _logger.LogInformation("Successfully updated login time for user {UserId}", userId);
         }
