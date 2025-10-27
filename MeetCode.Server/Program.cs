@@ -77,6 +77,7 @@ builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<ITestCaseRepository, TestCaseRepository>();
 
 // Services 
 builder.Services.AddScoped<ISessionService, SessionService>();
@@ -87,6 +88,7 @@ builder.Services.AddScoped<ICacheService, RedisService>();
 builder.Services.AddScoped<IEmailService, GmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<ITestCaseService, TestCaseService>();
 
 builder.Services.AddControllers(options =>
 {
