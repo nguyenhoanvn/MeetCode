@@ -20,9 +20,9 @@ namespace MeetCode.Server.Middlewares
         }
 
         public async Task<TResponse> Handle(
-        TRequest request,
-        RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
+            TRequest request,
+            RequestHandlerDelegate<TResponse> next,
+            CancellationToken cancellationToken)
         {
             if (!_validators.Any())
                 return await next();
@@ -39,6 +39,18 @@ namespace MeetCode.Server.Middlewares
                 var validationErrors = failures
                     .Select(f => new ValidationError(f.PropertyName, f.ErrorMessage))
                     .ToList();
+
+                if (typeof(TResponse).IsGenericType &&
+                typeof(TResponse).GetGenericTypeDefinition() == typeof(Result<>))
+                {
+                    var resultType = typeof(TResponse).GetGenericArguments()[0];
+                    var genericInvalid = typeof(Result<>)
+                        .MakeGenericType(resultType)
+                        .GetMethod(nameof(Result<object>.Invalid), new[] { typeof(List<ValidationError>) })
+                        ?.Invoke(null, new object[] { validationErrors });
+
+                    return (TResponse)genericInvalid!;
+                }
 
                 return (TResponse)(object)Result.Invalid(validationErrors);
             }
