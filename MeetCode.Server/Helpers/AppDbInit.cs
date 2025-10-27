@@ -2,6 +2,7 @@
 using MeetCode.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using MeetCode.Application.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeetCode.Server.Helpers
 {
@@ -16,8 +17,10 @@ namespace MeetCode.Server.Helpers
                 return;
             foreach (var user in users)
             {
-                var existingUser = await context.Users.FindAsync(user.UserId, ct);
-            
+                var existingUser = await context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == user.Email, ct);
+
                 if (existingUser == null)
                 {
                     var newUser = new User
