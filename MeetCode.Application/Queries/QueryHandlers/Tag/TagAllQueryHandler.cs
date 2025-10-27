@@ -29,10 +29,9 @@ namespace MeetCode.Application.Queries.QueryHandlers.Tag
         {
             _logger.LogInformation("Attempting to retrieve all tag");
             var tagList = await _tagService.ReadAllTagsAsync(ct);
-            if (tagList == null)
+            if (tagList.Count() == 0)
             {
                 _logger.LogWarning("Cannot find any tag");
-                return Result.Error("Cannot find any tag");
             }
             var result = new TagAllQueryResult(tagList);
             return Result.Success(result);

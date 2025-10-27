@@ -26,7 +26,7 @@ namespace MeetCode.Server.Controllers
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(TagResponse), StatusCodes.Status201Created)]
         [ExpectedFailures(ResultStatus.Forbidden, ResultStatus.Conflict, ResultStatus.Error)]
-        public async Task<Result<TagResponse>> CreateTag([FromBody] TagAddRequest request, CancellationToken ct)
+        public async Task<Result<TagResponse>> TagCreate([FromBody] TagAddRequest request, CancellationToken ct)
         {
             var cmd = _mapper.Map<TagAddCommand>(request);
 
