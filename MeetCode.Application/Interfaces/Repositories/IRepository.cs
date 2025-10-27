@@ -13,7 +13,7 @@ namespace MeetCode.Application.Interfaces.Repositories
         Task<T?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<IEnumerable<T>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct);
         Task AddAsync(T entity, CancellationToken ct);
-        Task Update(T newEntity, CancellationToken ct);
-        Task Delete(T entityToDelete, CancellationToken ct);
+        Task Update(T newEntity);
+        Task Delete(T entityToDelete);
     }
 }

@@ -38,11 +38,11 @@ namespace MeetCode.Infrastructure.Repositories
         {
             await _db.RefreshTokens.AddAsync(refreshToken, ct);
         }
-        public Task Update(RefreshToken refreshToken, CancellationToken ct)
+        public Task Update(RefreshToken refreshToken)
         {
             throw new NotImplementedException();
         }
-        public async Task Delete(RefreshToken tokenToDelete, CancellationToken ct)
+        public Task Delete(RefreshToken tokenToDelete)
         {
             throw new NotImplementedException();
         }

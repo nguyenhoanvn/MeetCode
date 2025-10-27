@@ -46,15 +46,15 @@ namespace MeetCode.Infrastructure.Repositories
         {
             await _db.Problems.AddAsync(problem, ct);
         }
-        public async Task Update(Problem newProblem, CancellationToken ct)
+        public Task Update(Problem newProblem)
         {
             _db.Problems.Update(newProblem);
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
-        public async Task Delete(Problem problemToDelete, CancellationToken ct)
+        public Task Delete(Problem problemToDelete)
         {
             _db.Problems.Remove(problemToDelete);
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         }
         public async Task<Problem?> GetBySlugAsync(string slug, CancellationToken ct)
         {

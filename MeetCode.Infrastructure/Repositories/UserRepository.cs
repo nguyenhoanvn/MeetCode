@@ -38,12 +38,12 @@ namespace MeetCode.Infrastructure.Repositories
         {
             await _db.Users.AddAsync(user, ct);
         }
-        public Task Update(User newUser, CancellationToken ct)
+        public Task Update(User newUser)
         {
             _db.Users.Update(newUser);
             return Task.CompletedTask;
         }
-        public async Task Delete(User userToDelete, CancellationToken ct)
+        public Task Delete(User userToDelete)
         {
             throw new InvalidOperationException();
         }

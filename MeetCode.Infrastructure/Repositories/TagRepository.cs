@@ -41,12 +41,12 @@ namespace MeetCode.Infrastructure.Repositories
             await _db.ProblemTags.AddAsync(entity, ct);
         }
 
-        public Task Update(ProblemTag newEntity, CancellationToken ct)
+        public Task Update(ProblemTag newEntity)
         {
             _db.ProblemTags.Update(newEntity);
             return Task.CompletedTask;
         }
-        public Task Delete(ProblemTag entityToDelete, CancellationToken ct)
+        public Task Delete(ProblemTag entityToDelete)
         {
             _db.ProblemTags.Remove(entityToDelete);
             return Task.CompletedTask;
