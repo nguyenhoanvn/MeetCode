@@ -1,4 +1,5 @@
 ﻿using MeetCode.Server.DTOs.Response.Tag;
+using MeetCode.Server.DTOs.Response.TestCase;
 
 namespace MeetCode.Server.DTOs.Response.Problem
 {
@@ -10,6 +11,7 @@ namespace MeetCode.Server.DTOs.Response.Problem
         int TotalSubmissionCount,
         int ScoreAcceptedCount,
         double? AcceptanceRate,
-        List<TagResponse> TagList
+        List<TagResponse> TagList,
+        List<TestCaseResponse> TestCaseList
         );
 }
