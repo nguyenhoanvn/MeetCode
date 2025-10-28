@@ -42,6 +42,16 @@ namespace MeetCode.Server.Mapping
                 .ConstructUsing((src, context) => new TestCaseAllResponse(
                         context.Mapper.Map<IEnumerable<TestCaseResponse>>(src.TestCaseList)
                     ));
+
+            // Get
+            CreateMap<(Guid testId, TestCaseReadRequest request), TestCaseReadQuery>()
+                .ConstructUsing(src => new TestCaseReadQuery(
+                        src.testId
+                    ));
+            CreateMap<TestCaseReadQueryResult, TestCaseResponse>()
+                .ConstructUsing((src, context) =>
+                        context.Mapper.Map<TestCaseResponse>(src.TestCase)
+                    );
         }
     }
 }

@@ -54,7 +54,8 @@ namespace MeetCode.Infrastructure.Services
         }
         public async Task<TestCase?> FindTestCaseByIdAsync(Guid testId, CancellationToken ct)
         {
-            return await _testCaseRepository.GetByIdAsync(testId, ct);
+            var testCase = await _testCaseRepository.GetByIdAsync(testId, ct);
+            return testCase;
         }
         public async Task<IEnumerable<TestCase>> ReadAllTestCasesAsync(CancellationToken ct)
         {
@@ -62,11 +63,14 @@ namespace MeetCode.Infrastructure.Services
         }
         public async Task<TestCase?> UpdateTestCaseAsync(TestCase newTestCase, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            await _testCaseRepository.Update(newTestCase);
+            await _unitOfWork.SaveChangesAsync(ct);
+            return newTestCase;
         }
         public async Task DeleteTestCaseAsync(TestCase testCaseToDelete, CancellationToken ct)
         {
-
+            await _testCaseRepository.Delete(testCaseToDelete);
+            await _unitOfWork.SaveChangesAsync(ct);
         }
     }
 }

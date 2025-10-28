@@ -55,5 +55,22 @@ namespace MeetCode.Server.Controllers
 
             return resp;
         }
+
+        [HttpGet("{testId}")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(TestCaseResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error)]
+        public async Task<Result<TestCaseResponse>> TestCaseRead([FromRoute] Guid testId, CancellationToken ct)
+        {
+            var request = new TestCaseReadRequest();
+
+            var cmd = _mapper.Map<TestCaseReadQuery>((testId, request));
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = result.Map(value => _mapper.Map<TestCaseResponse>(value));
+
+            return resp;
+        }
     }
 }
