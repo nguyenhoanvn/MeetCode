@@ -59,5 +59,13 @@ namespace MeetCode.Infrastructure.Repositories
                 && tc.ExpectedOutputText.ToLower() == outputText.ToLower()
                 && tc.ProblemId == problemId), ct);
         }
+        public async Task<bool> IsTestCaseExistsAsync(string inputText, string outputText, Guid problemId, CancellationToken ct)
+        {
+            return await _db.TestCases
+                .AsNoTracking()
+                .AnyAsync(tc => tc.InputText.ToLower() == inputText.ToLower()
+                && tc.ExpectedOutputText.ToLower() == outputText.ToLower()
+                && tc.ProblemId == problemId, ct);
+        }
     }
 }

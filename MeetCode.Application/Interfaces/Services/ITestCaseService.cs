@@ -12,7 +12,7 @@ namespace MeetCode.Application.Interfaces.Services
         Task<TestCase> CreateTestCaseAsync(string visibility, string inputText, string expectedOutputText, int weight, Guid problemId, CancellationToken ct);
         Task<TestCase?> FindTestCaseByIdAsync(Guid testId, CancellationToken ct);
         Task<IEnumerable<TestCase>> ReadAllTestCasesAsync(CancellationToken ct);
-        Task<TestCase?> UpdateTestCaseAsync(TestCase newTestCase, CancellationToken ct);
+        Task<TestCase> UpdateTestCaseAsync(Guid testCaseId, string visibility, string inputText, string expectedOutputText, int weight, CancellationToken ct);
         Task DeleteTestCaseAsync(TestCase testCaseToDelete, CancellationToken ct);
     }
 }

@@ -18,4 +18,12 @@ public partial class TestCase
     public int Weight { get; set; }
 
     public virtual Problem Problem { get; set; } = null!;
+
+    public void UpdateBasic(string visibility, string inputText, string expectedOutputText, int weight)
+    {
+        Visibility = visibility;
+        InputText = inputText;
+        ExpectedOutputText = expectedOutputText;
+        Weight = weight;
+    }
 }

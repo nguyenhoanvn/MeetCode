@@ -10,5 +10,6 @@ namespace MeetCode.Application.Interfaces.Repositories
     public interface ITestCaseRepository : IRepository<TestCase>
     {
         Task<TestCase?> GetByInputOutputAndProblemAsync(string inputText, string outputText, Guid problemId, CancellationToken ct);
+        Task<bool> IsTestCaseExistsAsync(string inputText, string outputText, Guid problemId, CancellationToken ct);
     }
 }

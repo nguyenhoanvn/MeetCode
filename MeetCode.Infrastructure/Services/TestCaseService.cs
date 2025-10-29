@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MeetCode.Application.Commands.CommandEntities.TestCase;
 using MeetCode.Application.Interfaces.Repositories;
 using MeetCode.Application.Interfaces.Services;
 using MeetCode.Domain.Entities;
 using MeetCode.Domain.Exceptions;
+using MeetCode.Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace MeetCode.Infrastructure.Services
@@ -61,11 +63,26 @@ namespace MeetCode.Infrastructure.Services
         {
             return await _testCaseRepository.GetAsync(ct);
         }
-        public async Task<TestCase?> UpdateTestCaseAsync(TestCase newTestCase, CancellationToken ct)
+        public async Task<TestCase> UpdateTestCaseAsync(Guid testCaseId, string visibility, string inputText, string expectedOutputText, int weight, CancellationToken ct)
         {
-            await _testCaseRepository.Update(newTestCase);
-            await _unitOfWork.SaveChangesAsync(ct);
-            return newTestCase;
+            var testCase = await _testCaseRepository.GetByIdAsync(testCaseId, ct);
+            if (testCase == null)
+            {
+                _logger.LogWarning($"Cannot find test case with id {testCaseId}");
+                throw new EntityNotFoundException<TestCase>(nameof(testCaseId), testCaseId.ToString());
+            }
+
+            testCase.UpdateBasic(visibility, inputText, expectedOutputText, weight);
+            if (await _testCaseRepository.IsTestCaseExistsAsync(inputText, expectedOutputText, testCase.ProblemId, ct))
+            {
+                _logger.LogWarning($"Test case with input {inputText}, output {expectedOutputText} and problem {testCase.ProblemId} already exists");
+                throw new DuplicateEntityException<Problem>(nameof(inputText), inputText);
+            }
+
+            await _unitOfWork.BeginTransactionAsync(ct);
+            await _testCaseRepository.Update(testCase);
+            await _unitOfWork.CommitTransactionAsync(ct);
+            return testCase;
         }
         public async Task DeleteTestCaseAsync(TestCase testCaseToDelete, CancellationToken ct)
         {
