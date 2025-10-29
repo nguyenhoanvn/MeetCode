@@ -52,6 +52,27 @@ namespace MeetCode.Server.Mapping
                 .ConstructUsing((src, context) =>
                         context.Mapper.Map<TestCaseResponse>(src.TestCase)
                     );
+
+            // Update
+            CreateMap<(Guid testId, TestCaseUpdateRequest request), TestCaseUpdateCommand>()
+                .ConstructUsing(src => new TestCaseUpdateCommand(
+                        src.testId,
+                        src.request.Visibility,
+                        src.request.InputText,
+                        src.request.ExpectedOutputText,
+                        src.request.Weight
+                    ));
+            CreateMap<TestCaseUpdateCommandResult, TestCaseResponse>()
+                .ConstructUsing((src, context) =>
+                        context.Mapper.Map<TestCaseResponse>(src.TestCase)
+                    );
+
+            // Delete
+            CreateMap<(Guid testId, TestCaseDeleteRequest request), TestCaseDeleteCommand>()
+                .ConstructUsing(src => new TestCaseDeleteCommand(
+                        src.testId
+                    ));
+            CreateMap<TestCaseDeleteCommandResult, TestCaseMessageResponse>();
         }
     }
 }

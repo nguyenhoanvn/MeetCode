@@ -72,5 +72,35 @@ namespace MeetCode.Server.Controllers
 
             return resp;
         }
+
+        [HttpPut("{testId}")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(TestCaseResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error)]
+        public async Task<Result<TestCaseResponse>> TestCaseUpdate([FromRoute] Guid testId, TestCaseUpdateRequest request, CancellationToken ct) 
+        {
+            var cmd = _mapper.Map<TestCaseUpdateCommand>((testId, request));
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = result.Map(value => _mapper.Map<TestCaseResponse>(value));
+
+            return resp;
+        }
+
+        [HttpDelete("{testId}")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(TestCaseMessageResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error)]
+        public async Task<Result<TestCaseMessageResponse>> TestCaseDelete([FromRoute] Guid testId, TestCaseDeleteRequest request, CancellationToken ct)
+        {
+            var cmd = _mapper.Map<TestCaseDeleteCommand>((testId, request));
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = result.Map(value => _mapper.Map<TestCaseMessageResponse>(value));
+
+            return resp;
+        }
     }
 }
