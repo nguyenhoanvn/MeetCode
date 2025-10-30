@@ -72,5 +72,12 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(p => p.Submissions)
                 .Where(p => p.Slug.Contains(slug)).ToListAsync();
         }
+
+        public async Task<bool> IsProblemExistsAsync(string slug, CancellationToken ct)
+        {
+            return await _db.Problems
+                .AsNoTracking()
+                .AnyAsync(p => p.Slug == slug, ct);
+        }
     }
 }
