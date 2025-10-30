@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
     }
 
     [Authorize(Roles = "user")]
-    [HttpPost("refresh")]
+    [HttpGet("refresh")]
     [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
