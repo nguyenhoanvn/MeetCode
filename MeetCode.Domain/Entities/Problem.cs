@@ -42,6 +42,11 @@ public partial class Problem
 
     public virtual ICollection<ProblemTag> Tags { get; set; } = new List<ProblemTag>();
 
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
+
     public void GenerateSlug()
     {
         Slug = Regex.Replace(Title.ToLowerInvariant().Trim(), @"\s+", "-").ToLowerInvariant();

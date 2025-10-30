@@ -18,6 +18,10 @@ public partial class TestCase
     public int Weight { get; set; }
 
     public virtual Problem Problem { get; set; } = null!;
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 
     public void UpdateBasic(string visibility, string inputText, string expectedOutputText, int weight)
     {

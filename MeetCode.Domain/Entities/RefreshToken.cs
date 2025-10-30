@@ -19,6 +19,10 @@ public partial class RefreshToken
 
     public virtual User User { get; set; } = null!;
 
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
     public bool IsValid()
     {
         return !IsRevoked && ExpiresAt > DateTimeOffset.UtcNow;

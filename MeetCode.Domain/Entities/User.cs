@@ -34,4 +34,8 @@ public partial class User
     public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
 
     public virtual UserStat? UserStat { get; set; }
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

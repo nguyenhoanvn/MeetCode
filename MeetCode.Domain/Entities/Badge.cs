@@ -16,4 +16,8 @@ public partial class Badge
     public string? Description { get; set; }
 
     public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

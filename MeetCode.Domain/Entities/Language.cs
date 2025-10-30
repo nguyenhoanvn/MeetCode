@@ -20,4 +20,8 @@ public partial class Language
     public bool IsEnabled { get; set; }
 
     public virtual ICollection<Submission> Submissions { get; set; } = new List<Submission>();
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

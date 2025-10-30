@@ -20,4 +20,9 @@ public partial class AuditLog
     public string? MetadataJson { get; set; }
 
     public virtual User ActorUser { get; set; } = null!;
+
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

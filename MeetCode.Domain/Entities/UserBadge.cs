@@ -14,4 +14,8 @@ public partial class UserBadge
     public virtual Badge Badge { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

@@ -12,4 +12,8 @@ public partial class Leaderboard
     public DateTimeOffset SnapshotAt { get; set; }
 
     public string PayloadJson { get; set; } = null!;
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

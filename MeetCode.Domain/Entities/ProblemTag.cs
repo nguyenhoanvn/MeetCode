@@ -10,4 +10,8 @@ public partial class ProblemTag
     public string Name { get; set; } = null!;
 
     public virtual ICollection<Problem> Problems { get; set; } = new List<Problem>();
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

@@ -38,4 +38,8 @@ public partial class Submission
     public virtual Problem Problem { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }

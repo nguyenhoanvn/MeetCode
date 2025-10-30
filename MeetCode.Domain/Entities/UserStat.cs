@@ -18,4 +18,8 @@ public partial class UserStat
     public int Rating { get; set; }
 
     public virtual User User { get; set; } = null!;
+    public override string ToString()
+    {
+        return this.ToGenericString();
+    }
 }
