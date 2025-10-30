@@ -55,7 +55,10 @@ namespace MeetCode.Infrastructure.Services
             if (existing != null)
             {
                 _logger.LogWarning($"Problem {title} already in database");
-                throw new DuplicateEntityException<Problem>(nameof(newProblem.Title), newProblem.Title);
+                throw new DuplicateEntityException<Problem>(new Dictionary<string, string>
+                {
+                    {nameof(newProblem.Title), newProblem.Title }
+                });
             }
 
             // Find tags
@@ -95,35 +98,35 @@ namespace MeetCode.Infrastructure.Services
             return await _problemRepository.GetBySlugAsync(problemSlug, ct);
         }
 
-        public async Task<Problem?> UpdateProblemAsync(ProblemUpdateCommand request, CancellationToken ct)
+        public async Task<Problem> UpdateProblemAsync(Guid problemId, string title, string statementMd, string difficulty, IEnumerable<Guid> tagIds, CancellationToken ct)
         {
-            _logger.LogInformation($"Attempting to update problem to {request.NewTitle}");
-            var problem = await _problemRepository.GetByIdAsync(request.ProblemId, ct);
+            var problem = await _problemRepository.GetByIdAsync(problemId, ct);
             if (problem == null)
             {
-                _logger.LogWarning($"Cannot find problem with id {request.ProblemId}");
-                throw new EntityNotFoundException<Problem>(nameof(request.ProblemId), request.ProblemId.ToString());
+                _logger.LogWarning($"Cannot find problem with id {problemId}");
+                throw new EntityNotFoundException<Problem>(nameof(problemId), problemId.ToString());
             }
 
-            problem.UpdateBasic(request.NewTitle, request.NewStatementMd, request.NewDifficulty);
-            if (await _problemRepository.GetBySlugAsync(problem.Slug, ct) != null)
+            problem.UpdateBasic(title, statementMd, difficulty);
+            if (await _problemRepository.IsProblemExistsAsync(problem.Slug, ct))
             {
                 _logger.LogWarning($"Problem with slug {problem.Slug} already exists");
-                throw new DuplicateEntityException<Problem>(nameof(problem.Slug), problem.Slug);
+                throw new DuplicateEntityException<Problem>(new Dictionary<string, string>
+                {
+                    {nameof(problem.Slug), problem.Slug }
+                });
             }
-            var tagList = await _tagRepository.GetByIdsAsync(request.TagIds, ct);
+            var tagList = await _tagRepository.GetByIdsAsync(tagIds, ct);
             problem.UpdateTags(tagList);
 
             await _unitOfWork.BeginTransactionAsync(ct);
             await _problemRepository.Update(problem);
             await _unitOfWork.CommitTransactionAsync(ct);
-            _logger.LogInformation($"Update problem successfully to {problem.ToString}");
             return problem;
         }
 
         public async Task DeleteProblemAsync(Problem problemToDelete, CancellationToken ct)
         {
-            _logger.LogInformation($"Attempting to delete problem: {problemToDelete}");
             await _problemRepository.Delete(problemToDelete);
             var saved = await _unitOfWork.SaveChangesAsync(ct);
             if (saved <= 0)
@@ -131,7 +134,6 @@ namespace MeetCode.Infrastructure.Services
                 _logger.LogWarning($"Failed to delete problem {problemToDelete.Title}");
                 throw new DbUpdateException("Failed to save the new problem to the database.");
             }
-            _logger.LogInformation($"Delete successfully for {problemToDelete}");
         }
 
         public async Task<IEnumerable<Problem>> ReadAllProblemsBySlugAsync(string slug, CancellationToken ct)

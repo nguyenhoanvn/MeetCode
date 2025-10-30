@@ -33,7 +33,12 @@ namespace MeetCode.Infrastructure.Services
             if (existing != null)
             {
                 _logger.LogWarning($"Test case with input {inputText}, output {expectedOutputText} and problem {problemId} exists");
-                throw new DuplicateEntityException<TestCase>("input, output and problem ID", $"{inputText}, {expectedOutputText}, {problemId}");
+                throw new DuplicateEntityException<TestCase>(new Dictionary<string, string>
+                {
+                    {nameof(inputText), inputText },
+                    {nameof(expectedOutputText), expectedOutputText },
+                    {nameof(problemId), problemId.ToString() }
+                });
             }
             var testCase = new TestCase
             {
@@ -76,7 +81,12 @@ namespace MeetCode.Infrastructure.Services
             if (await _testCaseRepository.IsTestCaseExistsAsync(inputText, expectedOutputText, testCase.ProblemId, ct))
             {
                 _logger.LogWarning($"Test case with input {inputText}, output {expectedOutputText} and problem {testCase.ProblemId} already exists");
-                throw new DuplicateEntityException<Problem>(nameof(inputText), inputText);
+                throw new DuplicateEntityException<TestCase>(new Dictionary<string, string>
+                {
+                    {nameof(inputText), inputText },
+                    {nameof(expectedOutputText), expectedOutputText },
+                    {nameof(testCase.ProblemId), testCase.ProblemId.ToString() }
+                });
             }
 
             await _unitOfWork.BeginTransactionAsync(ct);

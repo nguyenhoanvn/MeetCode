@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Domain.Exceptions
 {
-    public class DuplicateEntityException<TEntity> : Exception
-    {
-        public string FieldName { get; }
-        public string FieldValue { get; }
-        public DuplicateEntityException(string fieldName, string fieldValue)
-            : base($"{typeof(TEntity).Name} with {fieldName} '{fieldValue}' already exists") 
+
+
+     public class DuplicateEntityException<TEntity> : Exception
+     {
+        public IReadOnlyDictionary<string, string> FieldPairs { get; }
+
+        public DuplicateEntityException(
+            IDictionary<string, string> fieldPairs)
+            : base(BuildMessage(fieldPairs))
         {
-            FieldName = fieldName;
-            FieldValue = fieldValue;
+            FieldPairs = new Dictionary<string, string>(fieldPairs);
         }
-    }
+
+        private static string BuildMessage(IDictionary<string, string> fieldPairs)
+        {
+            var pairs = string.Join(", ", fieldPairs.Select(kv => $"{kv.Key}='{kv.Value}'"));
+            return $"{typeof(TEntity).Name} with {pairs} already exists.";
+        }
+     }
 }
