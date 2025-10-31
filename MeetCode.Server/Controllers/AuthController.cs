@@ -105,7 +105,7 @@ public class AuthController : ControllerBase
 
         var result = await _mediator.Send(cmd, ct);
 
-        var resp = result.Map(value => _mapper.Map<RefreshTokenResponse>(value));
+        var resp = result.Map(value => _mapper.Map<RefreshTokenResponse >(value));
 
         HttpContext.Response.Cookies.Append(
             "accessToken",
