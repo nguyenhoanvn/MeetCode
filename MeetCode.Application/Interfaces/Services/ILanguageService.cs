@@ -9,7 +9,7 @@ namespace MeetCode.Application.Interfaces.Services
 {
     public interface ILanguageService
     {
-        Task<Language> UpdateLanguageAsync(string name, string version, string compileCommand, string runCommand, CancellationToken ct);
+        Task<Language> UpdateLanguageAsync(string name, string version, string runtimeImage, string compileCommand, string runCommand, CancellationToken ct);
         Task<Language?> FindLanguageByNameAsync(string name, CancellationToken ct);
 
     }

@@ -12,29 +12,15 @@ namespace MeetCode.Application.Commands.CommandValidators.Language
     {
         public LanguageUpdateCommandValidator(IDockerValidator dockerValidator)
         {
+            RuleFor(x => x.Version)
+                .NotEmpty().WithMessage("Version is required.")
+                .Must(x => x.Contains(".")).WithMessage("Version is invaliid");
             RuleFor(x => x)
                 .MustAsync(async (x, ct) =>
                 {
-                    var imagePattern = GetImagePattern(x.Name);
-                    var image = imagePattern.Replace("{version}", x.Version);
-
-                    return await dockerValidator.ImageExistsAsync(image, ct);
+                    return await dockerValidator.ImageExistsAsync(x.RuntimeImage, ct);
                 })
-                .WithMessage(x => $"Docker image for {x.Name}:{x.Version} does not exist.");
-        }
-
-        private string GetImagePattern(string languageName)
-        {
-
-            switch (languageName.ToLower())
-            {
-                case "c#":
-                    return "mcr.microsoft.com/dotnet/sdk:{version}";
-                case "java":
-                    return "openjdk:{version}-jdk-slim";
-                default:
-                    throw new InvalidOperationException($"Unsupported language: {languageName}");
-            };
+                .WithMessage(x => $"Docker image for {x.Name}:{x.RuntimeImage} does not exist.");
         }
     }
 
