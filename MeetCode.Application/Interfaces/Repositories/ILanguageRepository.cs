@@ -11,5 +11,6 @@ namespace MeetCode.Application.Interfaces.Repositories
     {
         Task Update(Language newLanguage);
         Task<Language?> GetByNameAsync(string name, CancellationToken ct);
+        Task<Language?> GetByIdAsync(Guid langId, CancellationToken ct);
     }
 }

@@ -3,6 +3,7 @@ using Ardalis.Result.AspNetCore;
 using AutoMapper;
 using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Language;
+using MeetCode.Application.Queries.QueryEntities.Language;
 using MeetCode.Server.DTOs.Request.Language;
 using MeetCode.Server.DTOs.Response.Language;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,23 @@ namespace MeetCode.Server.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+
+        [HttpGet("{langId}")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(LanguageResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error, ResultStatus.NotFound)]
+        public async Task<Result<LanguageResponse>> LanguageRead([FromRoute] Guid langId, CancellationToken ct)
+        {
+            var request = new LanguageReadRequest();
+            var cmd = _mapper.Map<LanguageReadQuery>((langId, request));
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = result.Map(value => _mapper.Map<LanguageResponse>(value));
+
+            return resp;
+        }
+
         [HttpPatch("{name}")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(LanguageResponse), StatusCodes.Status200OK)]
