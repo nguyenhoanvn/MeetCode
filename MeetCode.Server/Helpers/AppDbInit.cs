@@ -14,7 +14,9 @@ namespace MeetCode.Server.Helpers
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var users = configuration.GetSection("Seeding:Accounts").Get<List<User>>();
             if (users == null || !users.Any())
+            {
                 return;
+            }
             foreach (var user in users)
             {
                 var existingUser = await context.Users
@@ -32,6 +34,37 @@ namespace MeetCode.Server.Helpers
                     };
                     var result = await context.AddAsync(newUser, ct); 
                 }               
+            }
+            await context.SaveChangesAsync(ct);
+        }
+
+        public static async Task SeedLanguagesAsync(IServiceProvider serviceProvider, CancellationToken ct)
+        {
+            var context = serviceProvider.GetRequiredService<AppDbContext>();
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            var languages = configuration.GetSection("Seeding:Languages").Get<List<Language>>();
+            if (languages == null || !languages.Any())
+            {
+                return;
+            }
+            foreach (var language in languages)
+            {
+                var existingLanguage = await context.Languages
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(l => l.Name == language.Name, ct);
+                if (existingLanguage == null)
+                {
+                    var newLanguage = new Language
+                    {
+                        Name = language.Name,
+                        Version = language.Version,
+                        RuntimeImage = language.RuntimeImage,
+                        CompileCommand = language.CompileCommand,
+                        RunCommand = language.RunCommand,
+                        IsEnabled = language.IsEnabled
+                    };
+                    var result = await context.AddAsync(newLanguage, ct);
+                }
             }
             await context.SaveChangesAsync(ct);
         }
