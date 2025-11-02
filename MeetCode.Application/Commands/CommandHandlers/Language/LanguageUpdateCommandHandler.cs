@@ -28,7 +28,20 @@ namespace MeetCode.Application.Commands.CommandHandlers.Language
         {
             _logger.LogInformation($"Attempting to update language {request.Name}");
 
+            var updatedLanguage = await _languageService.UpdateLanguageAsync(
+                request.Name,
+                request.Version,
+                request.RuntimeImage,
+                request.CompileCommand,
+                request.RunCommand,
+                ct
+                );
 
+            var result = new LanguageUpdateCommandResult(updatedLanguage);
+
+            _logger.LogInformation($"Language updated successfully to {updatedLanguage.ToString()}");
+
+            return result;
         }
     }
 }

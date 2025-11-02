@@ -15,16 +15,19 @@ namespace MeetCode.Infrastructure.Services
     {
         private readonly ILanguageRepository _languageRepository;
         private readonly ILogger<LanguageService> _logger;
+        private readonly IUnitOfWork _unitOfWork;
         public LanguageService(
             ILanguageRepository languageRepository,
-            ILogger<LanguageService> logger
+            ILogger<LanguageService> logger,
+            IUnitOfWork unitOfWork
             )
         {
             _languageRepository = languageRepository;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<Language> UpdateLanguageAsync(string name, string version, string compileCommand, string runCommand, CancellationToken ct)
+        public async Task<Language> UpdateLanguageAsync(string name, string version, string runtimeImage, string compileCommand, string runCommand, CancellationToken ct)
         {
             var language = await FindLanguageByNameAsync(name, ct);
             if (language == null)
@@ -33,10 +36,21 @@ namespace MeetCode.Infrastructure.Services
                 throw new EntityNotFoundException<Language>(nameof(name), name);
             }
 
-            language.Version = version;
-            language.CompileCommand = compileCommand;
-            language.RunCommand = runCommand;
+            if (!Rules.TryGetValue(name, out var template))
+            {
+                _logger.LogWarning($"No rule template found for language {name}");
+                throw new InvalidOperationException($"No rules defined for language: {name}");
+            }
 
+            language.Version = version;
+            language.RuntimeImage = runtimeImage;
+            language.CompileCommand = string.IsNullOrWhiteSpace(compileCommand) ? template.DefaultCompile : compileCommand;
+            language.RunCommand = string.IsNullOrWhiteSpace(runCommand) ? template.DefaultRun : runCommand;
+
+            await _languageRepository.Update(language);
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            return language;
         }
 
         public async Task<Language?> FindLanguageByNameAsync(string name, CancellationToken ct)
@@ -45,19 +59,16 @@ namespace MeetCode.Infrastructure.Services
         }
 
         private sealed record LanguageTemplate(
-            string ImagePattern,
             string? DefaultCompile,
             string? DefaultRun);
 
         private Dictionary<string, LanguageTemplate> Rules = new(StringComparer.OrdinalIgnoreCase)
         {
-            ["C#"] = new(
-                "mcr.microsoft.com/dotnet/sdk:{version}",
+            ["csharp"] = new(
                 "csc /out:program.exe {file}.cs",
                 "dotnet program.dll"
                 ),
-            ["Java"] = new(
-                "openjdk:{version}-jdk-slim",
+            ["java"] = new(
                 "javac {file}.java",
                 "java {file}"
                 )

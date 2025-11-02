@@ -12,7 +12,8 @@ namespace MeetCode.Application.Commands.CommandEntities.Language
     public sealed record LanguageUpdateCommand(
         string Name,
         string Version,
-        string? CompileCommand,
-        string? RunCommand
+        string RuntimeImage,
+        string CompileCommand = "",
+        string RunCommand = ""
         ) : IRequest<Result<LanguageUpdateCommandResult>>;
 }

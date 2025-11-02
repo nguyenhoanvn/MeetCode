@@ -22,6 +22,7 @@ using MeetCode.Infrastructure.Persistence.Configurations;
 using MeetCode.Server.Middlewares;
 using MeetCode.Server.Helpers;
 using System.Text.Json.Serialization;
+using MeetCode.Application.Commands.CommandValidators.Language;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -80,6 +81,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<ITestCaseRepository, TestCaseRepository>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 
 // Services 
 builder.Services.AddScoped<ISessionService, SessionService>();
@@ -91,6 +93,10 @@ builder.Services.AddScoped<IEmailService, GmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<ITestCaseService, TestCaseService>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
+
+// Validators
+builder.Services.AddScoped<IDockerValidator, DockerValidator>();
 
 builder.Services.AddControllers(options =>
 {
@@ -168,6 +174,7 @@ using (var scope = app.Services.CreateScope())
         CancellationTokenSource ctSource = new CancellationTokenSource();
         CancellationToken ct = ctSource.Token;
         await AppDbInit.SeedUsersAndRolesAsync(services, ct);
+        await AppDbInit.SeedLanguagesAsync(services, ct);
     } catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
