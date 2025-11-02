@@ -58,6 +58,11 @@ namespace MeetCode.Infrastructure.Services
             return await _languageRepository.GetByNameAsync(name, ct);
         }
 
+        public async Task<Language?> FindLanguageByIdAsync(Guid langId, CancellationToken ct)
+        {
+            return await _languageRepository.GetByIdAsync(langId, ct);
+        }
+
         private sealed record LanguageTemplate(
             string? DefaultCompile,
             string? DefaultRun);

@@ -28,5 +28,11 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(l => l.Submissions)
                 .FirstOrDefaultAsync(l => l.Name == name, ct);
         }
+        public async Task<Language?> GetByIdAsync(Guid langId, CancellationToken ct)
+        {
+            return await _db.Languages
+                .Include(l => l.Submissions)
+                .FirstOrDefaultAsync(l => l.LangId == langId, ct);
+        }
     }
 }
