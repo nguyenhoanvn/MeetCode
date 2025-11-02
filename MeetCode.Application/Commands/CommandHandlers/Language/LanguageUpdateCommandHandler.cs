@@ -41,7 +41,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Language
 
             _logger.LogInformation($"Language updated successfully to {updatedLanguage.ToString()}");
 
-            return result;
+            return Result.Success(result);
         }
     }
 }
