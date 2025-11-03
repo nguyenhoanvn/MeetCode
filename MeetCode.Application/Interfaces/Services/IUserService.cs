@@ -13,5 +13,7 @@ namespace MeetCode.Application.Interfaces.Services
         Task<User> FindUserByEmailAsync(string email, CancellationToken ct);
         bool IsPasswordMatch(string requestPassword, string userDbPassword);
         Task<User> FindUserAsync(Guid userId, CancellationToken ct);
+        string HashPassword(string plainPassword);
+        Task<User> CreateUserAsync(string email, string displayName, string plainPassword, CancellationToken ct);
     }
 }

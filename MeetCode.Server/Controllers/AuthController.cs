@@ -13,6 +13,7 @@ using MeetCode.Application.Queries.QueryEntities.Auth;
 using MeetCode.Application.Commands.CommandEntities.Auth;
 using MeetCode.Server.DTOs.Response.Auth;
 using MeetCode.Server.DTOs.Request.Auth;
+using Ardalis.Result.AspNetCore;
 
 namespace MeetCode.Server.Controllers;
 [ApiController]
@@ -33,30 +34,26 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [TranslateResultToActionResult]
     [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken ct)
+    [ExpectedFailures(ResultStatus.Invalid)]
+    public async Task<Result<RegisterResponse>> Register([FromBody] RegisterRequest request, CancellationToken ct)
     {
-        if (request == null)
-        {
-            _logger.LogWarning($"Register failed because request is null");
-            return BadRequest("Invalid request body");
-        }
-
         var cmd = _mapper.Map<RegisterUserCommand>(request);
 
         var result = await _mediator.Send(cmd, ct);
 
-        var resp = _mapper.Map<RegisterResponse>(result.Value);
-        return CreatedAtAction(nameof(Register), new { Id = resp.UserId }, resp);
+        var resp = result.Map(value => _mapper.Map<RegisterResponse>(value));
+
+        return resp;
     }
 
     [HttpPost("login")]
+    [TranslateResultToActionResult]
     [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ExpectedFailures(ResultStatus.Invalid)]
     public async Task<Result<LoginResponse>> Login([FromBody] LoginRequest request, CancellationToken ct)
     {
-
         var cmd = _mapper.Map<LoginUserQuery>(request);
 
         var result = await _mediator.Send(cmd, ct);
@@ -89,9 +86,9 @@ public class AuthController : ControllerBase
 
     [Authorize(Roles = "user")]
     [HttpGet("refresh")]
+    [TranslateResultToActionResult]
     [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ExpectedFailures(ResultStatus.Invalid, ResultStatus.Unauthorized)]
     public async Task<Result<RefreshTokenResponse>> Refresh(CancellationToken ct)
     { 
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
@@ -133,9 +130,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [TranslateResultToActionResult]
     [ProducesResponseType(typeof(ForgotPasswordResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ExpectedFailures(ResultStatus.Invalid)]
     public async Task<Result<ForgotPasswordResponse>> ForgotPassword([FromBody] ForgotPasswordRequest request, CancellationToken ct)
     {
         var cmd = _mapper.Map<ForgotPasswordQuery>(request);
@@ -147,9 +144,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("reset-password")]
+    [TranslateResultToActionResult]
     [ProducesResponseType(typeof(ResetPasswordResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ExpectedFailures(ResultStatus.Invalid, ResultStatus.Unauthorized)]
     public async Task<Result<ResetPasswordResponse>> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken ct)
     {
         var cmd = _mapper.Map<ResetPasswordCommand>(request);
