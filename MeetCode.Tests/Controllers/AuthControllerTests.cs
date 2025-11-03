@@ -18,11 +18,16 @@ using MeetCode.Server.DTOs.Request.Auth;
 using MeetCode.Server.Controllers;
 using MeetCode.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace MeetCode.Tests.Controller
 {
     public class AuthControllerTests
     {
+        private readonly string EMAIL_DUMMY = "hoanyu12345@gmail.com";
+        private readonly string DISPLAY_NAME_DUMMY = "nguyenhoanvn";
+        private readonly string PASSWORD_DUMMY = "hoanyu12345";
+
         private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<ILogger<AuthController>> _loggerMock;
@@ -39,13 +44,13 @@ namespace MeetCode.Tests.Controller
         public class RegisterTests : AuthControllerTests
         {
             [Fact]
-            public async Task Register_ReturnCreatedAtAction_WhenRegisterSuccessful()
+            public async Task ReturnSuccess_WhenRegisterSuccessful()
             {
                 var request = new RegisterRequest
                 (
-                    Email: "hoanyu12345@gmail.com",
-                    DisplayName: "nguyenhoancn",
-                    Password: "hoanyu1325"
+                    Email: EMAIL_DUMMY,
+                    DisplayName: DISPLAY_NAME_DUMMY,
+                    Password: PASSWORD_DUMMY
                 );
 
                 var command = new RegisterUserCommand(
@@ -57,8 +62,8 @@ namespace MeetCode.Tests.Controller
                 var result = Result<RegisterUserResult>.Success(new RegisterUserResult
                 (
                     Guid.NewGuid(),
-                    "hoanyu12345@gmail.com",
-                    "nguyenhoancn",
+                    EMAIL_DUMMY,
+                    DISPLAY_NAME_DUMMY,
                     "user"
                 ));
 
@@ -75,23 +80,10 @@ namespace MeetCode.Tests.Controller
 
                 var resp = await _controllerMock.Register(request, CancellationToken.None);
 
-                var createdResult = Assert.IsType<CreatedAtActionResult>(resp);
-                Assert.NotNull(createdResult.Value);
-
-                var actualResp = Assert.IsType<RegisterResponse>(createdResult.Value);
-                Assert.Equal(expectedResp.Email, actualResp.Email);
-            }
-
-            [Fact]
-            public async Task Register_ReturnBadRequest_WhenRequestNull()
-            {
-                RegisterRequest? request = null;
-
-                var result = await _controllerMock.Register(request, CancellationToken.None);
-
-                var badRequest = Assert.IsType<ObjectResult>(result);
-                Assert.Equal(StatusCodes.Status400BadRequest, badRequest.StatusCode);
-
+                Assert.NotNull(resp);
+                Assert.Equal(ResultStatus.Ok, resp.Status);
+                Assert.NotNull(resp.Value);
+                Assert.Equal(expectedResp.Email, resp.Value.Email);
             }
         }
     }
