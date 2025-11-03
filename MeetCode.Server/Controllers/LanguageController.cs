@@ -39,6 +39,22 @@ namespace MeetCode.Server.Controllers
             return resp;
         }
 
+        [HttpGet]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(LanguageAllResponse), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error)]
+        public async Task<Result<LanguageAllResponse>> LanguageList(CancellationToken ct)
+        {
+            var request = new LanguageAllRequest();
+            var cmd = _mapper.Map<LanguageAllQuery>(request);
+
+            var result = await _mediator.Send(cmd, ct);
+
+            var resp = result.Map(value => _mapper.Map<LanguageAllResponse>(value));
+
+            return resp;
+        }
+
         [HttpPatch("{name}")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(LanguageResponse), StatusCodes.Status200OK)]

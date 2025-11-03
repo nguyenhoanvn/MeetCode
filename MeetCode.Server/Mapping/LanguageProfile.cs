@@ -32,6 +32,12 @@ namespace MeetCode.Server.Mapping
                     context.Mapper.Map<LanguageResponse>(src.Language)
                     );
 
+            // Read all
+            CreateMap<LanguageAllRequest, LanguageAllQuery>();
+            CreateMap<LanguageAllQueryResult, LanguageAllResponse>()
+                .ConstructUsing((src, context) => new LanguageAllResponse(
+                    context.Mapper.Map<IEnumerable<LanguageResponse>>(src.LanguageList)
+                    ));
 
             // Update
             CreateMap<(string name, LanguageUpdateRequest request), LanguageUpdateCommand>()

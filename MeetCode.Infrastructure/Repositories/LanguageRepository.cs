@@ -17,22 +17,45 @@ namespace MeetCode.Infrastructure.Repositories
         {
             _db = db;
         }
+        public async Task<IEnumerable<Language>> GetAsync(CancellationToken ct)
+        {
+            return await _db.Languages
+                .Include(l => l.Submissions)
+                .ToListAsync(ct);
+        }
+        public async Task<Language?> GetByIdAsync(Guid id, CancellationToken ct)
+        {
+            return await _db.Languages
+                .Include(l => l.Submissions)
+                .FirstOrDefaultAsync(l => l.LangId == id, ct);
+        }
+        public async Task<IEnumerable<Language>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct)
+        {
+            return await _db.Languages
+                .Include(l => l.Submissions)
+                .Where(l => ids.Contains(l.LangId))
+                .ToListAsync(ct);
+        }
+        public Task AddAsync(Language entity, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
         public Task Update(Language newLanguage)
         {
             _db.Languages.Update(newLanguage);
             return Task.CompletedTask;
         }
+        public Task Delete(Language languageToDelete)
+        {
+            _db.Languages.Remove(languageToDelete);
+            return Task.CompletedTask;
+        }
+
         public async Task<Language?> GetByNameAsync(string name, CancellationToken ct)
         {
             return await _db.Languages
                 .Include(l => l.Submissions)
                 .FirstOrDefaultAsync(l => l.Name == name, ct);
-        }
-        public async Task<Language?> GetByIdAsync(Guid langId, CancellationToken ct)
-        {
-            return await _db.Languages
-                .Include(l => l.Submissions)
-                .FirstOrDefaultAsync(l => l.LangId == langId, ct);
         }
     }
 }

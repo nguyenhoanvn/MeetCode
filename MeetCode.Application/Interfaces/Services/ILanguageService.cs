@@ -12,6 +12,7 @@ namespace MeetCode.Application.Interfaces.Services
         Task<Language> UpdateLanguageAsync(string name, string version, string runtimeImage, string compileCommand, string runCommand, CancellationToken ct);
         Task<Language?> FindLanguageByNameAsync(string name, CancellationToken ct);
         Task<Language?> FindLanguageByIdAsync(Guid langId, CancellationToken ct);
+        Task<IEnumerable<Language>> ReadAllLanguagesAsync(CancellationToken ct);
 
     }
 }

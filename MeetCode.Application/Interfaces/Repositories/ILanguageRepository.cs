@@ -7,10 +7,8 @@ using MeetCode.Domain.Entities;
 
 namespace MeetCode.Application.Interfaces.Repositories
 {
-    public interface ILanguageRepository
+    public interface ILanguageRepository : IRepository<Language>
     {
-        Task Update(Language newLanguage);
         Task<Language?> GetByNameAsync(string name, CancellationToken ct);
-        Task<Language?> GetByIdAsync(Guid langId, CancellationToken ct);
     }
 }
