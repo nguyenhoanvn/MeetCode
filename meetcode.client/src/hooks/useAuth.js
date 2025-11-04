@@ -1,24 +1,37 @@
-import { useState } from "react";
-import { login, register } from "../api/authApi";
+import { useEffect, useState } from "react";
+import { register } from "../api/auth";
+import { login } from "../api/auth";
 
-export function useAuth() {
-    const [user, setUser] = useState(null);
-    const [accessToken, setAccessToken] = useState(null);
+export const useRegister = () => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleLogin = async (email, password) => {
-        const data = await login(email, password);
-        setAccessToken(data.accessToken);
-        setUser(data.user);
-    };
-    const handleRegister = async (email, password, displayName) => {
-        const data = await register(email, password, displayName);
-        setUser(data.user);
-    };
+    const registerUser = async (data) => {
+        try {
+            setLoading(true);
+            const response = await register(data);
+            return response.data;
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    }
 
-    const logout = () => {
-        setAccessToken(null);
-        setUser(null);
-    };
+    return {registerUser, loading, error};
+}
 
-    return { user, accessToken, handleLogin, handleRegister, logout };
+export const useLogin = () => {
+    const [response, setResponse] = useState();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        login()
+            .then((res) = setResponse(res.data))
+            .catch((err) => setError(err))
+            .finally(() => setLoading(false))
+    }, );
+
+    return {response, loading, error};
 }
