@@ -40,17 +40,21 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             var email = request.Email.Trim().ToLowerInvariant();
             var user = await _userService.FindUserByEmailAsync(email, ct);
 
+            if (user == null)
+            {
+                _logger.LogInformation($"Login failed because email not match");
+                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false, "Invalid credentials");
+                return Result.Success(result);
+            }
+
             // Verify password
             var isPasswordMatch = _userService.IsPasswordMatch(request.Password, user.PasswordHash);
 
             if (!isPasswordMatch)
             {
                 _logger.LogWarning($"Login failed because password does not match");
-                return Result.Invalid(new ValidationError
-                {
-                    Identifier = nameof(request.Password),
-                    ErrorMessage = "Invalid email"
-                });
+                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false, "Invalid credentials");
+                return Result.Success(result);
             }
 
             string accessToken = _tokenService.GenerateJwtToken(user.UserId, user.Email, user.Role);
@@ -61,7 +65,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
 
             _logger.LogInformation($"Login completed for user with email: {email}");
 
-            return Result.Success(new LoginUserQueryResult(accessToken, refreshToken, user.DisplayName, user.Role));
+            return Result.Success(new LoginUserQueryResult(accessToken, refreshToken, user.DisplayName, user.Role, true, ""));
 
         }
     }

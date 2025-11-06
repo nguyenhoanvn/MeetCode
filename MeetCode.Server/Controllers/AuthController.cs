@@ -58,28 +58,32 @@ public class AuthController : ControllerBase
 
         var result = await _mediator.Send(cmd, ct);
 
-        var resp = result.Map(value => _mapper.Map<LoginResponse>(value));
-
-        HttpContext.Response.Cookies.Append(
+        // Happy case
+        if (result.Value.IsSuccessful == true)
+        {
+            HttpContext.Response.Cookies.Append(
             "accessToken",
-            resp.Value.AccessToken,
+            result.Value.AccessToken,
             new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Expires = DateTimeOffset.UtcNow.AddMinutes(30)
             });
-        HttpContext.Response.Cookies.Append(
-            "refreshToken",
-            resp.Value.RefreshToken,
-            new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTimeOffset.UtcNow.AddMinutes(30)
-            });
+            HttpContext.Response.Cookies.Append(
+                "refreshToken",
+                result.Value.RefreshToken,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(30)
+                });
+        }
+
+        var resp = result.Map(value => _mapper.Map<LoginResponse>(value));
 
         return resp;
     }
