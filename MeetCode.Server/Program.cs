@@ -94,6 +94,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<ITestCaseService, TestCaseService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 // Validators
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();

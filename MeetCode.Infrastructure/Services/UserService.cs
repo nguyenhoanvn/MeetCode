@@ -32,16 +32,10 @@ namespace MeetCode.Infrastructure.Services
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
-        public async Task<User> FindUserByEmailAsync(string email, CancellationToken ct)
+        public async Task<User?> FindUserByEmailAsync(string email, CancellationToken ct)
         {
             _logger.LogInformation("Attempting to find user by email");
             var user = await _userRepository.GetUserByEmailWithTokensAsync(email, ct);
-
-            if (user == null)
-            {
-                _logger.LogWarning("User not found for provided email");
-                throw new InvalidOperationException($"User with email: {email} not found");
-            }
             _logger.LogInformation("User found for provided email");
             return user;
         }
@@ -62,11 +56,6 @@ namespace MeetCode.Infrastructure.Services
         {
             _logger.LogInformation("Fetching user with ID {UserId}", userId);
             var user = await _userRepository.GetByIdAsync(userId, ct);
-            if (user == null)
-            {
-                _logger.LogWarning("User not found with ID {UserId}", userId);
-                throw new InvalidOperationException($"User cannot be found with id: {userId}");
-            }
             _logger.LogInformation("User {UserId} found successfully", userId);
             return user;
         }
@@ -75,7 +64,7 @@ namespace MeetCode.Infrastructure.Services
         {
             return BCrypt.Net.BCrypt.HashPassword(plainPassword);
         }
-        public async Task<User> CreateUserAsync(string email, string displayName, string plainPassword, CancellationToken ct)
+        public async Task<User?> CreateUserAsync(string email, string displayName, string plainPassword, CancellationToken ct)
         {
             var existingUser = await FindUserByEmailAsync(email, ct);
 
