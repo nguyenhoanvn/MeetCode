@@ -1,5 +1,8 @@
 import authApi from "./client";
 
-export const register = (loginRequest) => authApi.post("/register", loginRequest);
+export const register = async (registerRequest) => await authApi.post("/register", registerRequest);
 
-export const login = () => authApi.get("/login");
+export const login = async (loginRequest) =>  {
+    const response = await authApi.post("/login", loginRequest);
+    return response.data;
+}
