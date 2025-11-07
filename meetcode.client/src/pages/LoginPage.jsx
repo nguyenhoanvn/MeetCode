@@ -1,5 +1,4 @@
 import { useLogin } from "../hooks/useAuth";
-import NavigationBar from "../components/NavigationBar";
 
 export default function LoginPage() {
     const {formData, resp, handleChange, handleSubmit, loading, error} = useLogin();
@@ -54,7 +53,7 @@ export default function LoginPage() {
                                     <a className="text-sm hover:underline" href="/auth/forgot-password">Forgot password?</a>
                                 </div>
 
-                                <button className={`${loading ? "bg-gray-700 cursor-not-allowed" : ""} 
+                                <button type="submit" className={`${loading ? "bg-gray-700 cursor-not-allowed" : ""} 
                                 bg-transparent border-2 border-[#1e3a8a] py-3 rounded-xl cursor-pointer
                                 hover:border-transparent hover:bg-[#1e3a8a]
                                 duration-500`}>
