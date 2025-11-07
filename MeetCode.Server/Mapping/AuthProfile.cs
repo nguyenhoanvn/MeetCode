@@ -26,7 +26,8 @@ namespace MeetCode.Server.Mapping
 
             // RefreshToken
             CreateMap<RefreshTokenRequest, RefreshTokenCommand>();
-            CreateMap<RefreshTokenResult, RefreshTokenResponse>();
+            CreateMap<RefreshTokenResult, RefreshTokenResponse>()
+                .ConstructUsing(src => new RefreshTokenResponse());
 
             // ForgotPassword
             CreateMap<ForgotPasswordRequest, ForgotPasswordQuery>();

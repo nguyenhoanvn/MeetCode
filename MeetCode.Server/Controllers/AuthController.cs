@@ -88,29 +88,26 @@ public class AuthController : ControllerBase
         return resp;
     }
 
-    [Authorize(Roles = "user")]
     [HttpGet("refresh")]
     [TranslateResultToActionResult]
     [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
-    [ExpectedFailures(ResultStatus.Invalid, ResultStatus.Unauthorized)]
+    [ExpectedFailures(ResultStatus.Error)]
     public async Task<Result<RefreshTokenResponse>> Refresh(CancellationToken ct)
     { 
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
                 string.IsNullOrWhiteSpace(refreshTokenPlain))
         {
             _logger.LogWarning("Refresh token failed because of mission token");
-            return Result.Unauthorized("Missing refresh token");
+            return Result.Success();
         }
 
         var cmd = _mapper.Map<RefreshTokenCommand>(refreshTokenPlain);
 
         var result = await _mediator.Send(cmd, ct);
 
-        var resp = result.Map(value => _mapper.Map<RefreshTokenResponse >(value));
-
         HttpContext.Response.Cookies.Append(
             "accessToken",
-            resp.Value.AccessToken,
+            result.Value.AccessToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -121,7 +118,7 @@ public class AuthController : ControllerBase
 
         HttpContext.Response.Cookies.Append(
             "refreshToken",
-            resp.Value.RefreshToken,
+            result.Value.RefreshToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -129,6 +126,8 @@ public class AuthController : ControllerBase
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTimeOffset.UtcNow.AddDays(30)
             });
+
+        var resp = result.Map(value => _mapper.Map<RefreshTokenResponse>(value));
 
         return resp;
     }

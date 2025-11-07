@@ -54,7 +54,7 @@ namespace MeetCode.Infrastructure.Services
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(10),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: creds);
 
             _logger.LogInformation("New JWT token issued successfully");
@@ -130,7 +130,7 @@ namespace MeetCode.Infrastructure.Services
                 UserId = userId,
                 TokenHash = HashToken(plainRefreshToken),
                 CreatedAt = DateTimeOffset.UtcNow,
-                ExpiresAt = oldTokenList.Count() > 0 ? oldTokenList[0].ExpiresAt : DateTimeOffset.UtcNow.AddDays(30)
+                ExpiresAt = DateTimeOffset.UtcNow.AddDays(30)
             };
 
             await _refreshTokenRepository.AddAsync(newRefreshToken, ct);
@@ -150,37 +150,29 @@ namespace MeetCode.Infrastructure.Services
 
         public async Task<RefreshToken> FindRefreshTokenByUserIdAsync(Guid userId, CancellationToken ct)
         {
-            _logger.LogInformation($"Find refresh token with user {userId} started");
             var refreshTokenEntity = await _refreshTokenRepository.GetByUserId(userId, ct);
             if (refreshTokenEntity == null)
             {
                 _logger.LogWarning($"Refresh token of user {userId} not found");
-                throw new InvalidOperationException($"Refresh token with the userId {userId} not found");
             }
             if (!refreshTokenEntity.IsValid())
             {
                 _logger.LogWarning($"Refresh token is revoked or expired");
-                throw new InvalidOperationException("Refresh token expired");
             }
-            _logger.LogInformation($"Refresh token of user {userId} found");
             return refreshTokenEntity;
         }
 
         public async Task<RefreshToken> FindRefreshTokenAsync(Guid refreshTokenId, CancellationToken ct)
         {
-            _logger.LogInformation("Find refresh token by Id started");
             var refreshTokenEntity = await _refreshTokenRepository.GetByIdAsync(refreshTokenId, ct);
             if (refreshTokenEntity == null)
             {
                 _logger.LogWarning("Refresh token with inputted id not found");
-                throw new InvalidOperationException($"Refresh token with the refreshTokenId {refreshTokenId} not found");
             }
             if (!refreshTokenEntity.IsValid())
             {
                 _logger.LogWarning("Refresh token is revoked or expired");
-                throw new InvalidOperationException("Refresh token expired");
             }
-            _logger.LogInformation("Refresh token is found");
             return refreshTokenEntity;
         }
     }
