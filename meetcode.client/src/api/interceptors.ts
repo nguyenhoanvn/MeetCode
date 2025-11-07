@@ -1,10 +1,11 @@
 import {refresh} from "./auth";
+import { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from "axios";
 
-export const enableUserAuthInterceptor = (axiosInstance) => {
+export const enableUserAuthInterceptor = (axiosInstance: AxiosInstance): void => {
     axiosInstance.interceptors.response.use(
-        response => response,
-        async (error) => {
-            const request = error.config;
+        (response) => response,
+        async (error: AxiosError) => {
+            const request = error.config as InternalAxiosRequestConfig & {_retry: boolean};
 
             if (error.response?.status === 401 && !request._retry) {
                 request._retry = true;

@@ -4,6 +4,7 @@ bin/
 obj/
 out/
 Debug/
+vs/
 
 # ASP.NET configs
 appsettings.json

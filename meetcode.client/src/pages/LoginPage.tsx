@@ -1,7 +1,7 @@
 import { useLogin } from "../hooks/useAuth";
 
 export default function LoginPage() {
-    const {formData, resp, handleChange, handleSubmit, loading, error} = useLogin();
+    const {loginForm, resp, handleChange, handleSubmit, loading, error} = useLogin();
 
     return (
         <div className="w-screen h-screen bg-amber-300">
@@ -14,7 +14,7 @@ export default function LoginPage() {
                         <p className="text-2xl text-gray-200 font-black">Welcome back!<br/>
                         Login your account</p>
                         <p className="text-sm font-extralight text-gray-200 mt-3">Ready to be tortured?</p>
-                        <p className={`${!resp.isSuccessful && resp.message != "" ? "block" : "hidden"} text-sm font-extralight text-red-600 mt-3`}>
+                        <p className={`${!resp.isSuccessfully && resp.message != "" ? "block" : "hidden"} text-sm font-extralight text-red-600 mt-3`}>
                             {resp.message}
                         </p>
                     </div>
@@ -26,7 +26,7 @@ export default function LoginPage() {
                             <div className="flex flex-col gap-5">
                                 <input type="email"
                                 name="email"
-                                value={formData.email}
+                                value={loginForm.email}
                                 required
                                 autoFocus
                                 autoComplete="off"
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
                                 <input type="password"
                                 name="password"
-                                value={formData.password}
+                                value={loginForm.password}
                                 required
                                 autoComplete="off"
                                 onChange={handleChange}

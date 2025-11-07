@@ -3,7 +3,7 @@ import { useRegister } from "../hooks/useAuth";
 import NavigationBar from "../components/NavigationBar";
 
 export default function RegisterPage() {
-    const {formData, handleChange, handleSubmit, loading, error} = useRegister();
+    const {registerForm, handleChange, handleSubmit, loading, error} = useRegister();
 
     return (
         <div className="h-screen w-screen bg-amber-300 overflow-hidden">
@@ -20,7 +20,7 @@ export default function RegisterPage() {
                             <div className="flex flex-col gap-3">
                                 <input type="text" 
                                 name="displayName"
-                                value={formData.displayName}
+                                value={registerForm.displayName}
                                 required
                                 autoComplete="off"
                                 autoFocus
@@ -34,7 +34,7 @@ export default function RegisterPage() {
                             <div>
                                 <input type="email" 
                                 name="email"
-                                value={formData.email}
+                                value={registerForm.email}
                                 required
                                 autoComplete="off"
                                 onChange={handleChange}
@@ -47,7 +47,7 @@ export default function RegisterPage() {
                             <div>
                                 <input type="password" 
                                 name="password"
-                                value={formData.password}
+                                value={registerForm.password}
                                 required
                                 autoComplete="off"
                                 onChange={handleChange}
