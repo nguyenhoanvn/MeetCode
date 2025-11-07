@@ -38,7 +38,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Profile
                 return Result.NotFound($"User with id {request.UserId} not found");
             }
 
-            var result = new ProfileUserQueryResult(user.DisplayName);
+            var result = new ProfileUserQueryResult(user.UserId, user.DisplayName);
 
             return result;
         }

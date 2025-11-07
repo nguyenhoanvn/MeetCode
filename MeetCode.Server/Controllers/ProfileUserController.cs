@@ -41,7 +41,7 @@ namespace MeetCode.Server.Controllers
             if (string.IsNullOrEmpty(userId))
             {
                 _logger.LogWarning("Cannot find userId in cookies");
-                return Result.Error("Cannot find userId in cookies");
+                return Result.Success();
             }
 
             var request = new ProfileUserRequest();

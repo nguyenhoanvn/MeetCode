@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Queries.QueryResults.Profile
 {
-    public sealed record ProfileUserQueryResult(string DisplayName);
+    public sealed record ProfileUserQueryResult(Guid UserId, string DisplayName);
 }
