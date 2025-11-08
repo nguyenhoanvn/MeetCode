@@ -1,4 +1,4 @@
-import { useLogin } from "../hooks/useAuth";
+import { useLogin } from "../hooks/useLogin";
 
 export default function LoginPage() {
     const {loginForm, resp, handleChange, handleSubmit, loading, error} = useLogin();

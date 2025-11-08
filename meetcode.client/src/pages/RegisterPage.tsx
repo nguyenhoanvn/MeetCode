@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useRegister } from "../hooks/useAuth";
+import { useRegister } from "../hooks/useRegister";
 import NavigationBar from "../components/NavigationBar";
 
 export default function RegisterPage() {
@@ -60,11 +59,11 @@ export default function RegisterPage() {
                             <div className="mt-4">
                                 <p className="text-sm font-light">By clicking Register, you really agree with MeetCode's terms of service and privacy policy?</p>
                             </div>
-                            <button className={`${loading ? "bg-gray-700 cursor-not-allowed" : ""} 
-                            border-2 border-[#1e3a8a] py-3 rounded-xl cursor-pointer
+                            <button type="submit" className={`${loading ? "bg-gray-700 cursor-not-allowed" : "cursor-pointer"} 
+                            border-2 border-[#1e3a8a] py-3 rounded-xl
                             hover:border-transparent hover:bg-[#1e3a8a]
                             duration-500`}>
-                                Register
+                                {loading ? "Registering..." : "Register"}
                             </button>
                         </div>
                     </form>
