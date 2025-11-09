@@ -36,7 +36,7 @@ namespace MeetCode.Server.Mapping
             // Get all
             CreateMap<ProblemAllQueryResult, ProblemAllResponse>()
                 .ConstructUsing((src, context) => new ProblemAllResponse(
-                    context.Mapper.Map<IEnumerable<ProblemResponse>>(src.ProblemList)
+                    context.Mapper.Map<List<ProblemResponse>>(src.ProblemList)
                     ));
 
             // Read 
