@@ -13,5 +13,11 @@ export const profileApi = axios.create({
     headers: {"Content-Type": "application/json"},
 });
 
+export const problemApi = axios.create({
+    baseURL: "https://localhost:7254/problems",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+})
+
 enableUserAuthInterceptor(authApi);
 enableUserAuthInterceptor(profileApi);
