@@ -17,6 +17,9 @@ export default function NavigationBar() {
                     <a href="/auth/login">
                         <p className="text-gray-200 font-black px-10 py-1 duration-500 hover:bg-[#1E3A8A] rounded-2xl" onClick={handleLogin}>Login</p>
                     </a>
+                    <a href="/problems">
+                        <p className="text-gray-200 font-black px-10 py-1 duration-500 hover:bg-[#1E3A8A] rounded-2xl" onClick={handleProblem}>Problems</p>
+                    </a>
                 </>
             )}
             {!loading && user.userId !== null && (
