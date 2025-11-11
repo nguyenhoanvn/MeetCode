@@ -41,7 +41,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
                 _logger.LogInformation("No user with such email stored in database");
                 var resultAlt = new ForgotPasswordQueryResult(
                     CurrentUser: null,
-                    Message: "No account got associate with this email"
+                    true
                     );
                 return Result.Success(resultAlt);
             }
@@ -61,7 +61,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
 
             var result = new ForgotPasswordQueryResult(
                 CurrentUser: user,
-                Message: "A verification code has been sent to your email"
+                true
                 );
             return Result.Success(result);
 
