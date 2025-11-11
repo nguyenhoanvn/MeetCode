@@ -18,3 +18,13 @@ export const forgotPassword = async (forgotPasswordRequest: {email: string;}) =>
     const response = await authApi.post("/forgot-password", forgotPasswordRequest);
     return response.data;
 }
+
+export const verifyOtp = async (verifyOtpRequest: {code: string;}) => {
+    const response = await authApi.post("/verify-otp", verifyOtpRequest);
+    return response.data;
+}
+
+export const resetPassword = async (resetPasswordRequest: {email:string; newPassword: string;}) => {
+    const response = await authApi.post("/reset-password", resetPasswordRequest);
+    return response.data;
+}

@@ -1,10 +1,7 @@
+import useResetPassword from "../hooks/useResetPassword";
 
-import useResetPassword from "../hooks/useForgotPassword"
-
-export default function ForgotPasswordPage() {
-    const { forgotForm, otpForm, loading, error, message,
-        handleForgotFormChange, handleOtpFormChange, 
-        handleForgotPasswordSubmit, handleVerifyOTPSubmit } = useResetPassword();
+export default function ResetPasswordPage() {
+    const {resetPasswordForm, loading, error, message, handleResetPasswordFormChange, handleResetPasswordSubmit} = useResetPassword();
 
     return(
         <div className="h-screen w-screen bg-amber-300">
@@ -14,10 +11,11 @@ export default function ForgotPasswordPage() {
                 </div>
                 <div className="flex flex-col bg-[#161b22] px-10 py-3 gap-10">
                     <div className="">
-                        <p className="text-2xl text-gray-200 font-black">Forgot Password?<br/>
-                        Here we go again...</p>
+                        <p className="text-2xl text-gray-200 font-black">
+                            Reset Password
+                        </p>
                         <p className="text-sm font-extralight text-gray-200 mt-3">
-                            You know the deal, just input the email and find something to eat when we do absolute everything for you
+                            Enter the new password and confirm it, make sure it's different from your old password and please don't forget it again
                         </p>
                         <p className={`${message != "" ? "block" : "hidden"} text-sm font-extralight text-red-600 mt-3`}>
                             {message}
@@ -26,17 +24,30 @@ export default function ForgotPasswordPage() {
                     <div>
                         <form onSubmit={(e) => {
                             e.preventDefault();
-                            handleForgotPasswordSubmit();
+                            handleResetPasswordSubmit();
                         }}>
                             <div className="flex flex-col gap-5">
-                                <input type="email"
-                                name="email"
-                                value={forgotForm.email}
+                                <input type="password"
+                                name="newPassword"
+                                value={resetPasswordForm.newPassword}
                                 required
                                 autoFocus
                                 autoComplete="off"
-                                onChange={handleForgotFormChange}
-                                placeholder="Email..."
+                                onChange={handleResetPasswordFormChange}
+                                placeholder="New password..."
+                                className="border-2 px-4 py-2 w-1/1 rounded-2xl text-md
+                                duration-300
+                                focus:outline-none
+                                focus:border-[#1e3a8a]"/>
+
+                                <input type="password"
+                                name="confirmPassword"
+                                value={resetPasswordForm.confirmPassword}
+                                required
+                                autoFocus
+                                autoComplete="off"
+                                onChange={handleResetPasswordFormChange}
+                                placeholder="Confirm password..."
                                 className="border-2 px-4 py-2 w-1/1 rounded-2xl text-md
                                 duration-300
                                 focus:outline-none
@@ -46,36 +57,8 @@ export default function ForgotPasswordPage() {
                                 bg-transparent border-2 border-[#1e3a8a] py-3 rounded-xl cursor-pointer
                                 hover:border-transparent hover:bg-[#1e3a8a]
                                 duration-500`}>
-                                    {loading ? "Loading..." : "Send OTP"}
+                                    {loading ? "Loading..." : "Change password"}
                                 </button>
-                            </div>
-                        </form>
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-                            handleVerifyOTPSubmit();
-                        }}>
-                            <div className="flex flex-col gap-5">
-                                <input type="text"
-                                name="code"
-                                value={otpForm.code}
-                                required
-                                autoFocus
-                                maxLength={6}
-                                autoComplete="off"
-                                onChange={handleOtpFormChange}
-                                placeholder="363636"
-                                className="border-2 px-4 py-2 w-1/1 rounded-2xl text-md
-                                duration-300
-                                focus:outline-none
-                                focus:border-[#1e3a8a]"/>
-
-                                <button type="submit" className={`${loading ? "bg-gray-700 cursor-not-allowed" : ""} 
-                                bg-transparent border-2 border-[#1e3a8a] py-3 rounded-xl cursor-pointer
-                                hover:border-transparent hover:bg-[#1e3a8a]
-                                duration-500`}>
-                                    {loading ? "Loading..." : "Verify OTP"}
-                                </button>
-                               
                             </div>
                         </form>
                     </div>
