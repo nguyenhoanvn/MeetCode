@@ -9,7 +9,7 @@ export default function ResetPasswordPage() {
                 <div className="bg-white">
 
                 </div>
-                <div className="flex flex-col bg-[#161b22] px-10 py-3 gap-10">
+                <div className="flex flex-col bg-[#161b22] px-10 py-3 justify-center gap-15">
                     <div className="">
                         <p className="text-2xl text-gray-200 font-black">
                             Reset Password
@@ -17,16 +17,13 @@ export default function ResetPasswordPage() {
                         <p className="text-sm font-extralight text-gray-200 mt-3">
                             Enter the new password and confirm it, make sure it's different from your old password and please don't forget it again
                         </p>
-                        <p className={`${message != "" ? "block" : "hidden"} text-sm font-extralight text-red-600 mt-3`}>
-                            {message}
-                        </p>
                     </div>
-                    <div>
+                    <div className="">
                         <form onSubmit={(e) => {
                             e.preventDefault();
                             handleResetPasswordSubmit();
                         }}>
-                            <div className="flex flex-col gap-5">
+                            <div className="flex flex-col gap-7">
                                 <input type="password"
                                 name="newPassword"
                                 value={resetPasswordForm.newPassword}
@@ -40,21 +37,26 @@ export default function ResetPasswordPage() {
                                 focus:outline-none
                                 focus:border-[#1e3a8a]"/>
 
-                                <input type="password"
-                                name="confirmPassword"
-                                value={resetPasswordForm.confirmPassword}
-                                required
-                                autoFocus
-                                autoComplete="off"
-                                onChange={handleResetPasswordFormChange}
-                                placeholder="Confirm password..."
-                                className="border-2 px-4 py-2 w-1/1 rounded-2xl text-md
-                                duration-300
-                                focus:outline-none
-                                focus:border-[#1e3a8a]"/>
 
+                                <div className="flex flex-col gap-2">
+                                    <p className={`h-5 w-full text-md font-extralight text-red-600 duration-300`}>
+                                        {message}
+                                    </p>
+                                    <input type="password"
+                                    name="confirmPassword"
+                                    value={resetPasswordForm.confirmPassword}
+                                    required
+                                    autoFocus
+                                    autoComplete="off"
+                                    onChange={handleResetPasswordFormChange}
+                                    placeholder="Confirm password..."
+                                    className={`${message != "" ? "border-red-600" : "focus:border-[#1e3a8a]"} border-2 px-4 py-2 w-1/1 rounded-2xl text-md
+                                    duration-300
+                                    focus:outline-none
+                                    `}/>
+                                </div>
                                 <button type="submit" className={`${loading ? "bg-gray-700 cursor-not-allowed" : ""} 
-                                bg-transparent border-2 border-[#1e3a8a] py-3 rounded-xl cursor-pointer
+                                bg-transparent border-2 border-[#1e3a8a] py-3 rounded-xl cursor-pointer mt-3
                                 hover:border-transparent hover:bg-[#1e3a8a]
                                 duration-500`}>
                                     {loading ? "Loading..." : "Change password"}

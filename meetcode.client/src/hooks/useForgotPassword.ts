@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { use, useState } from "react"
 import { forgotPassword, resetPassword, verifyOtp } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -10,37 +10,73 @@ interface OtpForm {
     code: string;
 }
 
+interface ForgotPasswordResponse {
+    isSuccess: boolean;
+}
+
+interface SendOTPField {
+    message: string;
+    status: boolean;
+    cooldown: number;
+}
+
+interface VerifyOTPField {
+    message: string;
+    status: boolean;
+}
+
 export default function useResetPassword() {
     const [forgotForm, setForgotForm] = useState<ForgotPasswordForm>({email: ""});
     const [otpForm, setOtpForm] = useState<OtpForm>({ code: ""});
     const [loading, setLoading] = useState<boolean>(false);
+    const [sendOtpButton, setSendOtpButton] = useState<SendOTPField>({message: "", status: false, cooldown: 0});
+    const [verifyOtpButton, setVertifyOtpButton] = useState<VerifyOTPField>({message: "", status: false});
     const [error, setError] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
 
     const navigate = useNavigate();
 
     const handleForgotFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
+
         setForgotForm((prev) => ({...prev, [name]: value}));
-        setMessage("");
+        setSendOtpButton((prev) => ({...prev, message: ""}));
         setError("");
     }
 
     const handleOtpFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
+
+        if (!/^\d*$/.test(value)) {
+            setVertifyOtpButton((prev) => ({...prev, message: "OTP can only have digits"}));         
+        } else {
+            setVertifyOtpButton((prev) => ({...prev, message: ""}));
+        }
         setOtpForm((prev) => ({...prev, [name]: value}));
-        setMessage("");
         setError("");
     }
 
     const handleForgotPasswordSubmit = async () => {
         try {
-            setLoading(true);
+            setSendOtpButton((prev) => ({...prev, status: true, cooldown: 30}));
+
+            const timer = setInterval(() => {
+                setSendOtpButton(prev => {
+                    if (prev.cooldown <= 1) {
+                        clearInterval(timer);
+                        prev.status = false;
+                        return {...prev, cooldown: 0 };
+                    }
+                    return {...prev, cooldown: prev.cooldown - 1};
+                });
+            }, 1000);
+
             const response = await forgotPassword(forgotForm);
-            setMessage(response.message);
+            if (!response.isSuccess) {
+                setSendOtpButton((prev) => ({...prev, message: "Failed to sent verification code"}));
+            }
             console.log(response);
         } catch (err: any) {
-            setError(err.message || "Unexpected exception happens while calling forgot password endpoint");
+            setSendOtpButton((prev) => ({...prev, message: "Unexpected exception happens while calling forgot password endpoint"}));
         } finally {
             setLoading(false);
         }
@@ -48,7 +84,7 @@ export default function useResetPassword() {
 
     const handleVerifyOTPSubmit = async () => {
         try {
-            setLoading(true);
+            setVertifyOtpButton((prev) => ({...prev, status: true}));
             const requestPayload = {
                 email: forgotForm.email,
                 code: otpForm.code
@@ -58,16 +94,16 @@ export default function useResetPassword() {
                 sessionStorage.setItem("resetEmail", forgotForm.email);
                 navigate("/auth/reset-password");
             } else {
-                setMessage("Incorrect Otp");
+                setVertifyOtpButton((prev) => ({...prev, message: "Incorrect OTP"}));
             }
         } catch (err: any) {
-            setError(err.message || "Unexpected exception happens while verifying OTP");
+            setVertifyOtpButton((prev) => ({...prev, message:  "Unexpected exception happens while verifying OTP"}));
         } finally {
             setLoading(false);
         }
     }
 
-    return { forgotForm, otpForm, loading, error, message,
+    return { forgotForm, otpForm, loading, error, sendOtpButton, verifyOtpButton,
         handleForgotFormChange, handleOtpFormChange, 
         handleForgotPasswordSubmit, handleVerifyOTPSubmit };
 }
