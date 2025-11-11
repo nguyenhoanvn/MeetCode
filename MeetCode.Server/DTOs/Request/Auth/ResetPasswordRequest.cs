@@ -1,7 +1,7 @@
 ﻿namespace MeetCode.Server.DTOs.Request.Auth
 {
     public sealed record ResetPasswordRequest(
-        string Code,
+        string Email,
         string NewPassword
         );
 }

@@ -12,10 +12,9 @@ namespace MeetCode.Application.Commands.CommandValidators.Auth
     {
         public ResetPasswordCommandValidator()
         {
-            RuleFor(x => x.Code)
+            RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("OTP is required.")
-                .Length(6).WithMessage("Invalid OTP.")
-                .Matches("^[0-9]$+").WithMessage("OTP must contains numeric characters only");
+                .EmailAddress().WithMessage("Invalid email format");
             RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(8).WithMessage("Password must have more than 8 characters.")

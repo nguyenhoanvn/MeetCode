@@ -6,5 +6,6 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Commands.CommandResults.Auth
 {
-    public sealed record ResetPasswordResult(string Message);
+    public sealed record ResetPasswordResult(
+        bool IsSuccess);
 }

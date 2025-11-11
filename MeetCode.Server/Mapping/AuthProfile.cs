@@ -33,6 +33,10 @@ namespace MeetCode.Server.Mapping
             CreateMap<ForgotPasswordRequest, ForgotPasswordQuery>();
             CreateMap<ForgotPasswordQueryResult, ForgotPasswordResponse>();
 
+            // VerifyResetPasswordOTP
+            CreateMap<VerifyResetPasswordOTPRequest, VerifyResetPasswordOTPQuery>();
+            CreateMap<VerifyResetPasswordOTPQueryResult, VerifyResetPasswordOTPResponse>();
+
             // ResetPassword
             CreateMap<ResetPasswordRequest, ResetPasswordCommand>();
             CreateMap<ResetPasswordResult, ResetPasswordResponse>();

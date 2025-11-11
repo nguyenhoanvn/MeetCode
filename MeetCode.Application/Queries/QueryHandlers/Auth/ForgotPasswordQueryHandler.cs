@@ -35,7 +35,6 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
 
         public async Task<Result<ForgotPasswordQueryResult>> Handle(ForgotPasswordQuery request, CancellationToken ct)
         {
-            _logger.LogInformation("Forgot password hanlder started");
             var user = await _userService.FindUserByEmailAsync(request.Email, ct);
             if (user == null)
             {
@@ -54,9 +53,6 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             var cacheOTPKey = $"auth:resetpassword:email:{user.Email}";
             await _cacheService.SetValueAsync(cacheOTPKey, code, TimeSpan.FromMinutes(5));
 
-            // Store cache to find Email by Code later
-            var cacheEmailKey = $"auth:resetpassword:otp:{code}";
-            await _cacheService.SetValueAsync(cacheEmailKey, user.Email, TimeSpan.FromMinutes(5));
             await _emailService.SendEmailAsync(
                 to: request.Email,
                 subject: "Reetlank reset password verification code",

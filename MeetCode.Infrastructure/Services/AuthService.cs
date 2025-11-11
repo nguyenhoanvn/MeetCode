@@ -49,7 +49,7 @@ namespace MeetCode.Infrastructure.Services
             if (email == null)
             {
                 _logger.LogWarning("Email not found in cache");
-                throw new InvalidOperationException("Email not found in cache");
+                throw new InvalidOperationException("Incorrect Otp");
             }
             return email;
         }

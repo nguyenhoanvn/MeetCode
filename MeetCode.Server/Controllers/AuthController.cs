@@ -146,6 +146,21 @@ public class AuthController : ControllerBase
         return resp;
     }
 
+    [HttpPost("verify-otp")]
+    [TranslateResultToActionResult]
+    [ProducesResponseType(typeof(VerifyResetPasswordOTPResponse), StatusCodes.Status200OK)]
+    [ExpectedFailures(ResultStatus.Invalid, ResultStatus.Error)]
+    public async Task<Result<VerifyResetPasswordOTPResponse>> VerifyOTP([FromBody] VerifyResetPasswordOTPRequest request, CancellationToken ct)
+    {
+        var cmd = _mapper.Map<VerifyResetPasswordOTPQuery>(request);
+
+        var result = await _mediator.Send(cmd, ct);
+
+        var resp = result.Map(value => _mapper.Map<VerifyResetPasswordOTPResponse>(value));
+
+        return resp;
+    }
+
     [HttpPost("reset-password")]
     [TranslateResultToActionResult]
     [ProducesResponseType(typeof(ResetPasswordResponse), StatusCodes.Status200OK)]
