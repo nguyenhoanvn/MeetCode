@@ -18,22 +18,6 @@ interface Problem {
     totalSubmissionCount: number;
     scoreAcceptedCount: number;
     acceptanceRate: number;
-    tagList: Array<Tag>;
-    testCaseList: Array<TestCase>;
-}
-
-interface Tag {
-    tagId: string;
-    name: string;
-}
-
-interface TestCase {
-    testId: string;
-    visibility: string;
-    inputText: string;
-    outputText: string;
-    weight: number;
-    problemId: string;
 }
 
 export default function useProblemList() {

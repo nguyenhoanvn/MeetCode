@@ -55,7 +55,7 @@ export default function ProblemListPage() {
                         </div>
                     </div>
 
-                    <div className="bg-red-300 h-fit w-full">
+                    <div className="h-fit w-full">
                         <div className="flex flex-col items-center">
                             <p className="text-xl font-black pb-2">Hello world</p>
                             <div className="w-full border-collapse rounded-lg overflow-hidden">
