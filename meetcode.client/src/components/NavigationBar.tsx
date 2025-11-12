@@ -5,7 +5,7 @@ export default function NavigationBar() {
     const {handleProblem, handleRegister, handleLogin, user, error, loading} = useNavBar();
 
     return (
-        <div className="flex flex-row items-center gap-10 bg-[#0D1117] border-b px-0.5 py-0.75 shadow-[0_0_20px_2px_rgba(255,255,255,0.6)]">
+        <div className="flex flex-row items-center gap-10 bg-[#0D1117] border-b px-0.5 py-0.75">
             <a href="/" className="p-3 ml-5">
                 <img className="w-7 h-7 duration-500 hover:scale-110" src={logo}></img>
             </a>
