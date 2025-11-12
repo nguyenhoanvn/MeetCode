@@ -19,6 +19,7 @@ namespace MeetCode.Server.Mapping
                 .ConstructUsing(src => new ProblemResponse(
                     src.ProblemId,
                     src.Title,
+                    src.Slug,
                     src.StatementMd,
                     src.Difficulty,
                     src.TotalSubmissionCount,

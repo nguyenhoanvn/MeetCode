@@ -6,6 +6,7 @@ namespace MeetCode.Server.DTOs.Response.Problem
     public sealed record ProblemResponse(
         Guid ProblemId,
         string Title,
+        string Slug,
         string StatementMd,
         string Difficulty,
         int TotalSubmissionCount,
