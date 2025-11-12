@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { problemList as fetchProblemList } from "../api/problem";
 import { problemSearch as fetchProblemSearch } from "../api/problem";
+import { useNavigate } from "react-router-dom";
 
 enum Difficulty {
     Easy = 'easy',
@@ -11,6 +12,7 @@ enum Difficulty {
 interface Problem {
     problemId: string;
     title: string;
+    slug: string;
     statementMd: string;
     difficulty: Difficulty;
     totalSubmissionCount: number;
@@ -39,6 +41,8 @@ export default function useProblemList() {
     const [problemSearchBox, setProblemSearchBox] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const navigate = useNavigate();
 
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         try {

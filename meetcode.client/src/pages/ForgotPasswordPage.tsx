@@ -32,7 +32,6 @@ export default function ForgotPasswordPage() {
                                         {sendOtpButton.message}
                                     </p>
                                     <div className="flex flex-col gap-5 relative">
-                                        
                                         <input type="email"
                                         name="email"
                                         value={forgotForm.email}

@@ -16,6 +16,7 @@ export default function AppRouter() {
                 <Route path="/problems" element={<ProblemListPage/>}/>
                 <Route path="/auth/forgot-password" element={<ForgotPasswordPage/>}/>
                 <Route path="/auth/reset-password" element={<ResetPasswordPage/>}/>
+                <Route path="/problems/:slug" element={<ResetPasswordPage/>}/>
             </Routes>
         </BrowserRouter>
     );
