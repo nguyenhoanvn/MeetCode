@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import ProblemListPage from "./pages/ProblemListPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ProblemDetailPage from "./pages/ProblemDetailPage";
 
 export default function AppRouter() {
     return (
@@ -16,7 +17,7 @@ export default function AppRouter() {
                 <Route path="/problems" element={<ProblemListPage/>}/>
                 <Route path="/auth/forgot-password" element={<ForgotPasswordPage/>}/>
                 <Route path="/auth/reset-password" element={<ResetPasswordPage/>}/>
-                <Route path="/problems/:slug" element={<ResetPasswordPage/>}/>
+                <Route path="/problems/:slug" element={<ProblemDetailPage/>}/>
             </Routes>
         </BrowserRouter>
     );

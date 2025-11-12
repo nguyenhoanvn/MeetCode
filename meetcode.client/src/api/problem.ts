@@ -9,3 +9,8 @@ export const problemSearch = async (name: string) => {
     const response = await problemApi.get(`/search?name=${name}`);
     return response.data;
 }
+
+export const problemDetail = async (slug: string) => {
+    const response = await problemApi.get(`${slug}`);
+    return response.data;
+}
