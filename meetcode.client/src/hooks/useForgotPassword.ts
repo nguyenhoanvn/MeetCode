@@ -25,7 +25,7 @@ interface VerifyOTPField {
     status: boolean;
 }
 
-export default function useResetPassword() {
+export default function useForgotPassword() {
     const [forgotForm, setForgotForm] = useState<ForgotPasswordForm>({email: ""});
     const [otpForm, setOtpForm] = useState<OtpForm>({ code: ""});
     const [loading, setLoading] = useState<boolean>(false);

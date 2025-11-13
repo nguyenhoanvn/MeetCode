@@ -1,10 +1,10 @@
 
-import useResetPassword from "../hooks/useForgotPassword"
+import useForgotPassword from "../hooks/useForgotPassword";
 
 export default function ForgotPasswordPage() {
     const { forgotForm, otpForm, loading, error, sendOtpButton, verifyOtpButton,
         handleForgotFormChange, handleOtpFormChange, 
-        handleForgotPasswordSubmit, handleVerifyOTPSubmit } = useResetPassword();
+        handleForgotPasswordSubmit, handleVerifyOTPSubmit } = useForgotPassword();
 
     return(
         <div className="h-screen w-screen bg-amber-300">
