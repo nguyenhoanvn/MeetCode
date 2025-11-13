@@ -47,11 +47,12 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 ));
 
 // Redis
+var options = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis")!);
+options.AbortOnConnectFail = false;
+
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-{
-    var config = builder.Configuration.GetConnectionString("Redis");
-    return ConnectionMultiplexer.Connect(config!);
-});
+    ConnectionMultiplexer.Connect(options)
+);
 
 // MediatR (scan app assembly)
 builder.Services.AddMediatR(cfg =>
@@ -68,6 +69,7 @@ builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(Program).Assembly));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(typeof(RegisterUserCommand).Assembly);
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(HandlerResultLoggingBehavior<,>));
 
 // Logger
 builder.Logging.ClearProviders();

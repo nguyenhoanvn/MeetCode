@@ -43,7 +43,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             if (user == null)
             {
                 _logger.LogInformation($"Login failed because email not match");
-                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false, "Invalid credentials");
+                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false);
                 return Result.Success(result);
             }
 
@@ -53,7 +53,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             if (!isPasswordMatch)
             {
                 _logger.LogWarning($"Login failed because password does not match");
-                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false, "Invalid credentials");
+                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false);
                 return Result.Success(result);
             }
 
@@ -65,7 +65,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
 
             _logger.LogInformation($"Login completed for user with email: {email}");
 
-            return Result.Success(new LoginUserQueryResult(accessToken, refreshToken, user.DisplayName, user.Role, true, ""));
+            return Result.Success(new LoginUserQueryResult(accessToken, refreshToken, user.DisplayName, user.Role, true));
 
         }
     }

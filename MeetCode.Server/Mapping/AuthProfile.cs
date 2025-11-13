@@ -16,8 +16,7 @@ namespace MeetCode.Server.Mapping
             CreateMap<LoginRequest, LoginUserQuery>();
             CreateMap<LoginUserQueryResult, LoginResponse>()
                 .ConstructUsing(src => new LoginResponse(
-                    src.IsSuccessful,
-                    src.Message
+                    src.IsSuccessful
                     ));
 
             // Register
