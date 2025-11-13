@@ -54,7 +54,7 @@ export default function useProblemDetail(slug: string) {
 
     useEffect(() => {
         handleGetProblem();
-    });
+    }, [slug]);
 
     return { problem, initLoading, initError };
 }

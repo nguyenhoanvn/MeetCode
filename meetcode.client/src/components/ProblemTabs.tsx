@@ -31,6 +31,12 @@ export default function ProblemTabs({ tabs, initialTab = 0, onTabChange }: TabPr
                 </li>
             ))}
         </ul>
+        <div> 
+            {selectedTab === 0 && <p>Currently chosen Question</p>}
+            {selectedTab === 1 && <p>Currently chosen Solution</p>}
+            {selectedTab === 2 && <p>Currently chosen Submission</p>}
+            {selectedTab === 3 && <p>Currently chosen Note</p>}
+        </div>
     </div>
   );
 }
