@@ -16,10 +16,6 @@ namespace MeetCode.Application.Commands.CommandValidators.Problem
                 .NotEmpty().WithMessage("Problem Id is required.");
             RuleFor(x => x.NewStatementMd)
                 .NotEmpty().WithMessage("Problem statement is required");
-            RuleFor(x => x.NewTitle)
-                .NotEmpty().WithMessage("Problem title is required.")
-                .MaximumLength(255).WithMessage("Problem title must less than 255 characters.")
-                .Matches("^[a-zA-Z0-9 ]+$").WithMessage("Problem must contain only alphabetical/numeric characters.");
             RuleFor(x => x.NewDifficulty)
                 .NotEmpty().WithMessage("Problem difficulty is required.")
                 .Must(d => new[] { "easy", "medium", "hard" }.Contains(d.ToLowerInvariant())).WithMessage("Problem difficulty must be either \"easy\", \"medium\" or \"hard\".");

@@ -52,12 +52,10 @@ public partial class Problem
         Slug = Regex.Replace(Title.ToLowerInvariant().Trim(), @"\s+", "-").ToLowerInvariant();
     }
 
-    public void UpdateBasic(string title, string statementMd, string difficulty)
+    public void UpdateBasic(string statementMd, string difficulty)
     {
-        Title = title;
         StatementMd = statementMd;
         Difficulty = difficulty;
-        GenerateSlug();
     }
 
     public void UpdateTags(IEnumerable<ProblemTag> tagList)

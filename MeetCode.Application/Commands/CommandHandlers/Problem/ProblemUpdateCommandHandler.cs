@@ -30,7 +30,6 @@ namespace MeetCode.Application.Commands.CommandHandlers.Problem
 
             var updatedProblem = await _problemService.UpdateProblemAsync(
                 request.ProblemId, 
-                request.NewTitle, 
                 request.NewStatementMd,
                 request.NewDifficulty, 
                 request.TagIds, 

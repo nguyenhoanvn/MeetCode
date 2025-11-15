@@ -11,7 +11,6 @@ namespace MeetCode.Application.Commands.CommandEntities.Problem
 {
     public sealed record ProblemUpdateCommand(
         Guid ProblemId,
-        string NewTitle,
         string NewStatementMd,
         string NewDifficulty,
         IEnumerable<Guid> TagIds

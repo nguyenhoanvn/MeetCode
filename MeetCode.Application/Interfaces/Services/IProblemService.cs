@@ -15,7 +15,7 @@ namespace MeetCode.Application.Interfaces.Services
         Task<IEnumerable<Problem>> ReadAllProblemsAsync(CancellationToken ct);
         Task<Problem?> FindProblemByIdAsync(Guid problemId, CancellationToken ct);
         Task<Problem?> FindProblemBySlugAsync(string problemSlug, CancellationToken ct);
-        Task<Problem> UpdateProblemAsync(Guid problemId, string title, string statementMd, string difficulty, IEnumerable<Guid> tagIds, CancellationToken ct);
+        Task<Problem> UpdateProblemAsync(Guid problemId, string statementMd, string difficulty, IEnumerable<Guid> tagIds, CancellationToken ct);
         Task DeleteProblemAsync(Problem problemToDelete, CancellationToken ct);
         Task<IEnumerable<Problem>> ReadAllProblemsBySlugAsync(string slug, CancellationToken ct);
         

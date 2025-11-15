@@ -67,7 +67,7 @@ namespace MeetCode.Server.Controllers
             return result.Map(value => _mapper.Map<ProblemResponse>(value));
         }
 
-        [HttpPut("{problemId}")]
+        [HttpPatch("{problemId}")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Conflict, ResultStatus.Forbidden, ResultStatus.Error)]

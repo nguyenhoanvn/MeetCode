@@ -98,7 +98,7 @@ namespace MeetCode.Infrastructure.Services
             return await _problemRepository.GetBySlugAsync(problemSlug, ct);
         }
 
-        public async Task<Problem> UpdateProblemAsync(Guid problemId, string title, string statementMd, string difficulty, IEnumerable<Guid> tagIds, CancellationToken ct)
+        public async Task<Problem> UpdateProblemAsync(Guid problemId, string statementMd, string difficulty, IEnumerable<Guid> tagIds, CancellationToken ct)
         {
             var problem = await _problemRepository.GetByIdAsync(problemId, ct);
             if (problem == null)
@@ -107,21 +107,22 @@ namespace MeetCode.Infrastructure.Services
                 throw new EntityNotFoundException<Problem>(nameof(problemId), problemId.ToString());
             }
 
-            problem.UpdateBasic(title, statementMd, difficulty);
-            if (await _problemRepository.IsProblemExistsAsync(problem.Slug, ct))
+            try
             {
-                _logger.LogWarning($"Problem with slug {problem.Slug} already exists");
-                throw new DuplicateEntityException<Problem>(new Dictionary<string, string>
-                {
-                    {nameof(problem.Slug), problem.Slug }
-                });
-            }
-            var tagList = await _tagRepository.GetByIdsAsync(tagIds, ct);
-            problem.UpdateTags(tagList);
+                await _unitOfWork.BeginTransactionAsync(ct);
+                problem.UpdateBasic(statementMd, difficulty);
+                await _problemRepository.Update(problem);
 
-            await _unitOfWork.BeginTransactionAsync(ct);
-            await _problemRepository.Update(problem);
-            await _unitOfWork.CommitTransactionAsync(ct);
+                var tagList = await _tagRepository.GetByIdsAsync(tagIds, ct);
+                problem.UpdateTags(tagList);
+                await _problemRepository.Update(problem);
+                await _unitOfWork.CommitTransactionAsync(ct);
+            } catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync(ct);
+                throw new DbUpdateException("Something went wrong while update problem information.\n" +
+                    ex.Message);
+            }
             return problem;
         }
 

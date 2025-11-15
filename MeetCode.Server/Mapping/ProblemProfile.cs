@@ -49,7 +49,6 @@ namespace MeetCode.Server.Mapping
             CreateMap<(Guid problemId, ProblemUpdateRequest request), ProblemUpdateCommand>()
                 .ConstructUsing(src => new ProblemUpdateCommand(
                     src.problemId,
-                    src.request.NewTitle,
                     src.request.NewStatementMd,
                     src.request.NewDifficulty,
                     src.request.TagIds));
