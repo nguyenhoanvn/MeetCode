@@ -1,5 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import CodeBlock from "../components/CodeBlock";
 
 enum Difficulty {
     Easy = 'easy',
@@ -40,11 +41,22 @@ interface ProblemQuestionPageProps {
 
 export default function ProblemQuestionPage({ problemDetail }: ProblemQuestionPageProps) {
 
+    const md = `
+Given two numbers \`a\` and \`b\`, return their sum
+
+**Example 1:**
+
+\`\`\`
+Input: a = 1, b = 2
+Output: 3
+\`\`\`
+`;
+
     return (
         <>
             <style>
                         {`
-                        .prose code
+                        .prose .code-inline
                         {
                             background-color: #1f2937;
                             border: 1px solid #4b5563;
@@ -67,9 +79,24 @@ export default function ProblemQuestionPage({ problemDetail }: ProblemQuestionPa
                         </p>
                     </span>
 
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {problemDetail.statementMd}
-                    </ReactMarkdown>
+                    <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+                code({ children, className }) {
+                    const match = /language-(\w+)/.exec(className || "");
+
+                    if (!String(children).includes("\n")) return <code className="code-inline">{children}</code>;
+
+                    return (
+                        <CodeBlock>
+                            {String(children)}
+                        </CodeBlock>
+                    );
+                },
+            }}
+        >
+            {md}
+        </ReactMarkdown>
                 </div>
             </div>
         </>
