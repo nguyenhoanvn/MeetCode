@@ -80,23 +80,22 @@ Output: 3
                     </span>
 
                     <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-                code({ children, className }) {
-                    const match = /language-(\w+)/.exec(className || "");
-
-                    if (!String(children).includes("\n")) return <code className="code-inline">{children}</code>;
-
-                    return (
-                        <CodeBlock>
-                            {String(children)}
-                        </CodeBlock>
-                    );
-                },
-            }}
-        >
-            {md}
-        </ReactMarkdown>
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                            code({ children }) {
+                                if (!String(children).includes("\n")) {
+                                    return <code className="code-inline">{children}</code>;
+                                }    
+                                return (
+                                    <CodeBlock>
+                                        {String(children)}
+                                    </CodeBlock>
+                                );
+                            },
+                        }}
+                    >
+                        {md}
+                    </ReactMarkdown>
                 </div>
             </div>
         </>

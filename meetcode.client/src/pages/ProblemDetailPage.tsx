@@ -4,6 +4,7 @@ import NavigationBar from "../components/NavigationBar";
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 import useTabs from "../hooks/useTabs";
 import ProblemQuestionPage from "./ProblemQuestionPage";
+import CodeEditorPage from "./CodeEditorPage";
         
 
 export default function ProblemDetailPage() {
@@ -64,8 +65,10 @@ export default function ProblemDetailPage() {
                             </div>
                         </SplitterPanel>
                         <SplitterPanel size={60} className="flex align-items-center justify-content-center
-                        border border-amber-50 rounded-lg overflow-hidden">
-                            Panel 2
+                        border border-amber-50 rounded-lg overflow-hidden flex-col">
+                            <CodeEditorPage>
+
+                            </CodeEditorPage>
                         </SplitterPanel>
                     </Splitter>
                 </div>
