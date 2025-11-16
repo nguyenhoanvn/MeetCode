@@ -22,6 +22,7 @@ export default function useCodeEditor() {
 
     const handleLanguageChange = (input: string) => {
         setSelectedLanguage(input);
+        setLanguageDropdown(false);
         setCode(templates.get(input) || "");
         sessionStorage.setItem("selectedLanguage", input);
     }
