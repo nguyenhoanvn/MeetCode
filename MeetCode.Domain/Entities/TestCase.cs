@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MeetCode.Domain.Helpers;
+using System;
 using System.Collections.Generic;
 
 namespace MeetCode.Domain.Entities;
@@ -12,8 +13,10 @@ public partial class TestCase
     public string Visibility { get; set; } = null!;
 
     public string InputText { get; set; } = null!;
+    public string InputJson => JSONSerializer.ConvertStringToJson(InputText);
 
     public string ExpectedOutputText { get; set; } = null!;
+    public string ExpectedOutputJson => JSONSerializer.ConvertStringToJson(ExpectedOutputText);
 
     public int Weight { get; set; }
 

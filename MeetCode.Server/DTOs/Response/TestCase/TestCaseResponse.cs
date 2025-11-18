@@ -3,8 +3,8 @@
     public sealed record TestCaseResponse(
         Guid TestId,
         string Visibility,
-        string InputText,
-        string OutputText,
+        string InputJson,
+        string OutputJson,
         int Weight,
         Guid ProblemId
         );

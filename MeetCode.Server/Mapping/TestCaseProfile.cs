@@ -33,8 +33,14 @@ namespace MeetCode.Server.Mapping
                     src.request.Weight
                 ));
             CreateMap<TestCaseAddCommandResult, TestCaseResponse>()
-                .ConstructUsing((src, context) =>
-                    context.Mapper.Map<TestCaseResponse>(src.TestCase));
+                .ConstructUsing(src => new TestCaseResponse(
+                    src.TestCase.TestId,
+                    src.TestCase.Visibility,
+                    src.TestCase.InputJson,
+                    src.TestCase.ExpectedOutputJson,
+                    src.TestCase.Weight,
+                    src.TestCase.ProblemId
+                ));
 
             // Get all
             CreateMap<TestCaseAllRequest, TestCaseAllQuery>();
