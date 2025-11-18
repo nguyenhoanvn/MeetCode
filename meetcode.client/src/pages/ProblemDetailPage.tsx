@@ -18,13 +18,14 @@ export default function ProblemDetailPage() {
         <>
             <style>
                 {`
-                    .p-splitter .p-splitter-gutter {
+                    .problem-splitter .p-splitter-gutter {
                         width: 8px !important;
+                        height: 100%;
                         background-color: transparent;
                         transition: box-shadow 0.2s ease, background-color 0.2s ease;
                     }
 
-                    .p-splitter .p-splitter-gutter:hover {
+                    .problem-splitter .p-splitter-gutter:hover {
                         background-color: var(--color-gray-600);
                     }
                 `}
@@ -33,7 +34,7 @@ export default function ProblemDetailPage() {
             <div className="w-screen h-screen flex flex-col">
                 <NavigationBar/>
                 <div className="flex-1 p-3">
-                    <Splitter className="h-full">
+                    <Splitter className="h-full problem-splitter" layout="horizontal">
                         <SplitterPanel size={40} 
                         className="flex align-items-center justify-content-center
                         border border-amber-50 rounded-lg overflow-hidden flex-col">
@@ -66,9 +67,7 @@ export default function ProblemDetailPage() {
                         </SplitterPanel>
                         <SplitterPanel size={60} className="flex align-items-center justify-content-center
                         border border-amber-50 rounded-lg overflow-hidden flex-col">
-                            <CodeEditorPage>
-
-                            </CodeEditorPage>
+                            <CodeEditorPage testCaseList={problem?.testCaseList ?? []}/>                   
                         </SplitterPanel>
                     </Splitter>
                 </div>

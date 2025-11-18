@@ -1,39 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CodeBlock from "../components/CodeBlock";
-
-enum Difficulty {
-    Easy = 'easy',
-    Medium = 'medium',
-    Hard = 'hard'
-}
-
-interface Problem {
-    problemId: string;
-    title: string;
-    slug: string;
-    statementMd: string;
-    difficulty: Difficulty;
-    totalSubmissionCount: number;
-    scoreAcceptedCount: number;
-    acceptanceRate: number;
-    tagList: Array<Tag>;
-    testCaseList: Array<TestCase>;
-}
-
-interface Tag {
-    tagId: string;
-    name: string;
-}
-
-interface TestCase {
-    testId: string;
-    visibility: string;
-    inputText: string;
-    outputText: string;
-    weight: number;
-    problemId: string;
-}
+import { Problem } from "../types/problem";
 
 interface ProblemQuestionPageProps {
     problemDetail: Problem;
