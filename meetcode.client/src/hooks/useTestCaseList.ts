@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TestCase, ParsedTestCase } from "../types/testCase";
 
 export default function useTestCaseList(initialList: Array<TestCase>) {
@@ -18,17 +18,17 @@ export default function useTestCaseList(initialList: Array<TestCase>) {
         setTestCases(prev => prev.filter(tc => tc.testId !== testId));
     };
 
-    const getParsedTestCases = (): ParsedTestCase[] => {
+    const parsedTestCase: ParsedTestCase[] = useMemo(() => {
         return testCases.map(tc => {
-            let parsedInput: Record<string, any> = {};
+            let input: Record<string, string> = {};
             try {
-                parsedInput = JSON.parse(tc.inputJson);
+                input = JSON.parse(tc.inputJson);
             } catch (err: any) {
-                console.log("Cannot parse from json to text");
+                console.warn("Cannot parse inputJson for test cases", tc.testId);
             }
-            return {...tc, input: parsedInput};
-        })
-    }
+            return { ...tc, input };
+        });
+    }, [testCases]);
 
-    return {testCases, updateTestCase, removeTestCase, getParsedTestCases};
+    return {testCases, updateTestCase, removeTestCase, parsedTestCase};
 }

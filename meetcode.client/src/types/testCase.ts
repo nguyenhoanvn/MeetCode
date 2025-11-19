@@ -14,5 +14,5 @@ export interface TestCase {
 }
 
 export interface ParsedTestCase extends Omit<TestCase, "inputJson"> {
-    input: Record<string, any>;
+    input: Record<string, string>;
 }

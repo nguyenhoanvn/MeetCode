@@ -64,61 +64,55 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                 </div>
             </div>
             <div className="relative h-full w-full">
-                <div className="h-1/2">
-                <Editor
-                        height="100%"
-                        language={selectedLanguage}
-                        value={code}
-                        theme="vs-dark"
-                        options={{
-                            quickSuggestions: false,
-                            suggestOnTriggerCharacters: false,
-                            wordBasedSuggestions: "off",
-                            parameterHints: { enabled: false },
-                            tabCompletion: "off",
-                            renderControlCharacters: false,
-                            renderWhitespace: "none",
-                            lineNumbers: "on",
-                            contextmenu: false,
-                            minimap: { enabled: false },
-                            fontSize: 16,
-                            padding: { top: 10 },
-                        }}
-                        />
-                </div>
+    <Splitter className="h-full editor-splitter" layout="vertical">
+        <SplitterPanel size={70}>
+            <Editor
+                height="95%"
+                language={selectedLanguage}
+                value={code}
+                theme="vs-dark"
+                options={{
+                    quickSuggestions: false,
+                    suggestOnTriggerCharacters: false,
+                    wordBasedSuggestions: "off",
+                    parameterHints: { enabled: false },
+                    tabCompletion: "off",
+                    renderControlCharacters: false,
+                    renderWhitespace: "none",
+                    lineNumbers: "on",
+                    contextmenu: false,
+                    minimap: { enabled: false },
+                    fontSize: 16,
+                    padding: { top: 10 },
+                }}
+            />
+        </SplitterPanel>
 
-                <div className="absolute inset-0 z-10 flex flex-col">
-                    <Splitter className="h-full editor-splitter" layout="vertical">
-                    <SplitterPanel size={70}>
-                        <div className="bg-blue-200 z-0" />
-                    </SplitterPanel>
-
-                    <SplitterPanel size={30}>
-                        <div className="w-full h-full flex-row">
-                            <div className="w-full h-10 bg-gray-800 flex flex-row items-center px-1">
-                                {tabs.map((tab, index) => (
-                                    <div
-                                    key={tab.label}
-                                    onClick={() => handleSelectTab(index)}
-                                    className="h-3/4 w-1/10 flex items-center justify-center gap-1 rounded-lg 
-                                        cursor-pointer hover:bg-gray-600"
-                                    >
-                                        <span className={`material-symbols-outlined !text-md ${tab.color}`}>
-                                            {tab.icon}
-                                        </span>
-                                        <span className="text-xs leading-none">{tab.label}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <div>
-                                {selectedTab === 0 && <TestCaseListPage testCaseList={props.testCaseList}/>}
-                                {selectedTab === 1 && <div><p>currentLy selected {selectedTab}</p></div>}
-                            </div>
+        <SplitterPanel size={30}>
+            <div className="w-full h-full flex flex-col">
+                <div className="h-10 bg-gray-800 flex flex-row items-center px-1">
+                    {tabs.map((tab, index) => (
+                        <div
+                            key={tab.label}
+                            onClick={() => handleSelectTab(index)}
+                            className="h-3/4 w-1/10 flex items-center justify-center gap-1 rounded-lg 
+                                cursor-pointer hover:bg-gray-600"
+                        >
+                            <span className={`material-symbols-outlined !text-md ${tab.color}`}>
+                                {tab.icon}
+                            </span>
+                            <span className="text-xs leading-none">{tab.label}</span>
                         </div>
-                    </SplitterPanel>
-                    </Splitter>
+                    ))}
+                </div>
+                <div className="flex-1 overflow-auto">
+                    {selectedTab === 0 && <TestCaseListPage testCaseList={props.testCaseList}/>}
+                    {selectedTab === 1 && <div><p>currently selected {selectedTab}</p></div>}
                 </div>
             </div>
+        </SplitterPanel>
+    </Splitter>
+</div>
 
         </>
     )
