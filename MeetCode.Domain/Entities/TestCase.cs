@@ -16,7 +16,6 @@ public partial class TestCase
     public string InputJson => JSONSerializer.ConvertStringToJson(InputText);
 
     public string ExpectedOutputText { get; set; } = null!;
-    public string ExpectedOutputJson => JSONSerializer.ConvertStringToJson(ExpectedOutputText);
 
     public int Weight { get; set; }
 

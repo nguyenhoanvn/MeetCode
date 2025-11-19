@@ -16,7 +16,7 @@ namespace MeetCode.Server.Mapping
         public ProblemProfile()
         {
             CreateMap<Problem, ProblemResponse>()
-                .ConstructUsing(src => new ProblemResponse(
+                .ConstructUsing((src, context) => new ProblemResponse(
                     src.ProblemId,
                     src.Title,
                     src.Slug,
@@ -26,7 +26,7 @@ namespace MeetCode.Server.Mapping
                     src.ScoreAcceptedCount,
                     src.AcceptanceRate,
                     src.Tags.Select(t => new TagResponse(t.TagId, t.Name)).ToList(),
-                    src.TestCases.Select(tc => new TestCaseResponse(tc.TestId, tc.Visibility, tc.InputText, tc.ExpectedOutputText, tc.Weight, tc.ProblemId)).ToList()
+                    context.Mapper.Map<List<TestCaseResponse>>(src.TestCases)
                 ));
             // Add
             CreateMap<ProblemAddRequest, ProblemAddCommand>();
