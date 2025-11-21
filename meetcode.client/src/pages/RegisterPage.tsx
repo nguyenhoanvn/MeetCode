@@ -5,9 +5,9 @@ export default function RegisterPage() {
     const {registerForm, handleChange, handleSubmit, loading, error} = useRegister();
 
     return (
-        <div className="h-screen w-screen bg-amber-300 overflow-hidden">
+        <div className="h-screen w-screen overflow-hidden">
             <NavigationBar/>
-            <div className="flex justify-center">
+            <div className="flex justify-center p-10">
                 <div className="flex flex-col gap-10 min-h-fit min-w-fit bg-[#161B22] border-white border-2 rounded-md px-10 pt-15 pb-10">
                     <p className="text-gray-200 font-black text-2xl">Join <span className="text-[#1E3A8A] font-bold">MeetCode</span>
                     <br/><span className="text-sm font-light">be ready to excel</span></p>

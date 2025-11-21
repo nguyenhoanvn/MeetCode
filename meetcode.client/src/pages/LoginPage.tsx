@@ -9,7 +9,7 @@ export default function LoginPage() {
                 <div className="bg-white">
                     
                 </div>
-                <div className="flex flex-col bg-[#161b22] px-10 py-3 gap-10">
+                <div className="flex flex-col bg-[#161b22] px-10 py-3 gap-10 justify-center">
                     <div className="">
                         <p className="text-2xl text-gray-200 font-black">Welcome back!<br/>
                         Login your account</p>
