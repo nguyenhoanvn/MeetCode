@@ -6,6 +6,10 @@ import ProblemListPage from "./pages/ProblemListPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProblemDetailPage from "./pages/ProblemDetailPage";
+import DashboardPage from "./pagesAdmin/DashboardPage";
+import AdminLayout from "./pagesAdmin/Layout";
+import TablePage from "./pagesAdmin/TablePage";
+import ProblemPage from "./pagesAdmin/ProblemPage";
 
 export default function AppRouter() {
     return (
@@ -18,6 +22,11 @@ export default function AppRouter() {
                 <Route path="/auth/forgot-password" element={<ForgotPasswordPage/>}/>
                 <Route path="/auth/reset-password" element={<ResetPasswordPage/>}/>
                 <Route path="/problems/:slug" element={<ProblemDetailPage/>}/>
+                <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<DashboardPage />} />
+                    <Route path="tables" element={<TablePage />} />
+                    <Route path="problems" element={<ProblemPage />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );
