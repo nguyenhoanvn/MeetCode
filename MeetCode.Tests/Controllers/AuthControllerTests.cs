@@ -15,10 +15,10 @@ using MeetCode.Application.Commands.CommandEntities.Auth;
 using MeetCode.Application.Commands.CommandResults.Auth;
 using MeetCode.Server.DTOs.Response.Auth;
 using MeetCode.Server.DTOs.Request.Auth;
-using MeetCode.Server.Controllers;
 using MeetCode.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using MeetCode.Server.Controllers;
 
 namespace MeetCode.Tests.Controller
 {

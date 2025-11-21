@@ -4,10 +4,10 @@ using MeetCode.Application.Commands.CommandResults.Problem;
 using MeetCode.Application.Queries.QueryEntities.Problem;
 using MeetCode.Application.Queries.QueryResults.Problem;
 using MeetCode.Domain.Entities;
-using MeetCode.Server.DTOs.Request.Problem;
-using MeetCode.Server.DTOs.Response.Problem;
-using MeetCode.Server.DTOs.Response.Tag;
-using MeetCode.Server.DTOs.Response.TestCase;
+using MeetCode.Application.DTOs.Request.Problem;
+using MeetCode.Application.DTOs.Response.Problem;
+using MeetCode.Application.DTOs.Response.Tag;
+using MeetCode.Application.DTOs.Response.TestCase;
 
 namespace MeetCode.Server.Mapping
 {
@@ -28,22 +28,38 @@ namespace MeetCode.Server.Mapping
                     src.Tags.Select(t => new TagResponse(t.TagId, t.Name)).ToList(),
                     context.Mapper.Map<List<TestCaseResponse>>(src.TestCases)
                 ));
+
+            CreateMap<Problem, AdminProblemResponse>()
+                .ConstructUsing((src, context) => new AdminProblemResponse(
+                    src.ProblemId,
+                    src.Title,
+                    src.Slug,
+                    src.StatementMd,
+                    src.Difficulty,
+                    src.TotalSubmissionCount,
+                    src.ScoreAcceptedCount,
+                    src.AcceptanceRate,
+                    context.Mapper.Map<List<TagResponse>>(src.Tags),
+                    context.Mapper.Map<List<TestCaseResponse>>(src.TestCases),
+                    src.IsActive,
+                    src.CreatedBy
+                ));
             // Add
             CreateMap<ProblemAddRequest, ProblemAddCommand>();
-            CreateMap<ProblemAddCommandResult, ProblemResponse>()
+            CreateMap<ProblemAddCommandResult, AdminProblemResponse>()
                 .ConstructUsing((src, context) =>
-                    context.Mapper.Map<ProblemResponse>(src.Problem));
+                    context.Mapper.Map<AdminProblemResponse>(src.Problem));
 
             // Get all
             CreateMap<ProblemAllQueryResult, ProblemAllResponse>()
                 .ConstructUsing((src, context) => new ProblemAllResponse(
-                    context.Mapper.Map<List<ProblemResponse>>(src.ProblemList)
+                    context.Mapper.Map<List<IProblemResponse>>(src.ProblemList)
                     ));
 
             // Read 
-            CreateMap<ProblemReadQueryResult, ProblemResponse>()
+            CreateMap<ProblemReadQueryResult, IProblemResponse>()
                 .ConstructUsing((src, context) =>
-                    context.Mapper.Map<ProblemResponse>(src.Problem));
+                    context.Mapper.Map<IProblemResponse>(src.Problem));
 
             // Update
             CreateMap<(Guid problemId, ProblemUpdateRequest request), ProblemUpdateCommand>()

@@ -4,8 +4,8 @@ using AutoMapper;
 using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Language;
 using MeetCode.Application.Queries.QueryEntities.Language;
-using MeetCode.Server.DTOs.Request.Language;
-using MeetCode.Server.DTOs.Response.Language;
+using MeetCode.Application.DTOs.Request.Language;
+using MeetCode.Application.DTOs.Response.Language;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

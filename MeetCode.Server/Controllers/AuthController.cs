@@ -11,8 +11,8 @@ using MeetCode.Application.Commands.CommandResults.Auth;
 using MeetCode.Application.Interfaces.Services;
 using MeetCode.Application.Queries.QueryEntities.Auth;
 using MeetCode.Application.Commands.CommandEntities.Auth;
-using MeetCode.Server.DTOs.Response.Auth;
-using MeetCode.Server.DTOs.Request.Auth;
+using MeetCode.Application.DTOs.Response.Auth;
+using MeetCode.Application.DTOs.Request.Auth;
 using Ardalis.Result.AspNetCore;
 
 namespace MeetCode.Server.Controllers;

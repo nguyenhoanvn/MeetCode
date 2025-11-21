@@ -1,12 +1,12 @@
 ﻿using Ardalis.Result.AspNetCore;
 using AutoMapper;
 using MediatR;
-using MeetCode.Server.DTOs.Response.TestCase;
+using MeetCode.Application.DTOs.Response.TestCase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ardalis.Result;
 using MeetCode.Application.Commands.CommandEntities.TestCase;
-using MeetCode.Server.DTOs.Request.TestCase;
+using MeetCode.Application.DTOs.Request.TestCase;
 using MeetCode.Application.Queries.QueryEntities.TestCase;
 
 namespace MeetCode.Server.Controllers

@@ -2,8 +2,8 @@
 using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Tag;
 using MeetCode.Application.Queries.QueryEntities.Tag;
-using MeetCode.Server.DTOs.Request.Tag;
-using MeetCode.Server.DTOs.Response.Tag;
+using MeetCode.Application.DTOs.Request.Tag;
+using MeetCode.Application.DTOs.Response.Tag;
 using Microsoft.AspNetCore.Mvc;
 using Ardalis.Result.AspNetCore;
 using Ardalis.Result;

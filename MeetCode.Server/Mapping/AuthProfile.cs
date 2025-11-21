@@ -3,8 +3,8 @@ using MeetCode.Application.Commands.CommandEntities.Auth;
 using MeetCode.Application.Commands.CommandResults.Auth;
 using MeetCode.Application.Queries.QueryEntities.Auth;
 using MeetCode.Application.Queries.QueryResults.Auth;
-using MeetCode.Server.DTOs.Request.Auth;
-using MeetCode.Server.DTOs.Response.Auth;
+using MeetCode.Application.DTOs.Request.Auth;
+using MeetCode.Application.DTOs.Response.Auth;
 
 namespace MeetCode.Server.Mapping
 {

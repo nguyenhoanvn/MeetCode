@@ -4,8 +4,8 @@ using MeetCode.Application.Commands.CommandResults.TestCase;
 using MeetCode.Application.Queries.QueryEntities.TestCase;
 using MeetCode.Application.Queries.QueryResults.TestCase;
 using MeetCode.Domain.Entities;
-using MeetCode.Server.DTOs.Request.TestCase;
-using MeetCode.Server.DTOs.Response.TestCase;
+using MeetCode.Application.DTOs.Request.TestCase;
+using MeetCode.Application.DTOs.Response.TestCase;
 
 namespace MeetCode.Server.Mapping
 {

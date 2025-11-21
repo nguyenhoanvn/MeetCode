@@ -6,9 +6,9 @@ using MeetCode.Application.Commands.CommandResults.Tag;
 using MeetCode.Application.Queries.QueryEntities.Tag;
 using MeetCode.Application.Queries.QueryResults.Tag;
 using MeetCode.Domain.Entities;
-using MeetCode.Server.DTOs.Request.Problem;
-using MeetCode.Server.DTOs.Request.Tag;
-using MeetCode.Server.DTOs.Response.Tag;
+using MeetCode.Application.DTOs.Request.Problem;
+using MeetCode.Application.DTOs.Request.Tag;
+using MeetCode.Application.DTOs.Response.Tag;
 
 namespace MeetCode.Server.Mapping
 {

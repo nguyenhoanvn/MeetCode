@@ -1,11 +1,11 @@
 ﻿using Ardalis.Result.AspNetCore;
 using AutoMapper;
 using MediatR;
-using MeetCode.Server.DTOs.Response.Profile;
+using MeetCode.Application.DTOs.Response.Profile;
 using Microsoft.AspNetCore.Http;
 using Ardalis.Result;
 using Microsoft.AspNetCore.Mvc;
-using MeetCode.Server.DTOs.Request.Profile;
+using MeetCode.Application.DTOs.Request.Profile;
 using MeetCode.Application.Queries.QueryEntities.Profile;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -29,6 +29,19 @@ namespace MeetCode.Server.Controllers
             _mapper = mapper;
             _logger = logger;
         }
+
+        [HttpGet("whoami")]
+        [Authorize]
+        public IActionResult WhoAmI()
+        {
+            return Ok(new
+            {
+                Name = User.Identity.Name,
+                hehe = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList(),
+                IsModerator = User.IsInRole("moderator")
+            });
+        }
+
 
         [Authorize]
         [HttpGet("me")]

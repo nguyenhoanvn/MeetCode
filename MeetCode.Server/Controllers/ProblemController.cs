@@ -3,8 +3,8 @@ using AutoMapper;
 using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Problem;
 using MeetCode.Application.Commands.CommandResults.Problem;
-using MeetCode.Server.DTOs.Request.Problem;
-using MeetCode.Server.DTOs.Response.Problem;
+using MeetCode.Application.DTOs.Request.Problem;
+using MeetCode.Application.DTOs.Response.Problem;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -28,17 +28,23 @@ namespace MeetCode.Server.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+
         [HttpPost]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(IProblemResponse), StatusCodes.Status201Created)]
         [ExpectedFailures(ResultStatus.Forbidden, ResultStatus.Conflict, ResultStatus.Error)]
-        public async Task<Result<ProblemResponse>> AddProblem([FromBody] ProblemAddRequest request, CancellationToken ct)
+        public async Task<Result<IProblemResponse>> AddProblem([FromBody] ProblemAddRequest request, CancellationToken ct)
         {     
             var cmd = _mapper.Map<ProblemAddCommand>(request);
 
             var result = await _mediator.Send(cmd, ct);
 
-            return result.Map(value => _mapper.Map<ProblemResponse>(value));
+            if (User.IsInRole("moderator"))
+            {
+                return result.Map(value => _mapper.Map<AdminProblemResponse>(value) as IProblemResponse);
+            }
+
+            return result.Map(value => _mapper.Map<ProblemResponse>(value) as IProblemResponse);
         }
 
         [HttpGet]
@@ -51,20 +57,44 @@ namespace MeetCode.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            return result.Map(value => _mapper.Map<ProblemAllResponse>(value));
+
+            if (User.IsInRole("moderator"))
+            {
+                return result.Map(value =>
+                    new ProblemAllResponse(
+                        value.ProblemList
+                             .Select(p => _mapper.Map<AdminProblemResponse>(p) as IProblemResponse)
+                             .ToList()
+                    )
+                );
+            }
+
+            return result.Map(value =>
+                new ProblemAllResponse(
+                    value.ProblemList
+                         .Select(p => _mapper.Map<ProblemResponse>(p) as IProblemResponse)
+                         .ToList()
+                )
+            );
         }
 
         [HttpGet("{slug}")]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IProblemResponse), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error)]
-        public async Task<Result<ProblemResponse>> ProblemRead([FromRoute]string slug, CancellationToken ct)
+        public async Task<Result<IProblemResponse>> ProblemRead([FromRoute]string slug, CancellationToken ct)
         {
             var cmd = new ProblemReadQuery(slug);
 
             var result = await _mediator.Send(cmd, ct);
 
-            return result.Map(value => _mapper.Map<ProblemResponse>(value));
+            var dto = User.IsInRole("moderator")
+            ? _mapper.Map<AdminProblemResponse>(result.Value.Problem) as IProblemResponse
+            : _mapper.Map<ProblemResponse>(result.Value.Problem) as IProblemResponse;
+
+            // Return wrapped in Result<T>
+            return Result.Success(dto);
+
         }
 
         [HttpPatch("{problemId}")]

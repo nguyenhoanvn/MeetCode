@@ -23,6 +23,7 @@ using MeetCode.Server.Middlewares;
 using MeetCode.Server.Helpers;
 using System.Text.Json.Serialization;
 using MeetCode.Application.Commands.CommandValidators.Language;
+using System.Security.Claims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -156,7 +157,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-
+            RoleClaimType = ClaimTypes.Role,
             ValidIssuer = "nguyenhoanvn",
             ValidAudience = "megumi",
             IssuerSigningKey = new SymmetricSecurityKey(

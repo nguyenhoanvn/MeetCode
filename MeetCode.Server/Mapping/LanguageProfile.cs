@@ -4,8 +4,8 @@ using MeetCode.Application.Commands.CommandResults.Language;
 using MeetCode.Application.Queries.QueryEntities.Language;
 using MeetCode.Application.Queries.QueryResults.Language;
 using MeetCode.Domain.Entities;
-using MeetCode.Server.DTOs.Request.Language;
-using MeetCode.Server.DTOs.Response.Language;
+using MeetCode.Application.DTOs.Request.Language;
+using MeetCode.Application.DTOs.Response.Language;
 
 namespace MeetCode.Server.Mapping
 {
