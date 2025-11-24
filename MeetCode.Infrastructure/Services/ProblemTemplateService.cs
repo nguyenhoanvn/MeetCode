@@ -60,14 +60,8 @@ namespace MeetCode.Infrastructure.Services
         }
         public string GenerateMethodSignature(string methodName, string returnType, string[] parameterNames)
         {
-            var parameters = new StringBuilder();
-            for (int i = 0; i < parameterNames.Length - 1; i++)
-            {
-                parameters.Append(parameterNames[i] + ", ");
-            }
-            parameterNames.Append(parameterNames[parameterNames.Length - 1]);
-            string para = parameters.ToString();
-            return $"public {returnType} {methodName}({para}){{\n}}";
+            var joined = string.Join(", ", parameterNames);
+            return $"public {returnType} {methodName}({joined}){{\n}}";
         }
     }
 }
