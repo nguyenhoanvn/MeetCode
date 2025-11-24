@@ -49,33 +49,19 @@ namespace MeetCode.Server.Controllers
 
         [HttpGet]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(ProblemAllResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IProblemAllResponse), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.Error)]
-        public async Task<Result<ProblemAllResponse>> ProblemList(CancellationToken ct)
+        public async Task<Result<IProblemAllResponse>> ProblemList(CancellationToken ct)
         {
             var cmd = new ProblemAllQuery();
 
             var result = await _mediator.Send(cmd, ct);
 
+            var resp = User.IsInRole("moderator")
+                ? result.Map(value => _mapper.Map<AdminProblemAllResponse>(value) as IProblemAllResponse)
+                : result.Map(value => _mapper.Map<ProblemAllResponse>(value) as IProblemAllResponse);
 
-            if (User.IsInRole("moderator"))
-            {
-                return result.Map(value =>
-                    new ProblemAllResponse(
-                        value.ProblemList
-                             .Select(p => _mapper.Map<AdminProblemResponse>(p) as IProblemResponse)
-                             .ToList()
-                    )
-                );
-            }
-
-            return result.Map(value =>
-                new ProblemAllResponse(
-                    value.ProblemList
-                         .Select(p => _mapper.Map<ProblemResponse>(p) as IProblemResponse)
-                         .ToList()
-                )
-            );
+            return resp;
         }
 
         [HttpGet("{slug}")]
@@ -88,12 +74,11 @@ namespace MeetCode.Server.Controllers
 
             var result = await _mediator.Send(cmd, ct);
 
-            var dto = User.IsInRole("moderator")
-            ? _mapper.Map<AdminProblemResponse>(result.Value.Problem) as IProblemResponse
-            : _mapper.Map<ProblemResponse>(result.Value.Problem) as IProblemResponse;
+            var resp = User.IsInRole("moderator")
+            ? result.Map(value => _mapper.Map<AdminProblemResponse>(value) as IProblemResponse)
+            : result.Map(value => _mapper.Map<ProblemResponse>(value) as IProblemResponse);
 
-            // Return wrapped in Result<T>
-            return Result.Success(dto);
+            return resp;
 
         }
 

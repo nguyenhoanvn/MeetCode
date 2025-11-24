@@ -1,4 +1,4 @@
 ﻿namespace MeetCode.Application.DTOs.Response.Problem
 {
-    public sealed record ProblemAllResponse(List<IProblemResponse> ProblemList);
+    public sealed record ProblemAllResponse(List<ProblemResponse> ProblemList) : IProblemAllResponse;
 }
