@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace MeetCode.Application.DTOs.Request.ProblemTemplate
 {
     public class Variable {
-        public string DataType = default!;
-        public string Name = default!;
+        public string DataType { get; set; } = default!;
+        public string Name { get; set; } = default!;
 
         public override string ToString()
         {

@@ -23,7 +23,7 @@ namespace MeetCode.Infrastructure.Persistence.Configurations
                 .HasConstraintName("FK_ProblemTemplates_Problems")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            b.HasOne(e => e.Problems).WithMany(l => l.ProblemTemplates)
+            b.HasOne(e => e.Languages).WithMany(l => l.ProblemTemplates)
                 .HasForeignKey(e => e.LangId)
                 .HasConstraintName("FK_ProblemTemplates_Languages")
                 .OnDelete(DeleteBehavior.Restrict);
