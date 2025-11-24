@@ -85,6 +85,7 @@ builder.Services.AddScoped<IProblemRepository, ProblemRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<ITestCaseRepository, TestCaseRepository>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+builder.Services.AddScoped<IProblemTemplateRepository, ProblemTemplateRepository>();
 
 // Services 
 builder.Services.AddScoped<ISessionService, SessionService>();
@@ -98,6 +99,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<ITestCaseService, TestCaseService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IProblemTemplateService, ProblemTemplateService>();
 
 // Validators
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();

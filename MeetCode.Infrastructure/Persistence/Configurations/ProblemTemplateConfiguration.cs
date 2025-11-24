@@ -18,12 +18,12 @@ namespace MeetCode.Infrastructure.Persistence.Configurations
             b.Property(e => e.TemplateId).HasDefaultValueSql("(newsequentialid())");
             b.Property(e => e.IsEnabled).HasDefaultValue(true);
 
-            b.HasOne(e => e.Problem).WithMany(p => p.ProblemTemplates)
+            b.HasOne(e => e.Problems).WithMany(p => p.ProblemTemplates)
                 .HasForeignKey(e => e.ProblemId)
                 .HasConstraintName("FK_ProblemTemplates_Problems")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            b.HasOne(e => e.Language).WithMany(l => l.ProblemTemplates)
+            b.HasOne(e => e.Problems).WithMany(l => l.ProblemTemplates)
                 .HasForeignKey(e => e.LangId)
                 .HasConstraintName("FK_ProblemTemplates_Languages")
                 .OnDelete(DeleteBehavior.Restrict);
