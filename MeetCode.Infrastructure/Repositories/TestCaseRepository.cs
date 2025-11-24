@@ -50,15 +50,7 @@ namespace MeetCode.Infrastructure.Repositories
             _db.TestCases.Remove(entityToDelete);
             return Task.CompletedTask;
         }
-        public async Task<TestCase?> GetByInputOutputAndProblemAsync(string inputText, string outputText, Guid problemId, CancellationToken ct)
-        {
-            return await _db.TestCases
-                .Include(tc => tc.Problem)
-                .FirstOrDefaultAsync((tc => 
-                tc.InputText.ToLower() == inputText.ToLower()
-                && tc.ExpectedOutputText.ToLower() == outputText.ToLower()
-                && tc.ProblemId == problemId), ct);
-        }
+
         public async Task<bool> IsTestCaseExistsAsync(string inputText, string outputText, Guid problemId, CancellationToken ct)
         {
             return await _db.TestCases

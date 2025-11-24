@@ -29,8 +29,7 @@ namespace MeetCode.Infrastructure.Services
         }
         public async Task<TestCase> CreateTestCaseAsync(string visibility, string inputText, string expectedOutputText, int weight, Guid problemId, CancellationToken ct)
         {
-            var existing = await _testCaseRepository.GetByInputOutputAndProblemAsync(inputText, expectedOutputText, problemId, ct);
-            if (existing != null)
+            if (await _testCaseRepository.IsTestCaseExistsAsync(inputText, expectedOutputText, problemId, ct))
             {
                 _logger.LogWarning($"Test case with input {inputText}, output {expectedOutputText} and problem {problemId} exists");
                 throw new DuplicateEntityException<TestCase>(new Dictionary<string, string>
