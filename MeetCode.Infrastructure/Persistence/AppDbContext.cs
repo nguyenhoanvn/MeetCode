@@ -45,6 +45,8 @@ public partial class AppDbContext : DbContext, IUnitOfWork
 
     public virtual DbSet<UserStat> UserStats { get; set; }
 
+    public virtual DbSet<ProblemTemplate> ProblemTemplates { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();

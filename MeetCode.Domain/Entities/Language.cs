@@ -11,6 +11,8 @@ public partial class Language
 
     public string Version { get; set; } = null!;
 
+    public string CompileImage { get; set; } = default!;
+
     public string RuntimeImage { get; set; } = null!;
 
     public string? CompileCommand { get; set; }
@@ -20,6 +22,8 @@ public partial class Language
     public bool IsEnabled { get; set; }
 
     public virtual ICollection<Submission> Submissions { get; set; } = new List<Submission>();
+
+    public virtual ICollection<ProblemTemplate> ProblemTemplates { get; set; } = new List<ProblemTemplate>();
     public override string ToString()
     {
         return this.ToGenericString();

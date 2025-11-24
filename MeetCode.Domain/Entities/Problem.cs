@@ -41,6 +41,7 @@ public partial class Problem
     public virtual ICollection<TestCase> TestCases { get; set; } = new List<TestCase>();
 
     public virtual ICollection<ProblemTag> Tags { get; set; } = new List<ProblemTag>();
+    public virtual ICollection<ProblemTemplate> ProblemTemplates { get; set; } = new List<ProblemTemplate>();
 
     public override string ToString()
     {

@@ -19,6 +19,7 @@ namespace MeetCode.Infrastructure.Persistence.Configurations
             b.Property(e => e.CompileCommand).HasMaxLength(500);
             b.Property(e => e.IsEnabled).HasDefaultValue(true);
             b.Property(e => e.Name).HasMaxLength(100);
+            b.Property(e => e.CompileImage).HasMaxLength(200);
             b.Property(e => e.RunCommand).HasMaxLength(500);
             b.Property(e => e.RuntimeImage).HasMaxLength(200);
             b.Property(e => e.Version).HasMaxLength(50);
