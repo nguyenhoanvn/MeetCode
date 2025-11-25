@@ -14,14 +14,24 @@ namespace MeetCode.Infrastructure.Services
     public class ProblemTemplateService : IProblemTemplateService
     {
         private readonly IProblemTemplateRepository _problemTemplateRepository;
+        private readonly ILanguageRepository _languageRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProblemTemplateService> _logger;
+
+        private static Dictionary<string, string> langToStructure = new()
+        {
+            { "csharp", "public {returnType} {methodName}({parameters}){\n}" },
+            { "java", "public {returnType} {methodName}({parameters}){\n}" }
+        };
+
         public ProblemTemplateService(
             IProblemTemplateRepository problemTemplateRepository,
+            ILanguageRepository languageRepository,
             IUnitOfWork unitOfWork,
             ILogger<ProblemTemplateService> logger)
         {
             _problemTemplateRepository = problemTemplateRepository;
+            _languageRepository = languageRepository;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
@@ -37,7 +47,7 @@ namespace MeetCode.Infrastructure.Services
                     {nameof(langId), langId.ToString() }
                 });
             }
-            var methodSignature = GenerateMethodSignature(methodName, returnType, parameters);
+            var methodSignature = await GenerateMethodSignature(methodName, returnType, parameters, langId, ct);
 
             var problemTemplate = new ProblemTemplate
             {
@@ -58,10 +68,21 @@ namespace MeetCode.Infrastructure.Services
         {
             throw new NotImplementedException();
         }
-        public string GenerateMethodSignature(string methodName, string returnType, string[] parameterNames)
+        public async Task<string> GenerateMethodSignature(string methodName, string returnType, string[] parameterNames, Guid langId, CancellationToken ct)
         {
-            var joined = string.Join(", ", parameterNames);
-            return $"public {returnType} {methodName}({joined}){{\n}}";
+            var language = await _languageRepository.GetByIdAsync(langId, ct);
+            try
+            {
+                var structure = langToStructure[language.Name];
+                var parameters = string.Join(", ", parameterNames);
+                return structure
+                .Replace("{returnType}", returnType)
+                .Replace("{methodName}", methodName)
+                .Replace("{parameters}", parameters);
+            } catch (KeyNotFoundException ex)
+            {
+                throw new InvalidOperationException($"Cannot find language structure with name {language.Name}");
+            }
         }
     }
 }

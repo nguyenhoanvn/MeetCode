@@ -12,6 +12,6 @@ namespace MeetCode.Application.Interfaces.Services
         Task<ProblemTemplate> CreateTemplateAsync(string methodName, string returnType, string[] parameters, Guid problemId, Guid langId, CancellationToken ct);
         Task<ProblemTemplate?> FindTemplateByIdAsync(Guid templateId, CancellationToken ct);
         Task<IEnumerable<ProblemTemplate>> ReadAllTemplatesAsync(CancellationToken ct);
-        string GenerateMethodSignature(string methodName, string returnType, string[] parameters);
+        Task<string> GenerateMethodSignature(string methodName, string returnType, string[] parameters, Guid langId, CancellationToken ct);
     }
 }
