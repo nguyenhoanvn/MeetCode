@@ -15,39 +15,51 @@ namespace MeetCode.Infrastructure.Services
     {
         private readonly IProblemTemplateRepository _problemTemplateRepository;
         private readonly ILanguageRepository _languageRepository;
+        private readonly IProblemRepository _problemRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProblemTemplateService> _logger;
-
-        private static Dictionary<string, string> langToStructure = new()
-        {
-            { "csharp", "public {returnType} {methodName}({parameters}){\n}" },
-            { "java", "public {returnType} {methodName}({parameters}){\n}" }
-        };
 
         public ProblemTemplateService(
             IProblemTemplateRepository problemTemplateRepository,
             ILanguageRepository languageRepository,
+            IProblemRepository problemRepository,
             IUnitOfWork unitOfWork,
             ILogger<ProblemTemplateService> logger)
         {
             _problemTemplateRepository = problemTemplateRepository;
             _languageRepository = languageRepository;
+            _problemRepository = problemRepository;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
         public async Task<ProblemTemplate> CreateTemplateAsync(string methodName, string returnType, string[] parameters, Guid problemId, Guid langId, CancellationToken ct)
         { 
+            // Check foreign records existence
+            var problem = await _problemRepository.GetByIdAsync(problemId, ct);
+            if (problem == null)
+            {
+                _logger.LogWarning($"No problem with Id {problemId} found");
+                throw new EntityNotFoundException<Problem>(nameof(problemId), problemId.ToString());
+            }
+
+            var language = await _languageRepository.GetByIdAsync(langId, ct);
+            if (language == null)
+            {
+                _logger.LogWarning($"No language with Id {langId} found");
+                throw new EntityNotFoundException<Language>(nameof(langId), langId.ToString());
+            }
+
             if (await _problemTemplateRepository.IsProblemTemplateExistsAsync(problemId, langId, ct))
             {
-                _logger.LogWarning($"Template associated with problemId {problemId} and langId {langId} exists");
+                _logger.LogWarning($"Template associated with problem {problem.Title} and language {language.Name} exists");
                 throw new DuplicateEntityException<ProblemTemplate>(new Dictionary<string, string>
                 {
                     {nameof(problemId), problemId.ToString() },
                     {nameof(langId), langId.ToString() }
                 });
             }
-            var methodSignature = await GenerateMethodSignature(methodName, returnType, parameters, langId, ct);
+            var methodSignature = GenerateMethodSignature(methodName, returnType, parameters);
 
             var problemTemplate = new ProblemTemplate
             {
@@ -68,21 +80,10 @@ namespace MeetCode.Infrastructure.Services
         {
             throw new NotImplementedException();
         }
-        public async Task<string> GenerateMethodSignature(string methodName, string returnType, string[] parameterNames, Guid langId, CancellationToken ct)
+        public string GenerateMethodSignature(string methodName, string returnType, string[] parameterNames)
         {
-            var language = await _languageRepository.GetByIdAsync(langId, ct);
-            try
-            {
-                var structure = langToStructure[language.Name];
-                var parameters = string.Join(", ", parameterNames);
-                return structure
-                .Replace("{returnType}", returnType)
-                .Replace("{methodName}", methodName)
-                .Replace("{parameters}", parameters);
-            } catch (KeyNotFoundException ex)
-            {
-                throw new InvalidOperationException($"Cannot find language structure with name {language.Name}");
-            }
+            var parameters = string.Join(", ", parameterNames);
+            return $"public {returnType} {methodName} ({parameters})";
         }
     }
 }
