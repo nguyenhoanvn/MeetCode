@@ -61,5 +61,11 @@ namespace MeetCode.Infrastructure.Repositories
                 .AsNoTracking()
                 .AnyAsync(pt => pt.ProblemId == problemId && pt.LangId == langId);
         }
+
+        public async Task<ProblemTemplate?> GetProblemTemplateByProblemIdAsync(Guid problemId, CancellationToken ct)
+        {
+            return await _db.ProblemTemplates
+                .FirstOrDefaultAsync(pt => pt.ProblemId == problemId, ct);
+        }
     }
 }

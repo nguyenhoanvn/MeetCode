@@ -72,9 +72,16 @@ namespace MeetCode.Infrastructure.Services
             await _unitOfWork.SaveChangesAsync(ct);
             return problemTemplate;
         }
-        public async Task<ProblemTemplate?> FindTemplateByIdAsync(Guid templateId, CancellationToken ct)
+        public async Task<ProblemTemplate?> FindTemplateBySlugAsync(string problemSlug, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var problem = await _problemRepository.GetBySlugAsync(problemSlug, ct);
+            if (problem == null)
+            {
+                _logger.LogWarning($"Problem with slug {problemSlug} not found");
+                throw new EntityNotFoundException<Problem>(nameof(problemSlug), problemSlug);
+            }
+
+            return await _problemTemplateRepository.GetProblemTemplateByProblemIdAsync(problem.ProblemId, ct);
         }
         public async Task<IEnumerable<ProblemTemplate>> ReadAllTemplatesAsync(CancellationToken ct)
         {

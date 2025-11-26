@@ -10,5 +10,6 @@ namespace MeetCode.Application.Interfaces.Repositories
     public interface IProblemTemplateRepository : IRepository<ProblemTemplate>
     {
         Task<bool> IsProblemTemplateExistsAsync(Guid problemId, Guid langId, CancellationToken ct);
+        Task<ProblemTemplate?> GetProblemTemplateByProblemIdAsync(Guid problemId, CancellationToken ct);
     }
 }
