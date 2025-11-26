@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 namespace MeetCode.Application.Commands.CommandResults.ProblemTemplate
 {
     public sealed record ProblemTemplateAddCommandResult(
-        MeetCode.Domain.Entities.ProblemTemplate ProblemTemplate,
-        MeetCode.Domain.Entities.Language Language,
-        MeetCode.Domain.Entities.Problem Problem);
+        MeetCode.Domain.Entities.ProblemTemplate ProblemTemplate);
 }

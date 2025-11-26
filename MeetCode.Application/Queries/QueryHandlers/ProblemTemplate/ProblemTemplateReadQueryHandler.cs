@@ -15,17 +15,12 @@ namespace MeetCode.Application.Queries.QueryHandlers.ProblemTemplate
     public class ProblemTemplateReadQueryHandler : IRequestHandler<ProblemTemplateReadQuery, Result<ProblemTemplateReadQueryResult>>
     {
         private readonly IProblemTemplateService _problemTemplateService;
-        private readonly IProblemService _problemService;
-        private readonly ILanguageService _languageService;
         private readonly ILogger<ProblemTemplateReadQueryHandler> _logger;
         public ProblemTemplateReadQueryHandler(
             IProblemTemplateService problemTemplateService,
-            IProblemService problemService,
-            ILanguageService languageService,
             ILogger<ProblemTemplateReadQueryHandler> logger)
         {
             _problemTemplateService = problemTemplateService;
-            _problemService = problemService;
             _logger = logger;
         }
 
@@ -38,7 +33,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.ProblemTemplate
                 return Result.NotFound($"Problem template with slug {request.ProblemSlug} not found");
             }
 
-            var result = new ProblemTemplateReadQueryResult(problemTemplate, problemTemplate.Languages, problemTemplate.Problems);
+            var result = new ProblemTemplateReadQueryResult(problemTemplate);
             return result;
         }
     }

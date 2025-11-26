@@ -34,7 +34,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.ProblemTemplate
                 request.LangId,
                 ct);
 
-            var result = new ProblemTemplateAddCommandResult(problemTemplate, problemTemplate.Languages, problemTemplate.Problems);
+            var result = new ProblemTemplateAddCommandResult(problemTemplate);
 
             return Result.Success(result);
         }
