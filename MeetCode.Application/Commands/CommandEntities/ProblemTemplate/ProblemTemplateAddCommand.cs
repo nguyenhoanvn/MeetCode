@@ -15,5 +15,5 @@ namespace MeetCode.Application.Commands.CommandEntities.ProblemTemplate
         string[] Parameters,
         Guid ProblemId,
         Guid LangId
-        ) : IRequest<Result<ProblemTemplateAddResult>>;
+        ) : IRequest<Result<ProblemTemplateAddCommandResult>>;
 }

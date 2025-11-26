@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Commands.CommandHandlers.ProblemTemplate
 {
-    public class ProblemTemplateAddCommandHandler : IRequestHandler<ProblemTemplateAddCommand, Result<ProblemTemplateAddResult>>
+    public class ProblemTemplateAddCommandHandler : IRequestHandler<ProblemTemplateAddCommand, Result<ProblemTemplateAddCommandResult>>
     {
         private readonly IProblemTemplateService _problemTemplateService;
         private readonly ILogger<ProblemTemplateAddCommandHandler> _logger;
@@ -24,7 +24,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.ProblemTemplate
             _problemTemplateService = problemTemplateService;
             _logger = logger;
         }
-        public async Task<Result<ProblemTemplateAddResult>> Handle(ProblemTemplateAddCommand request, CancellationToken ct)
+        public async Task<Result<ProblemTemplateAddCommandResult>> Handle(ProblemTemplateAddCommand request, CancellationToken ct)
         {
             var problemTemplate = await _problemTemplateService.CreateTemplateAsync(
                 request.MethodName,
@@ -34,7 +34,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.ProblemTemplate
                 request.LangId,
                 ct);
 
-            var result = new ProblemTemplateAddResult(problemTemplate);
+            var result = new ProblemTemplateAddCommandResult(problemTemplate, problemTemplate.Languages, problemTemplate.Problems);
 
             return Result.Success(result);
         }
