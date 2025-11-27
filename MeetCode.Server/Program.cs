@@ -100,6 +100,8 @@ builder.Services.AddScoped<ITestCaseService, TestCaseService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IProblemTemplateService, ProblemTemplateService>();
+builder.Services.AddScoped<ISubmitService, SubmitService>();
+builder.Services.AddScoped<IJobSenderService, RabbitMqSenderService>();
 
 // Validators
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();
