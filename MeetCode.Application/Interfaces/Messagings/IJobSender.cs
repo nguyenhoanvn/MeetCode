@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Interfaces.Services
 {
-    public interface IJobSenderService
+    public interface IJobSender
     {
         Task EnqueueJobAsync<T>(T job, string queueName, CancellationToken ct);
     }
