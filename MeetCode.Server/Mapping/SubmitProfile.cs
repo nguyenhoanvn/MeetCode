@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MeetCode.Application.Commands.CommandEntities.Submit;
+using MeetCode.Application.Commands.CommandEntities.Job;
 using MeetCode.Application.DTOs.Request.Submit;
 
 namespace MeetCode.Server.Mapping
@@ -9,7 +9,7 @@ namespace MeetCode.Server.Mapping
         public SubmitProfile()
         {
             // Run code enqueuing
-            CreateMap<RunCodeRequest, RunCodeCommand>();
+            CreateMap<RunCodeRequest, RunCodeJobCommand>();
         }
     }
 }

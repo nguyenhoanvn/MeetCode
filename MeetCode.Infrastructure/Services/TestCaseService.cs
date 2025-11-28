@@ -60,9 +60,14 @@ namespace MeetCode.Infrastructure.Services
         }
         public async Task<TestCase?> FindTestCaseByIdAsync(Guid testId, CancellationToken ct)
         {
-            var testCase = await _testCaseRepository.GetByIdAsync(testId, ct);
-            return testCase;
+            return await _testCaseRepository.GetByIdAsync(testId, ct);
         }
+
+        public async Task<IEnumerable<TestCase>> FindTestCaseByIdsAsync(IEnumerable<Guid> testCaseIds, CancellationToken ct)
+        {
+            return await _testCaseRepository.GetByIdsAsync(testCaseIds, ct);
+        }
+
         public async Task<IEnumerable<TestCase>> ReadAllTestCasesAsync(CancellationToken ct)
         {
             return await _testCaseRepository.GetAsync(ct);

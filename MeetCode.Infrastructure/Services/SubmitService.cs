@@ -15,7 +15,7 @@ namespace MeetCode.Infrastructure.Services
 
         }
 
-        public async Task<TestResult> RunCode(string code, Language language, Problem problem, List<TestCase> testCaseList)
+        public async Task<TestResult> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct)
         {
             throw new NotImplementedException();
         }

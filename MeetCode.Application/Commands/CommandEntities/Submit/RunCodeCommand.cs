@@ -16,5 +16,5 @@ namespace MeetCode.Application.Commands.CommandEntities.Submit
         Guid LanguageId,
         Guid ProblemId,
         List<Guid> TestCaseIds
-        ) : IRequest<Result<EnqueueResult>>;
+        ) : IRequest<Result<RunCodeCommandResult>>;
 }

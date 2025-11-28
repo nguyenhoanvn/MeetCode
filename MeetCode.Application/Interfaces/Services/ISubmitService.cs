@@ -15,6 +15,6 @@ namespace MeetCode.Application.Interfaces.Services
     }
     public interface ISubmitService
     {
-        Task<TestResult> RunCodeAsync(string code, Language language, Problem problem, List<TestCase> testCaseList, CancellationToken ct);
+        Task<TestResult> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct);
     }
 }

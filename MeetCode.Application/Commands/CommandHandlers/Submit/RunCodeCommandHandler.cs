@@ -13,23 +13,58 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Commands.CommandHandlers.Submit
 {
-    public class RunCodeCommandHandler : IRequestHandler<RunCodeCommand, Result<EnqueueResult>>
+    public class RunCodeCommandHandler : IRequestHandler<RunCodeCommand, Result<RunCodeCommandResult>>
     {
-        private readonly IJobSender _jobSender;
+        private readonly ISubmitService _submitService;
         private readonly ILogger<RunCodeCommandHandler> _logger;
+        private readonly IProblemService _problemService;
+        private readonly ILanguageService _languageService;
+        private readonly ITestCaseService _testCaseService;
         public RunCodeCommandHandler(
-            IJobSender jobSender,
+            ISubmitService submitService,
+            IProblemService problemService,
+            ILanguageService languageService,
+            ITestCaseService testCaseService,
             ILogger<RunCodeCommandHandler> logger)
         {
-            _jobSender = jobSender;
+            _submitService = submitService;
+            _problemService = problemService;
+            _languageService = languageService;
+            _testCaseService = testCaseService;
             _logger = logger;
         }
-        public async Task<Result<EnqueueResult>> Handle(RunCodeCommand request, CancellationToken ct)
+        public async Task<Result<RunCodeCommandResult>> Handle(RunCodeCommand request, CancellationToken ct)
         {
+            var problem = await _problemService.FindProblemByIdAsync(request.ProblemId, ct);
+            if (problem == null)
+            {
+                _logger.LogWarning($"Cannot find problem with Id {request.ProblemId}");
+                return Result.Error($"Cannot find problem with Id {request.ProblemId}");
+            }
+
+            var language = await _languageService.FindLanguageByIdAsync(request.LanguageId, ct);
+            if (language == null)
+            {
+                _logger.LogWarning($"Cannot find language with Id {request.LanguageId}");
+                return Result.Error($"Cannot find language with Id {request.LanguageId}");
+            }
+
+            var testCases = (await _testCaseService.FindTestCaseByIdsAsync(request.TestCaseIds, ct)).ToList();
+            if (testCases.Count() == 0)
+            {
+                _logger.LogInformation("Test cases are empty");
+                return Result.Success();
+            }
+
             try
             {
-                await _jobSender.EnqueueJobAsync<RunCodeCommand>(request, "run_code_queue", ct);
-                var result = new EnqueueResult(request, "run_code_queue");
+                var resultList = new List<TestResult>();
+                foreach (var testCase in testCases)
+                {
+                    resultList.Add(await _submitService.RunCodeAsync(request.Code, language, problem, testCase, ct));
+                }
+                
+                var result = new RunCodeCommandResult(resultList);
                 return Result.Success(result);
             } catch (Exception ex)
             {
