@@ -15,10 +15,10 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
 {
     public class RunCodeCommandHandler : IRequestHandler<RunCodeCommand, Result<EnqueueResult>>
     {
-        private readonly IJobSenderService _jobSender;
+        private readonly IJobSender _jobSender;
         private readonly ILogger<RunCodeCommandHandler> _logger;
         public RunCodeCommandHandler(
-            IJobSenderService jobSender,
+            IJobSender jobSender,
             ILogger<RunCodeCommandHandler> logger)
         {
             _jobSender = jobSender;

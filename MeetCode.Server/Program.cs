@@ -24,6 +24,7 @@ using MeetCode.Server.Helpers;
 using System.Text.Json.Serialization;
 using MeetCode.Application.Commands.CommandValidators.Language;
 using System.Security.Claims;
+using MeetCode.Infrastructure.Messagings;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -101,7 +102,7 @@ builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IProblemTemplateService, ProblemTemplateService>();
 builder.Services.AddScoped<ISubmitService, SubmitService>();
-builder.Services.AddScoped<IJobSenderService, RabbitMqSenderService>();
+builder.Services.AddScoped<IJobSender, RabbitMqSender>();
 
 // Validators
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();

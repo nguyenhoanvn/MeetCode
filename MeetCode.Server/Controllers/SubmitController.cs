@@ -17,6 +17,14 @@ namespace MeetCode.Server.Controllers
         private readonly ISender _mediator;
         private readonly IMapper _mapper;
 
+        public SubmitController(
+            ISender mediator,
+            IMapper mapper)
+        {
+            _mediator = mediator;
+            _mapper = mapper;
+        }
+
         [HttpPost("run")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(EnqueueResult), StatusCodes.Status202Accepted)]
