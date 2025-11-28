@@ -7,6 +7,7 @@ using MediatR;
 using AutoMapper;
 using MeetCode.Application.Commands.CommandEntities.Submit;
 using MeetCode.Application.DTOs.Other;
+using MeetCode.Application.Commands.CommandEntities.Job;
 
 namespace MeetCode.Server.Controllers
 {
@@ -25,13 +26,13 @@ namespace MeetCode.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("run")]
+        [HttpPost("job/run")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(EnqueueResult), StatusCodes.Status202Accepted)]
         [ExpectedFailures(ResultStatus.Error)]
         public async Task<Result<EnqueueResult>> RunCode(RunCodeRequest request, CancellationToken ct)
         {
-            var cmd = _mapper.Map<RunCodeCommand>(request);
+            var cmd = _mapper.Map<RunCodeJobCommand>(request);
 
             var result = await _mediator.Send(cmd, ct);
 

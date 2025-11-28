@@ -37,7 +37,7 @@ namespace MeetCode.Worker.Consumers.Submit
                 Port = configuration.GetValue<int>("RabbitMQ:Port", 5672),
                 AutomaticRecoveryEnabled = true,
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
-            }
+            };
         }
 
         protected override async Task ExecuteAsync(CancellationToken ct)
