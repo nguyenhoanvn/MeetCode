@@ -11,6 +11,6 @@ namespace MeetCode.Application.Interfaces.Services
     public interface IDockerValidator
     {
         Task<bool> ImageExistsAsync(string image, CancellationToken ct);
-        Task<TestResult> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct);
+        Task<TestResult?> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct);
     }
 }

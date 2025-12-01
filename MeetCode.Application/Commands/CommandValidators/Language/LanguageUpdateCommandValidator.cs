@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using MeetCode.Application.Commands.CommandEntities.Language;
+using MeetCode.Application.Interfaces.Services;
 
 namespace MeetCode.Application.Commands.CommandValidators.Language
 {

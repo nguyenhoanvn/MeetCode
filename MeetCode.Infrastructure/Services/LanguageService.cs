@@ -33,7 +33,7 @@ namespace MeetCode.Infrastructure.Services
             if (language == null)
             {
                 _logger.LogWarning($"Language {name} cannot be found.");
-                throw new EntityNotFoundException<Language>(nameof(name), name);
+                throw new EntityNotFoundException("Language", nameof(name), name);
             }
 
             if (!Rules.TryGetValue(name, out var template))

@@ -78,7 +78,7 @@ namespace MeetCode.Infrastructure.Services
             if (testCase == null)
             {
                 _logger.LogWarning($"Cannot find test case with id {testCaseId}");
-                throw new EntityNotFoundException<TestCase>(nameof(testCaseId), testCaseId.ToString());
+                throw new EntityNotFoundException("Test Case", nameof(testCaseId), testCaseId.ToString());
             }
 
             testCase.UpdateBasic(visibility, inputText, expectedOutputText, weight);

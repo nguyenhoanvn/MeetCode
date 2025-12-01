@@ -40,14 +40,14 @@ namespace MeetCode.Infrastructure.Services
             if (problem == null)
             {
                 _logger.LogWarning($"No problem with Id {problemId} found");
-                throw new EntityNotFoundException<Problem>(nameof(problemId), problemId.ToString());
+                throw new EntityNotFoundException("Problem", nameof(problemId), problemId.ToString());
             }
 
             var language = await _languageRepository.GetByIdAsync(langId, ct);
             if (language == null)
             {
                 _logger.LogWarning($"No language with Id {langId} found");
-                throw new EntityNotFoundException<Language>(nameof(langId), langId.ToString());
+                throw new EntityNotFoundException("Language", nameof(langId), langId.ToString());
             }
 
             if (await _problemTemplateRepository.IsProblemTemplateExistsAsync(problemId, langId, ct))
@@ -78,7 +78,7 @@ namespace MeetCode.Infrastructure.Services
             if (problem == null)
             {
                 _logger.LogWarning($"Problem with slug {problemSlug} not found");
-                throw new EntityNotFoundException<Problem>(nameof(problemSlug), problemSlug);
+                throw new EntityNotFoundException("Problem", nameof(problemSlug), problemSlug);
             }
 
             return await _problemTemplateRepository.GetProblemTemplateByProblemIdAsync(problem.ProblemId, ct);

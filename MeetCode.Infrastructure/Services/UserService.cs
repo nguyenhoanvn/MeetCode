@@ -52,7 +52,7 @@ namespace MeetCode.Infrastructure.Services
             return isMatch;  
         }
 
-        public async Task<User> FindUserAsync(Guid userId, CancellationToken ct)
+        public async Task<User?> FindUserAsync(Guid userId, CancellationToken ct)
         {
             _logger.LogInformation("Fetching user with ID {UserId}", userId);
             var user = await _userRepository.GetByIdAsync(userId, ct);

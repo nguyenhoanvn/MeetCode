@@ -62,7 +62,7 @@ namespace MeetCode.Server.Middlewares
                     status = StatusCodes.Status409Conflict;
                 }
                 else if (exType.IsGenericType &&
-                    exType.GetGenericTypeDefinition() == typeof(EntityNotFoundException<>))
+                    exType.GetGenericTypeDefinition() == typeof(EntityNotFoundException))
                 {
                     status = StatusCodes.Status404NotFound;
                 }

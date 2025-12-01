@@ -104,7 +104,7 @@ namespace MeetCode.Infrastructure.Services
             if (problem == null)
             {
                 _logger.LogWarning($"Cannot find problem with id {problemId}");
-                throw new EntityNotFoundException<Problem>(nameof(problemId), problemId.ToString());
+                throw new EntityNotFoundException("Problem", nameof(problemId), problemId.ToString());
             }
 
             try
