@@ -17,5 +17,13 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\MeetCode.Application\MeetCode.Application.csproj" />
+		<ProjectReference Include="..\MeetCode.Infrastructure\MeetCode.Infrastructure.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

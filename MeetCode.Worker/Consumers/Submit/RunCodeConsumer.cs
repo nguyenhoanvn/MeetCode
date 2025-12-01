@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Submit;
 using MeetCode.Application.Interfaces.Services;
+using MeetCode.Domain.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -101,11 +102,16 @@ namespace MeetCode.Worker.Consumers.Submit
             } catch (JsonException ex)
             {
                 _logger.LogError(ex, $"JSON deserialization failed for payload: {payloadJson}");
+                await _channel!.BasicNackAsync(ea.DeliveryTag, false, false);
+            } catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Internal error occurred when processing message");
+                await _channel!.BasicNackAsync(ea.DeliveryTag, false, false, ct);
             } catch (Exception ex)
             {
                 _logger.LogError(ex, "Error processing message");
                 await _channel!.BasicNackAsync(ea.DeliveryTag, false, true, ct);
-            } 
+            }
         }
         public override void Dispose()
         {

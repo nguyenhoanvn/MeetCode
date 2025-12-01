@@ -43,7 +43,7 @@ namespace MeetCode.Infrastructure.Messagings
             using var channel = await cnn.CreateChannelAsync();
             Console.WriteLine($"Connected to {cnn.Endpoint.HostName}");
 
-            await channel.QueueDeclareAsync(queueName, false, false, false, null);
+            await channel.QueueDeclareAsync(queueName, true, false, false, null);
 
             await using var ms = new MemoryStream();
             await JsonSerializer.SerializeAsync(ms, job, cancellationToken: ct);

@@ -4,6 +4,8 @@ using MeetCode.Application.Commands.CommandEntities.Submit;
 using MeetCode.Application.Commands.CommandResults.Submit;
 using MeetCode.Application.DTOs.Other;
 using MeetCode.Application.Interfaces.Services;
+using MeetCode.Domain.Entities;
+using MeetCode.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -39,20 +41,20 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
             if (problem == null)
             {
                 _logger.LogWarning($"Cannot find problem with Id {request.ProblemId}");
-                return Result.Error($"Cannot find problem with Id {request.ProblemId}");
+                throw new EntityNotFoundException<MeetCode.Domain.Entities.Problem>(nameof(request.ProblemId), request.ProblemId.ToString());
             }
 
             var language = await _languageService.FindLanguageByIdAsync(request.LanguageId, ct);
             if (language == null)
             {
                 _logger.LogWarning($"Cannot find language with Id {request.LanguageId}");
-                return Result.Error($"Cannot find language with Id {request.LanguageId}");
+                throw new EntityNotFoundException<MeetCode.Domain.Entities.Language>(nameof(request.LanguageId), request.ProblemId.ToString())
             }
 
             var testCases = (await _testCaseService.FindTestCaseByIdsAsync(request.TestCaseIds, ct)).ToList();
             if (testCases.Count() == 0)
             {
-                _logger.LogInformation("Test cases are empty");
+                _logger.LogWarning("Test cases are empty");
                 return Result.Success();
             }
 
