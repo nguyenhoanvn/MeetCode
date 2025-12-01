@@ -103,7 +103,7 @@ namespace MeetCode.Worker.Consumers.Submit
             {
                 _logger.LogError(ex, $"JSON deserialization failed for payload: {payloadJson}");
                 await _channel!.BasicNackAsync(ea.DeliveryTag, false, false);
-            } catch (InvalidOperationException ex)
+            } catch (EntityNotFoundException ex)
             {
                 _logger.LogError(ex, "Internal error occurred when processing message");
                 await _channel!.BasicNackAsync(ea.DeliveryTag, false, false, ct);

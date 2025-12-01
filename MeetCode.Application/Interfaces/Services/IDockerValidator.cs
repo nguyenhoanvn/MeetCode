@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Interfaces.Services
 {
-    public interface ISubmitService
+    public interface IDockerValidator
     {
+        Task<bool> ImageExistsAsync(string image, CancellationToken ct);
         Task<TestResult> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct);
     }
 }

@@ -41,14 +41,14 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
             if (problem == null)
             {
                 _logger.LogWarning($"Cannot find problem with Id {request.ProblemId}");
-                throw new EntityNotFoundException<MeetCode.Domain.Entities.Problem>(nameof(request.ProblemId), request.ProblemId.ToString());
+                throw new EntityNotFoundException("Problem", nameof(request.ProblemId), request.ProblemId.ToString());
             }
 
             var language = await _languageService.FindLanguageByIdAsync(request.LanguageId, ct);
             if (language == null)
             {
                 _logger.LogWarning($"Cannot find language with Id {request.LanguageId}");
-                throw new EntityNotFoundException<MeetCode.Domain.Entities.Language>(nameof(request.LanguageId), request.ProblemId.ToString())
+                throw new EntityNotFoundException("Language", nameof(request.LanguageId), request.ProblemId.ToString());
             }
 
             var testCases = (await _testCaseService.FindTestCaseByIdsAsync(request.TestCaseIds, ct)).ToList();

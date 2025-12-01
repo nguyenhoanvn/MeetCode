@@ -1,0 +1,11 @@
+﻿using MeetCode.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MeetCode.Application.DTOs.Other
+{
+    public sealed record TestResult(TestCase TestCase, string Result, string Error, bool IsSuccessful, int ExecTimeMs);
+}
