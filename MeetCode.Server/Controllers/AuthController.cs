@@ -88,6 +88,39 @@ public class AuthController : ControllerBase
         return resp;
     }
 
+    [HttpPost("logout")]
+    [TranslateResultToActionResult]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<Result<string>> Logout(CancellationToken ct)
+    {
+        var userIdClaim = User.FindFirst("userId");
+        if (userIdClaim == null)
+        {
+            return Result.Unauthorized("Not logged in");
+        }
+
+        var userId = Guid.Parse(userIdClaim.Value);
+        var cmd = new LogoutCommand(userId);
+
+        var result = await _mediator.Send(cmd, ct);
+
+        Response.Cookies.Delete("accessToken", new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None
+        });
+
+        Response.Cookies.Delete("refreshToken", new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None
+        });
+
+        return Result.Success("Logout successful");
+    }
+
     [HttpGet("refresh")]
     [TranslateResultToActionResult]
     [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]

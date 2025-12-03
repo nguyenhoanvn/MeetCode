@@ -61,9 +61,12 @@ namespace MeetCode.Server.Mapping
                     ));
 
             // Read 
-            CreateMap<ProblemReadQueryResult, IProblemResponse>()
+            CreateMap<ProblemReadQueryResult, ProblemResponse>()
                 .ConstructUsing((src, context) =>
-                    context.Mapper.Map<IProblemResponse>(src.Problem));
+                    context.Mapper.Map<ProblemResponse>(src.Problem));
+            CreateMap<ProblemReadQueryResult, AdminProblemResponse>()
+                .ConstructUsing((src, context) =>
+                    context.Mapper.Map<AdminProblemResponse>(src.Problem));
 
             // Update
             CreateMap<(Guid problemId, ProblemUpdateRequest request), ProblemUpdateCommand>()

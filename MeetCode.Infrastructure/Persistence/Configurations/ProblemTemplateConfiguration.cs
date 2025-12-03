@@ -13,7 +13,7 @@ namespace MeetCode.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProblemTemplate> b)
         {
-            b.HasKey(e => e.TemplateId).HasName("PK__ProblemT__F87ADD27871F19F4");
+            b.HasKey(e => e.TemplateId).HasName("PK__ProblemT__F87ADD27AC0D808E");
 
             b.Property(e => e.TemplateId).HasDefaultValueSql("(newsequentialid())");
             b.Property(e => e.IsEnabled).HasDefaultValue(true);

@@ -13,9 +13,10 @@ namespace MeetCode.Application.Interfaces.Services
         string GenerateJwtToken(Guid userId, string email, string role);
         string GenerateRefreshToken();
         string HashToken(string unhashedToken);
-        Task<RefreshToken> FindRefreshTokenByTokenAsync(string plainRefreshToken, CancellationToken ct);
+        Task<RefreshToken?> FindRefreshTokenByTokenAsync(string plainRefreshToken, CancellationToken ct);
         Task<RefreshToken> CreateRefreshTokenAsync(Guid userId, string plainRefreshToken, CancellationToken ct);
-        Task<RefreshToken> FindRefreshTokenAsync(Guid refreshTokenId, CancellationToken ct);
-        Task<RefreshToken> FindRefreshTokenByUserIdAsync(Guid refreshTokenId, CancellationToken ct);
+        Task<RefreshToken?> FindRefreshTokenAsync(Guid refreshTokenId, CancellationToken ct);
+        Task<RefreshToken?> FindRefreshTokenByUserIdAsync(Guid refreshTokenId, CancellationToken ct);
+        Task<bool> InvalidateRefreshToken(Guid userId, CancellationToken ct);
     }
 }

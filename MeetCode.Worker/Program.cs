@@ -54,6 +54,8 @@ builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IProblemTemplateService, ProblemTemplateService>();
 builder.Services.AddScoped<ISubmitService, SubmitService>();
+builder.Services.AddScoped<IDockerValidator, DockerValidator>();
 
+builder.Services.AddHttpClient();
 var host = builder.Build();
 await host.RunAsync();

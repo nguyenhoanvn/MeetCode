@@ -80,7 +80,7 @@ namespace MeetCode.Infrastructure.Services
             }
         }
 
-        public async Task<RefreshToken> FindRefreshTokenByTokenAsync(string plainRefreshToken, CancellationToken ct)
+        public async Task<RefreshToken?> FindRefreshTokenByTokenAsync(string plainRefreshToken, CancellationToken ct)
         {
             _logger.LogInformation("Find Refresh token based on token started");
             var hashedToken = HashToken(plainRefreshToken);
@@ -89,12 +89,12 @@ namespace MeetCode.Infrastructure.Services
             if (refreshTokenEntity == null)
             {
                 _logger.LogWarning("Refresh token with input token not found");
-                throw new InvalidOperationException("Refresh token with the token not found");
+                return null;
             }
             if (!refreshTokenEntity.IsValid())
             {
                 _logger.LogWarning("Refresh token is revoked or expired");
-                throw new InvalidOperationException("Refresh token expired");
+                return null;
             }
             _logger.LogInformation("Refresh token found successfully");
             return refreshTokenEntity;
@@ -148,32 +148,54 @@ namespace MeetCode.Infrastructure.Services
             return newRefreshToken;
         }
 
-        public async Task<RefreshToken> FindRefreshTokenByUserIdAsync(Guid userId, CancellationToken ct)
+        public async Task<RefreshToken?> FindRefreshTokenByUserIdAsync(Guid userId, CancellationToken ct)
         {
             var refreshTokenEntity = await _refreshTokenRepository.GetByUserId(userId, ct);
             if (refreshTokenEntity == null)
             {
                 _logger.LogWarning($"Refresh token of user {userId} not found");
+                return null;
             }
             if (!refreshTokenEntity.IsValid())
             {
                 _logger.LogWarning($"Refresh token is revoked or expired");
+                return null;
             }
             return refreshTokenEntity;
         }
 
-        public async Task<RefreshToken> FindRefreshTokenAsync(Guid refreshTokenId, CancellationToken ct)
+        public async Task<RefreshToken?> FindRefreshTokenAsync(Guid refreshTokenId, CancellationToken ct)
         {
             var refreshTokenEntity = await _refreshTokenRepository.GetByIdAsync(refreshTokenId, ct);
             if (refreshTokenEntity == null)
             {
                 _logger.LogWarning("Refresh token with inputted id not found");
+                return null;
             }
             if (!refreshTokenEntity.IsValid())
             {
                 _logger.LogWarning("Refresh token is revoked or expired");
+                return null;
             }
             return refreshTokenEntity;
+        }
+        public async Task<bool> InvalidateRefreshToken(Guid userId, CancellationToken ct)
+        {
+            var refreshTokenEntity = await _refreshTokenRepository.GetByUserId(userId, ct);
+            if (refreshTokenEntity == null)
+            {
+                _logger.LogWarning($"Refresh token with user id {userId} not found");
+                return false;
+            }
+            if (!refreshTokenEntity.IsValid())
+            {
+                _logger.LogWarning("Refresh token is revoked or expired");
+                return false;
+            }
+            refreshTokenEntity.IsRevoked = true;
+            await _unitOfWork.SaveChangesAsync(ct);
+            _logger.LogInformation($"Refresh token with userId {userId} revoked");
+            return true;
         }
     }
 }
