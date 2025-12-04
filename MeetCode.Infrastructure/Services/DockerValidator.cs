@@ -10,6 +10,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace MeetCode.Infrastructure.Services
 {
@@ -42,52 +43,26 @@ namespace MeetCode.Infrastructure.Services
 
         public async Task<TestResult?> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct)
         {
-            var tempFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-            Directory.CreateDirectory(tempFolder);
-
-            var codeFile = Path.Combine(tempFolder, language.Name);
-            await File.WriteAllTextAsync(codeFile, code, ct);
-
-            var inputFile = Path.Combine(tempFolder, "testCases.txt");
-            await File.WriteAllTextAsync(inputFile, testCase.InputText, ct);
-
-            var outputFile = Path.Combine(tempFolder, "output.json");
+            var tempFolder = await InitializeWorkingFolderAsync(code, testCase, language, ct);
 
             var containerName = $"runner_{Guid.NewGuid():N}";
 
             try
             {
-                var args = $"run --rm --name {containerName} -v {tempFolder}:/sandbox ${language.RuntimeImage} " +
-                    $"/bin/sh -c \"{language.CompileCommand ?? ""} ?? {language.RunCommand}\"";
+                await CreateRunningContainerAsync(containerName, tempFolder, language, ct);
 
-                var processStart = new ProcessStartInfo
-                {
-                    FileName = "docker",
-                    Arguments = args,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+                var codeFile = Path.Combine(tempFolder, $"Solution.{language.FileExtension}");
+                File.WriteAllText(codeFile, code);
 
-                using var process = Process.Start(processStart);
-                if (process == null)
+                await CompileFileAsync(containerName, language, ct);
+                if (language.FileExtension == "cs")
                 {
-                    return null;
+                    File.WriteAllText(codeFile, code);
                 }
 
-                if (!process.WaitForExit(problem.TimeLimitMs))
-                {
-                    process.Kill();
-                    return new TestResult(testCase, "", "Time Limit Exceeded", false, problem.TimeLimitMs);
-                }
+                await RunFileAsync(containerName, language, ct);
 
-                string dockerStdout = await process.StandardOutput.ReadToEndAsync(ct);
-                string dockerStderr = await process.StandardError.ReadToEndAsync(ct);
-
-                _logger.LogInformation($"Docker stdout: {dockerStdout}");
-                _logger.LogInformation($"Docker stderr: {dockerStderr}");
-
+                var outputFile = Path.Combine(tempFolder, "output.json");
                 if (!File.Exists(outputFile))
                 {
                     throw new FileNotFoundException("No test result found in the container");
@@ -99,8 +74,76 @@ namespace MeetCode.Infrastructure.Services
                 return containerResult;
             } finally
             {
-                Directory.Delete(tempFolder);
+                var processCleanup = new ProcessStartInfo
+                {
+                    FileName = "docker",
+                    Arguments = $"rm -f {containerName}"
+                };
+                Process.Start(processCleanup)?.WaitForExit();
+                Directory.Delete(tempFolder, recursive: true);
             }
+        }
+
+        private async Task<string> InitializeWorkingFolderAsync(string code, TestCase testCase, Language language, CancellationToken ct)
+        {
+            var tempFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(tempFolder);
+
+            var codeFile = Path.Combine(tempFolder, $"Solution.{language.FileExtension}");
+            await File.WriteAllTextAsync(codeFile, code, ct);
+
+            var inputFile = Path.Combine(tempFolder, "testCases.txt");
+            await File.WriteAllTextAsync(inputFile, testCase.InputText, ct);
+
+            //Return the tempFolder destination
+            return tempFolder;
+        }
+
+        private async Task CreateRunningContainerAsync(string containerName, string tempFolder, Language language, CancellationToken ct)
+        {
+            var process = new ProcessStartInfo
+            {
+                FileName = "docker",
+                Arguments = $"run -d --name {containerName} " +
+                $"--memory=256m --network=none " +
+                $"-v \"{tempFolder}:/app\" -w /app {language.CompileImage} " +
+                $"sleep infinity",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            await Process.Start(process)!.WaitForExitAsync(ct);
+        }
+
+        private async Task CompileFileAsync(string containerName, Language language, CancellationToken ct)
+        {
+            var process = new ProcessStartInfo
+            {
+                FileName = "docker",
+                Arguments = $"exec {containerName} /bin/bash -c \"{language.CompileCommand}\"",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            await Process.Start(process)!.WaitForExitAsync(ct);
+        }
+
+        private async Task RunFileAsync(string containerName, Language language, CancellationToken ct)
+        {
+            var processThirdStart = new ProcessStartInfo
+            {
+                FileName = "docker",
+                Arguments = $"exec {containerName} /bin/bash -c \"{language.RunCommand} > /app/output.json\"",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            await Process.Start(processThirdStart)!.WaitForExitAsync(ct);
         }
 
         private async Task<bool> CheckDockerHubAsync(string repo, string tag, CancellationToken ct)
