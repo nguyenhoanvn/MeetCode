@@ -25,6 +25,8 @@ using System.Text.Json.Serialization;
 using MeetCode.Application.Commands.CommandValidators.Language;
 using System.Security.Claims;
 using MeetCode.Infrastructure.Messagings;
+using MeetCode.Application.Interfaces.Helpers;
+using MeetCode.Infrastructure.Helpers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -104,6 +106,8 @@ builder.Services.AddScoped<IProblemTemplateService, ProblemTemplateService>();
 builder.Services.AddScoped<ISubmitService, SubmitService>();
 builder.Services.AddScoped<IJobSender, RabbitMqSender>();
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();
+builder.Services.AddSingleton<ILanguageTemplateGenerator, CSharpTemplateGenerator>();
+builder.Services.AddSingleton<ILanguageTemplateGenerator, JavaTemplateGenerator>();
 
 builder.Services.AddControllers(options =>
 {

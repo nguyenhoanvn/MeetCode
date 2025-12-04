@@ -58,6 +58,7 @@ namespace MeetCode.Server.Helpers
                     {
                         Name = language.Name,
                         Version = language.Version,
+                        FileExtension = language.FileExtension,
                         CompileImage = language.CompileImage,
                         RuntimeImage = language.RuntimeImage,
                         CompileCommand = language.CompileCommand,

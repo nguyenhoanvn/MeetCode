@@ -10,7 +10,7 @@ public partial class Language
     public string Name { get; set; } = null!;
 
     public string Version { get; set; } = null!;
-
+    public string FileExtension { get; set; } = null!;
     public string CompileImage { get; set; } = default!;
 
     public string RuntimeImage { get; set; } = null!;

@@ -1,4 +1,5 @@
-﻿using MeetCode.Application.Interfaces.Repositories;
+﻿using MeetCode.Application.Interfaces.Helpers;
+using MeetCode.Application.Interfaces.Repositories;
 using MeetCode.Application.Interfaces.Services;
 using MeetCode.Domain.Entities;
 using MeetCode.Domain.Exceptions;
@@ -19,17 +20,21 @@ namespace MeetCode.Infrastructure.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProblemTemplateService> _logger;
 
+        private readonly Dictionary<string, ILanguageTemplateGenerator> _templateMap;
+
         public ProblemTemplateService(
             IProblemTemplateRepository problemTemplateRepository,
             ILanguageRepository languageRepository,
             IProblemRepository problemRepository,
             IUnitOfWork unitOfWork,
+            IEnumerable<ILanguageTemplateGenerator> generators,
             ILogger<ProblemTemplateService> logger)
         {
             _problemTemplateRepository = problemTemplateRepository;
             _languageRepository = languageRepository;
             _problemRepository = problemRepository;
             _unitOfWork = unitOfWork;
+            _templateMap = generators.ToDictionary(g => g.LanguageName.ToLower());
             _logger = logger;
         }
 
@@ -59,13 +64,19 @@ namespace MeetCode.Infrastructure.Services
                     {nameof(langId), langId.ToString() }
                 });
             }
-            var methodSignature = GenerateMethodSignature(methodName, returnType, parameters);
+
+            if (!_templateMap.TryGetValue(language.Name.ToLower(), out var generator))
+            {
+                throw new NotSupportedException($"Template generator for '{language.Name}' not supported");
+            }
+
+            var templateCode = generator.GenerateTemplate(methodName, returnType, parameters);
 
             var problemTemplate = new ProblemTemplate
             {
                 ProblemId = problemId,
                 LangId = langId,
-                TemplateCode = methodSignature
+                TemplateCode = templateCode
             };
 
             await _problemTemplateRepository.AddAsync(problemTemplate, ct);
@@ -86,11 +97,6 @@ namespace MeetCode.Infrastructure.Services
         public async Task<IEnumerable<ProblemTemplate>> ReadAllTemplatesAsync(CancellationToken ct)
         {
             throw new NotImplementedException();
-        }
-        public string GenerateMethodSignature(string methodName, string returnType, string[] parameterNames)
-        {
-            var parameters = string.Join(", ", parameterNames);
-            return $"public {returnType} {methodName} ({parameters})";
         }
     }
 }
