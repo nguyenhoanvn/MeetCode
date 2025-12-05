@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import useTabs from "../hooks/useTabs";
 import useTestCaseList from "../hooks/useTestCaseList";
 import { TestCase } from "../types/testCase";
 
 interface TestCaseListPageProps{
     testCaseList: Array<TestCase>;
+    onChange?: (updatedList: Array<TestCase>) => void;
 }
 
 export default function TestCaseListPage(props: TestCaseListPageProps) {
@@ -11,6 +13,10 @@ export default function TestCaseListPage(props: TestCaseListPageProps) {
 
     const selectedCase = parsedTestCase[selectedTab];
     const parsedInput = selectedCase?.input;
+
+    useEffect(() => {
+        props.onChange?.(testCases);
+    }, [testCases]);
 
     return (
         <>

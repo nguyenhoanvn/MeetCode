@@ -4,13 +4,17 @@ import { Editor } from "@monaco-editor/react";
 import useTabs from "../hooks/useTabs";
 import TestCaseListPage from "./TestCaseListPage";
 import { TestCase } from "../types/testCase";
+import useRunCode from "../hooks/useRunCode";
+import { useState } from "react";
 
 interface CodeEditorPageProps {
+    problemId: string,
     testCaseList: Array<TestCase>
 }
 
 export default function CodeEditorPage(props: CodeEditorPageProps) {
-    const {selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick} = useCodeEditor();
+    const { selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick } = useCodeEditor();
+    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading } = useRunCode(selectedLanguage, props.problemId, code, props.testCaseList.map(tc => tc.testId));
     const { selectedTab, handleSelectTab } = useTabs();
 
     const tabs = [
@@ -62,6 +66,18 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                         <p className="text-left relative left-1/8 font-black">Java</p>
                     </div> 
                 </div>
+                <button type="button" className="absolute right-1/30 cursor-pointer" onClick={submitJob}>
+                    {loading ? (
+                        <span className="material-symbols-outlined">
+                            clock_loader_10
+                        </span>
+                    ) : 
+                    (
+                        <span className="material-symbols-outlined">
+                            play_arrow
+                        </span>
+                    )}
+                </button>
             </div>
             <div className="relative h-full w-full">
     <Splitter className="h-full editor-splitter" layout="vertical">
@@ -71,6 +87,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                 language={selectedLanguage}
                 value={code}
                 theme="vs-dark"
+                onChange={handleChangeCode}
                 options={{
                     quickSuggestions: false,
                     suggestOnTriggerCharacters: false,
@@ -106,7 +123,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                     ))}
                 </div>
                 <div className="flex-1 overflow-auto">
-                    {selectedTab === 0 && <TestCaseListPage testCaseList={props.testCaseList}/>}
+                    {selectedTab === 0 && <TestCaseListPage testCaseList={props.testCaseList} onChange={handleChangeTestCase}/>}
                     {selectedTab === 1 && <div><p>currently selected {selectedTab}</p></div>}
                 </div>
             </div>

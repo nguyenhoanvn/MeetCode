@@ -1,20 +1,28 @@
 import axios from "axios";
 import { enableUserAuthInterceptor } from "./interceptors";
 
+const domain = "localhost:7254";
+
 export const authApi = axios.create({
-    baseURL: "https://localhost:7254/auth",
+    baseURL: "https://" + domain + "/auth",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
 });
 
 export const profileApi = axios.create({
-    baseURL: "https://localhost:7254/profile",
+    baseURL: "https://" + domain + "/profile",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
 });
 
 export const problemApi = axios.create({
-    baseURL: "https://localhost:7254/problems",
+    baseURL: "https://" + domain + "/problems",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+});
+
+export const submitApi = axios.create({
+    baseURL: "https://" + domain + "/submit",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
 })

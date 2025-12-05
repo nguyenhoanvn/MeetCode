@@ -67,7 +67,11 @@ export default function ProblemDetailPage() {
                         </SplitterPanel>
                         <SplitterPanel size={60} className="flex align-items-center justify-content-center
                         border border-amber-50 rounded-lg overflow-hidden relative h-full flex-col">
-                            <CodeEditorPage testCaseList={problem?.testCaseList ?? []}/>                   
+                            {initLoading ? (
+                                <div>Loading...</div>
+                            ) : (
+                                <CodeEditorPage problemId={problem?.problemId ?? ""} testCaseList={problem?.testCaseList ?? []}/>
+                            )}                 
                         </SplitterPanel>
                     </Splitter>
                 </div>

@@ -2,13 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { TestCase, ParsedTestCase } from "../types/testCase";
 
 export default function useTestCaseList(initialList: Array<TestCase>) {
-    const [testCases, setTestCases] = useState<Array<TestCase>>([]);
+    const [testCases, setTestCases] = useState<Array<TestCase>>(initialList);
     const [selectedTab, setSelectedTab] = useState(0);
 
     useEffect(() => {
-        setTestCases(initialList);
+        setTestCases(testCases);
         setSelectedTab(0); 
-    }, [initialList]);
+    }, [testCases]);
 
     const updateTestCase = (testId: string, updated: Partial<TestCase>) => {
         setTestCases(prev =>
@@ -26,7 +26,6 @@ export default function useTestCaseList(initialList: Array<TestCase>) {
             else if (selectedTab >= newList.length) {
                 setSelectedTab(newList.length - 1);
             }
-
             return newList;
         });
     };
