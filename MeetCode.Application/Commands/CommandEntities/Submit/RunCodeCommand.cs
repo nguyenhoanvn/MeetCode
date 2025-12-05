@@ -13,6 +13,7 @@ namespace MeetCode.Application.Commands.CommandEntities.Submit
 {
     public sealed record RunCodeCommand(
         string Code,
+        Guid JobId,
         Guid LanguageId,
         Guid ProblemId,
         List<Guid> TestCaseIds

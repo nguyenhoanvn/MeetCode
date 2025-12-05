@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.DTOs.Other
 {
-    public sealed record EnqueueResult(object MessageSent, string QueueName);
+    public sealed record EnqueueResult<T>(Guid JobId, string Status, T MessageSent, string QueueName);
 
 }

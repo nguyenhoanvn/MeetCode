@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Commands.CommandHandlers.Job
 {
-    public class RunCodeJobCommandHandler : IRequestHandler<RunCodeJobCommand, Result<EnqueueResult>>
+    public class RunCodeJobCommandHandler : IRequestHandler<RunCodeJobCommand, Result<EnqueueResult<RunCodeJobCommand>>>
     {
         private readonly IJobSender _jobSender;
         private readonly ILogger<RunCodeJobCommandHandler> _logger;
@@ -24,12 +24,12 @@ namespace MeetCode.Application.Commands.CommandHandlers.Job
             _jobSender = jobSender;
             _logger = logger;
         }
-        public async Task<Result<EnqueueResult>> Handle(RunCodeJobCommand request, CancellationToken ct)
+        public async Task<Result<EnqueueResult<RunCodeJobCommand>>> Handle(RunCodeJobCommand request, CancellationToken ct)
         {
             try
             {
                 await _jobSender.EnqueueJobAsync<RunCodeJobCommand>(request, "run_code_queue", ct);
-                var result = new EnqueueResult(request, "run_code_queue");
+                var result = new EnqueueResult<RunCodeJobCommand>(Guid.NewGuid(), "queued", request, "run_code_queue");
                 return Result.Success(result);
             }
             catch (Exception ex)

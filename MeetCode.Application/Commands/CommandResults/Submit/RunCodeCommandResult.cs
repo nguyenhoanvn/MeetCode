@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace MeetCode.Application.Commands.CommandResults.Submit
 {
     public sealed record RunCodeCommandResult(
+        Guid JobId,
+        string Status,
         List<TestResult> TestResults
         );
 }

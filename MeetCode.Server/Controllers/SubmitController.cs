@@ -28,9 +28,9 @@ namespace MeetCode.Server.Controllers
 
         [HttpPost("job/run")]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(EnqueueResult), StatusCodes.Status202Accepted)]
+        [ProducesResponseType(typeof(EnqueueResult<RunCodeJobCommand>), StatusCodes.Status202Accepted)]
         [ExpectedFailures(ResultStatus.Error)]
-        public async Task<Result<EnqueueResult>> RunCode(RunCodeRequest request, CancellationToken ct)
+        public async Task<Result<EnqueueResult<RunCodeJobCommand>>> RunCode(RunCodeRequest request, CancellationToken ct)
         {
             var cmd = _mapper.Map<RunCodeJobCommand>(request);
 
