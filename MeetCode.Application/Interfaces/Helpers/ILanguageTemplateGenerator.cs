@@ -10,5 +10,6 @@ namespace MeetCode.Application.Interfaces.Helpers
     {
         string LanguageName { get; }
         string GenerateTemplate(string methodName, string returnType, string[] parameters);
+        string GenerateRunner(string methodName, string[] parameters);
     }
 }

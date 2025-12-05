@@ -19,28 +19,28 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
     {
         private readonly ISubmitService _submitService;
         private readonly ILogger<RunCodeCommandHandler> _logger;
-        private readonly IProblemService _problemService;
+        private readonly IProblemTemplateService _problemTemplateService;
         private readonly ILanguageService _languageService;
         private readonly ITestCaseService _testCaseService;
         public RunCodeCommandHandler(
             ISubmitService submitService,
-            IProblemService problemService,
+            IProblemTemplateService problemTemplateService,
             ILanguageService languageService,
             ITestCaseService testCaseService,
             ILogger<RunCodeCommandHandler> logger)
         {
             _submitService = submitService;
-            _problemService = problemService;
+            _problemTemplateService = problemTemplateService;
             _languageService = languageService;
             _testCaseService = testCaseService;
             _logger = logger;
         }
         public async Task<Result<RunCodeCommandResult>> Handle(RunCodeCommand request, CancellationToken ct)
         {
-            var problem = await _problemService.FindProblemByIdAsync(request.ProblemId, ct);
-            if (problem == null)
+            var template = await _problemTemplateService.FindTemplateByProblemIdLanguageIdAsync(request.ProblemId, request.LanguageId, ct);
+            if (template == null)
             {
-                _logger.LogWarning($"Cannot find problem with Id {request.ProblemId}");
+                _logger.LogWarning($"Cannot find template with ProblemId {request.ProblemId} and LanguageId {request.LanguageId}");
                 throw new EntityNotFoundException("Problem", nameof(request.ProblemId), request.ProblemId.ToString());
             }
 
@@ -63,7 +63,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
                 var resultList = new List<TestResult>();
                 foreach (var testCase in testCases)
                 {
-                    resultList.Add(await _submitService.RunCodeAsync(request.Code, language, problem, testCase, ct));
+                    resultList.Add(await _submitService.RunCodeAsync(request.Code, language, template, testCase, ct));
                 }
                 
                 var result = new RunCodeCommandResult(resultList);

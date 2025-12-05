@@ -69,5 +69,12 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(p => p.Problems)
                 .FirstOrDefaultAsync(pt => pt.ProblemId == problemId, ct);
         }
+        public async Task<ProblemTemplate?> GetProblemTemplateByProblemIdLanguageIdAsync(Guid problemId, Guid languageId, CancellationToken ct)
+        {
+            return await _db.ProblemTemplates
+                .Include(l => l.Languages)
+                .Include(p => p.Problems)
+                .FirstOrDefaultAsync(pt => (pt.ProblemId == problemId) && (pt.LangId == languageId), ct);
+        }
     }
 }

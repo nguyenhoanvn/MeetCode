@@ -71,12 +71,14 @@ namespace MeetCode.Infrastructure.Services
             }
 
             var templateCode = generator.GenerateTemplate(methodName, returnType, parameters);
+            var runnerCode = generator.GenerateRunner(methodName, parameters);
 
             var problemTemplate = new ProblemTemplate
             {
                 ProblemId = problemId,
                 LangId = langId,
-                TemplateCode = templateCode
+                TemplateCode = templateCode,
+                RunnerCode = runnerCode
             };
 
             await _problemTemplateRepository.AddAsync(problemTemplate, ct);
@@ -97,6 +99,11 @@ namespace MeetCode.Infrastructure.Services
         public async Task<IEnumerable<ProblemTemplate>> ReadAllTemplatesAsync(CancellationToken ct)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ProblemTemplate?> FindTemplateByProblemIdLanguageIdAsync(Guid problemId, Guid languageId, CancellationToken ct)
+        {
+            return await _problemTemplateRepository.GetProblemTemplateByProblemIdLanguageIdAsync(problemId, languageId, ct);
         }
     }
 }

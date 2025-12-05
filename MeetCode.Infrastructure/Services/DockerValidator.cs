@@ -23,6 +23,7 @@ namespace MeetCode.Infrastructure.Services
         private readonly ILogger<DockerValidator> _logger;
         public DockerValidator(
             IHttpClientFactory httpClient,
+
             ILogger<DockerValidator> logger)
         {
             _httpClient = httpClient;
@@ -41,17 +42,19 @@ namespace MeetCode.Infrastructure.Services
             }
         }
 
-        public async Task<TestResult?> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct)
+        public async Task<TestResult?> RunCodeAsync(string code, Language language, ProblemTemplate problemTemplate, TestCase testCase, CancellationToken ct)
         {
+            code = problemTemplate.RunnerCode.Replace("{USER_CODE}", code);
+
             var tempFolder = await InitializeWorkingFolderAsync(code, testCase, language, ct);
 
-            var containerName = $"runner_{Guid.NewGuid():N}";
+            var containerName = $"runner_{Guid.NewGuid():N}";        
 
             try
             {
                 await CreateRunningContainerAsync(containerName, tempFolder, language, ct);
 
-                var codeFile = Path.Combine(tempFolder, $"Solution.{language.FileExtension}");
+                var codeFile = Path.Combine(tempFolder, $"Program.{language.FileExtension}");
                 File.WriteAllText(codeFile, code);
 
                 await CompileFileAsync(containerName, language, ct);
@@ -60,7 +63,12 @@ namespace MeetCode.Infrastructure.Services
                     File.WriteAllText(codeFile, code);
                 }
 
+                var sw = new Stopwatch();
+                sw.Start();
+
                 await RunFileAsync(containerName, language, ct);
+
+                sw.Stop();
 
                 var outputFile = Path.Combine(tempFolder, "output.json");
                 if (!File.Exists(outputFile))
@@ -69,10 +77,29 @@ namespace MeetCode.Infrastructure.Services
                 }
 
                 var json = await File.ReadAllTextAsync(outputFile, ct);
-                var containerResult = JsonSerializer.Deserialize<TestResult>(json);
+                var containerResult = JsonSerializer.Deserialize<int>(json);
 
-                return containerResult;
-            } finally
+                var testResult = new TestResult
+                (
+                    TestCase: testCase,
+                    Result: containerResult.ToString(),
+                    IsSuccessful: true,
+                    ExecTimeMs: sw.ElapsedMilliseconds
+                );
+
+                return testResult;
+            } catch (Exception ex)
+            {
+                var testResult = new TestResult
+                    (
+                        TestCase: testCase,
+                        Result: ex.Message,
+                        IsSuccessful: false,
+                        ExecTimeMs: 0
+                    );
+                return testResult;
+            }
+            finally
             {
                 var processCleanup = new ProcessStartInfo
                 {
@@ -89,11 +116,18 @@ namespace MeetCode.Infrastructure.Services
             var tempFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(tempFolder);
 
-            var codeFile = Path.Combine(tempFolder, $"Solution.{language.FileExtension}");
+            var codeFile = Path.Combine(tempFolder, $"Program.{language.FileExtension}");
             await File.WriteAllTextAsync(codeFile, code, ct);
 
-            var inputFile = Path.Combine(tempFolder, "testCases.txt");
-            await File.WriteAllTextAsync(inputFile, testCase.InputText, ct);
+            var inputFile = Path.Combine(tempFolder, "testCase.txt");
+            var testCaseLine = testCase.InputText.Split(',');
+            using (var writer = File.AppendText(inputFile))
+            {
+                foreach (var line in testCaseLine)
+                {
+                    writer.WriteLine(line.Substring(line.IndexOf('=') + 1).Trim());
+                }
+            }
 
             //Return the tempFolder destination
             return tempFolder;

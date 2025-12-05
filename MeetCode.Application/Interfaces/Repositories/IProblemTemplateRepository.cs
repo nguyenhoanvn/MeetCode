@@ -11,5 +11,6 @@ namespace MeetCode.Application.Interfaces.Repositories
     {
         Task<bool> IsProblemTemplateExistsAsync(Guid problemId, Guid langId, CancellationToken ct);
         Task<ProblemTemplate?> GetProblemTemplateByProblemIdAsync(Guid problemId, CancellationToken ct);
+        Task<ProblemTemplate?> GetProblemTemplateByProblemIdLanguageIdAsync(Guid problemId, Guid languageId, CancellationToken ct);
     }
 }

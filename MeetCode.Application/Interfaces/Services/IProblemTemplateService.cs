@@ -12,5 +12,6 @@ namespace MeetCode.Application.Interfaces.Services
         Task<ProblemTemplate> CreateTemplateAsync(string methodName, string returnType, string[] parameters, Guid problemId, Guid langId, CancellationToken ct);
         Task<ProblemTemplate?> FindTemplateBySlugAsync(string problemSlug, CancellationToken ct);
         Task<IEnumerable<ProblemTemplate>> ReadAllTemplatesAsync(CancellationToken ct);
+        Task<ProblemTemplate?> FindTemplateByProblemIdLanguageIdAsync(Guid problemId, Guid languageId, CancellationToken ct);
     }
 }

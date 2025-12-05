@@ -14,6 +14,7 @@ namespace MeetCode.Domain.Entities
         public Guid LangId { get; set; }
 
         public string TemplateCode { get; set; } = null!;
+        public string RunnerCode { get; set; } = null!;
         public string? CompileCommand { get; set; }
         public string? RunCommand { get; set; }
         public bool IsEnabled { get; set; } = true;

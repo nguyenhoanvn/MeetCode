@@ -22,9 +22,9 @@ namespace MeetCode.Infrastructure.Services
             _logger = logger;
         }
 
-        public async Task<TestResult> RunCodeAsync(string code, Language language, Problem problem, TestCase testCase, CancellationToken ct)
+        public async Task<TestResult> RunCodeAsync(string code, Language language, ProblemTemplate problemTemplate, TestCase testCase, CancellationToken ct)
         {
-            var result = await _dockerValidator.RunCodeAsync(code, language, problem, testCase, ct);
+            var result = await _dockerValidator.RunCodeAsync(code, language, problemTemplate, testCase, ct);
 
             if (result == null)
             {
