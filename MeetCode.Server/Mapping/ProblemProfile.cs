@@ -8,6 +8,7 @@ using MeetCode.Application.DTOs.Request.Problem;
 using MeetCode.Application.DTOs.Response.Problem;
 using MeetCode.Application.DTOs.Response.Tag;
 using MeetCode.Application.DTOs.Response.TestCase;
+using MeetCode.Application.DTOs.Response.ProblemTemplate;
 
 namespace MeetCode.Server.Mapping
 {
@@ -26,7 +27,8 @@ namespace MeetCode.Server.Mapping
                     src.ScoreAcceptedCount,
                     src.AcceptanceRate,
                     src.Tags.Select(t => new TagResponse(t.TagId, t.Name)).ToList(),
-                    context.Mapper.Map<List<TestCaseResponse>>(src.TestCases)
+                    context.Mapper.Map<List<TestCaseResponse>>(src.TestCases),
+                    context.Mapper.Map<List<ProblemTemplateResponse>>(src.ProblemTemplates)
                 ));
 
             CreateMap<Problem, AdminProblemResponse>()
@@ -41,6 +43,7 @@ namespace MeetCode.Server.Mapping
                     src.AcceptanceRate,
                     context.Mapper.Map<List<TagResponse>>(src.Tags),
                     context.Mapper.Map<List<TestCaseResponse>>(src.TestCases),
+                    context.Mapper.Map<List<ProblemTemplateResponse>>(src.ProblemTemplates),
                     src.IsActive,
                     src.CreatedBy
                 ));

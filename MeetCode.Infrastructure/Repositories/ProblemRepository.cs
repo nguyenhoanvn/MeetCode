@@ -25,6 +25,8 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(p => p.Tags)
                 .Include(p => p.TestCases)
                 .Include(p => p.Submissions)
+                .Include(p => p.ProblemTemplates)
+                    .ThenInclude(pt => pt.Language)
                 .ToListAsync(ct);
         }
         public async Task<Problem?> GetByIdAsync(Guid id, CancellationToken ct)
@@ -33,6 +35,8 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(p => p.Tags)
                 .Include(p => p.TestCases)
                 .Include(p => p.Submissions)
+                .Include(p => p.ProblemTemplates)
+                    .ThenInclude(pt => pt.Language)
                 .FirstOrDefaultAsync(p => p.ProblemId == id, ct);
             return problem;
         }
@@ -62,6 +66,8 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(p => p.Tags)
                 .Include(p => p.TestCases)
                 .Include(p => p.Submissions)
+                .Include(p => p.ProblemTemplates)
+                    .ThenInclude(pt => pt.Language)
                 .FirstOrDefaultAsync(p => p.Slug == slug, ct);
         }
         public async Task<IEnumerable<Problem>> GetAllBySlugAsync(string slug, CancellationToken ct)
@@ -70,6 +76,8 @@ namespace MeetCode.Infrastructure.Repositories
                 .Include(p => p.Tags)
                 .Include(p => p.TestCases)
                 .Include(p => p.Submissions)
+                .Include(p => p.ProblemTemplates)
+                    .ThenInclude(pt => pt.Language)
                 .Where(p => p.Slug.Contains(slug)).ToListAsync();
         }
 

@@ -1,5 +1,7 @@
-﻿using MeetCode.Application.DTOs.Response.Tag;
+﻿using MeetCode.Application.DTOs.Response.ProblemTemplate;
+using MeetCode.Application.DTOs.Response.Tag;
 using MeetCode.Application.DTOs.Response.TestCase;
+using MeetCode.Domain.Entities;
 
 namespace MeetCode.Application.DTOs.Response.Problem
 {
@@ -13,6 +15,7 @@ namespace MeetCode.Application.DTOs.Response.Problem
         int ScoreAcceptedCount,
         double? AcceptanceRate,
         List<TagResponse> TagList,
-        List<TestCaseResponse> TestCaseList
+        List<TestCaseResponse> TestCaseList,
+        List<ProblemTemplateResponse> TemplateList
         ) : IProblemResponse;
 }

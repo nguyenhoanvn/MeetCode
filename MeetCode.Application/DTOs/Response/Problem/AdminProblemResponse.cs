@@ -1,4 +1,5 @@
-﻿using MeetCode.Application.DTOs.Response.Tag;
+﻿using MeetCode.Application.DTOs.Response.ProblemTemplate;
+using MeetCode.Application.DTOs.Response.Tag;
 using MeetCode.Application.DTOs.Response.TestCase;
 
 namespace MeetCode.Application.DTOs.Response.Problem
@@ -14,6 +15,7 @@ namespace MeetCode.Application.DTOs.Response.Problem
         double? AcceptanceRate,
         List<TagResponse> TagList,
         List<TestCaseResponse> TestCaseList,
+        List<ProblemTemplateResponse> TemplateList,
         bool IsActive, 
         Guid CreatedBy 
     ) : IProblemResponse;
