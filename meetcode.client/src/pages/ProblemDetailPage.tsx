@@ -70,7 +70,7 @@ export default function ProblemDetailPage() {
                             {initLoading ? (
                                 <div>Loading...</div>
                             ) : (
-                                <CodeEditorPage problemId={problem?.problemId ?? ""} testCaseList={problem?.testCaseList ?? []}/>
+                                <CodeEditorPage problem={problem}/>
                             )}                 
                         </SplitterPanel>
                     </Splitter>

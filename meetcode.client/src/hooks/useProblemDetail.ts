@@ -11,6 +11,7 @@ export default function useProblemDetail(slug: string) {
         try {
             setInitLoading(true);
             var response = await problemDetail(slug);
+            console.log(response);
             setProblem(response);
         } catch (err: any) {
             setInitError(err.message || "Unexpected error");

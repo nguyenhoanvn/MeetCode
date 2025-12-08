@@ -1,5 +1,6 @@
 import { TestCase } from "./testCase";
 import { Tag } from "./tag";
+import { ProblemTemplate } from "./problemTemplate";
 
 export enum Difficulty {
     Easy = 'easy',
@@ -18,4 +19,5 @@ export interface Problem {
     acceptanceRate: number;
     tagList: Array<Tag>;
     testCaseList: Array<TestCase>;
+    templateList: Array<ProblemTemplate>
 }

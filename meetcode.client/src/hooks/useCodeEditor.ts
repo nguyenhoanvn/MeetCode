@@ -1,32 +1,48 @@
 import React, { useEffect, useState } from "react";
+import { Problem } from "../types/problem";
 
-const templates = new Map([
-    ["c#", "public class Solution {\n\t{nameOfMethod}\n}"],
-    ["java", "class Solution {\n\t{nameOfMethod}\n}"],
-]);
+export default function useCodeEditor(problem?: Problem) {
 
-export default function useCodeEditor() {
+    const [templates, setTemplates] = useState<Map<string, string>>(new Map());
 
-    const [selectedLanguage, setSelectedLanguage] = useState<string>(() => {
-        return sessionStorage.getItem("selectedLanguage") || "c#";
-    })
+    const [selectedLanguage, setSelectedLanguage] = useState(() =>
+        sessionStorage.getItem("selectedLanguage") || "csharp"
+    );
 
-    const [code, setCode] = useState<string>(() => {
-        return templates.get(selectedLanguage) || "";
-    });
+    const [code, setCode] = useState("");
 
-    const [languageDropdown, setLanguageDropdown] = useState<boolean>(false);
+    const [languageDropdown, setLanguageDropdown] = useState(false);
+
+    useEffect(() => {
+        if (!problem) return;
+
+        const map = new Map(
+            problem.templateList.map(t => [t.languageName.toLowerCase(), t.templateCode])
+        );
+
+        setTemplates(map);
+    }, [problem]);
+
+    useEffect(() => {
+        const template = templates.get(selectedLanguage);
+        if (template !== undefined) setCode(template);
+    }, [templates, selectedLanguage]);
 
     const handleDropdownClick = () => {
-        setLanguageDropdown(languageDropdown => !languageDropdown);
-    }
+        setLanguageDropdown(v => !v);
+    };
 
-    const handleLanguageChange = (input: string) => {
-        setSelectedLanguage(input);
+    const handleLanguageChange = (lang: string) => {
+        setSelectedLanguage(lang);
         setLanguageDropdown(false);
-        setCode(templates.get(input) || "");
-        sessionStorage.setItem("selectedLanguage", input);
-    }
+        sessionStorage.setItem("selectedLanguage", lang);
+    };
 
-    return {selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick};
+    return {
+        selectedLanguage,
+        code,
+        languageDropdown,
+        handleLanguageChange,
+        handleDropdownClick
+    };
 }

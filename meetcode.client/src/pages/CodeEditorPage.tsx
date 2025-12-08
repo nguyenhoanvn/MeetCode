@@ -6,15 +6,15 @@ import TestCaseListPage from "./TestCaseListPage";
 import { TestCase } from "../types/testCase";
 import useRunCode from "../hooks/useRunCode";
 import { useState } from "react";
+import { Problem } from "../types/problem";
 
 interface CodeEditorPageProps {
-    problemId: string,
-    testCaseList: Array<TestCase>
+    problem?: Problem
 }
 
 export default function CodeEditorPage(props: CodeEditorPageProps) {
-    const { selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick } = useCodeEditor();
-    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading } = useRunCode(selectedLanguage, props.problemId, code, props.testCaseList.map(tc => tc.testId));
+    const { selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick } = useCodeEditor(props.problem);
+    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading } = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? []);
     const { selectedTab, handleSelectTab } = useTabs();
 
     const tabs = [
@@ -53,10 +53,10 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                     bg-gray-700 absolute left-1/30 top-full w-1/6 z-10`}>
                     <div onClick={(e) => {
                         e.stopPropagation();
-                        handleLanguageChange("c#")}}
+                        handleLanguageChange("csharp")}}
                     className={`hover:bg-white hover:text-black transition duration-300 py-1
-                    ${selectedLanguage === "c#" ? "bg-white text-black" : ""}`}>
-                        <p className="text-left relative left-1/8 font-black">C#</p>
+                    ${selectedLanguage === "csharp" ? "bg-white text-black" : ""}`}>
+                        <p className="text-left relative left-1/8 font-black">Csharp</p>
                     </div>
                     <div onClick={(e) => {
                         e.stopPropagation();
@@ -123,7 +123,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                     ))}
                 </div>
                 <div className="flex-1 overflow-auto">
-                    {selectedTab === 0 && <TestCaseListPage testCaseList={props.testCaseList} onChange={handleChangeTestCase}/>}
+                    {selectedTab === 0 && <TestCaseListPage testCaseList={props.problem?.testCaseList ?? []} onChange={handleChangeTestCase}/>}
                     {selectedTab === 1 && <div><p>currently selected {selectedTab}</p></div>}
                 </div>
             </div>

@@ -1,6 +1,6 @@
 export interface RunCode {
     code: string,
-    languageId: string,
+    languageName: string,
     problemId: string,
     testCaseIds: Array<string>
 }

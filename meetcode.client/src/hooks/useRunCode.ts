@@ -3,9 +3,9 @@ import { RunCode } from "../types/runCode"
 import { runCode } from "../api/submit";
 import { TestCase } from "../types/testCase";
 
-export default function useRunCode(initLanguageId: string, initProblemId: string, initCode: string, initTestCaseIds: Array<string>) {
+export default function useRunCode(initLanguageName: string, initProblemId: string, initCode: string, initTestCaseIds: Array<string>) {
     const [runCodeRequest, setRunCode] = useState<RunCode>({
-        languageId: initLanguageId,
+        languageName: initLanguageName,
         problemId: initProblemId,
         code: initCode,
         testCaseIds: initTestCaseIds
