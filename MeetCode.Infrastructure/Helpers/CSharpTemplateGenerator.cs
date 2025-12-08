@@ -13,10 +13,12 @@ namespace MeetCode.Infrastructure.Helpers
         public string GenerateTemplate(string methodName, string returnType, string[] parameters)
         {
             var paramList = string.Join(", ", parameters);
-            return $@"
-public {returnType} {methodName}({paramList})
+            return $@"public class Solution
 {{
+    public {returnType} {methodName}({paramList})
+    {{
         
+    }}
 }}
             ";
         }
@@ -26,8 +28,7 @@ public {returnType} {methodName}({paramList})
                             .Select(p => p.Split(' ', StringSplitOptions.RemoveEmptyEntries).Last())
                             .ToArray();
             var methodCall = $"{methodName}({string.Join(", ", paramNames)})";
-            return $@"
-namespace UserSubmission
+            return $@"namespace UserSubmission
 {{
     {{USER_CODE}}
 }}

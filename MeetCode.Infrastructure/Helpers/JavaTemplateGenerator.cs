@@ -13,8 +13,7 @@ namespace MeetCode.Infrastructure.Helpers
         public string GenerateTemplate(string methodName, string returnType, string[] parameters)
         {
             var paramList = string.Join(", ", parameters);
-            return $@"
-class Solution
+            return $@"class Solution
 {{
     public {returnType} {methodName}({paramList})
     {{
@@ -30,8 +29,7 @@ class Solution
                             .Select(p => p.Split(' ', StringSplitOptions.RemoveEmptyEntries).Last())
                             .ToArray();
             var methodCall = $"{methodName}({string.Join(", ", paramNames)})";
-            return $@"
-import java.nio.file.*;
+            return $@"import java.nio.file.*;
 import java.io.*;
 
 public class Runner {{
