@@ -36,16 +36,10 @@ namespace MeetCode.Infrastructure.Services
                 throw new EntityNotFoundException("Language", nameof(name), name);
             }
 
-            if (!Rules.TryGetValue(name, out var template))
-            {
-                _logger.LogWarning($"No rule template found for language {name}");
-                throw new InvalidOperationException($"No rules defined for language: {name}");
-            }
-
             language.Version = version;
             language.RuntimeImage = runtimeImage;
-            language.CompileCommand = string.IsNullOrWhiteSpace(compileCommand) ? template.DefaultCompile : compileCommand;
-            language.RunCommand = string.IsNullOrWhiteSpace(runCommand) ? template.DefaultRun : runCommand;
+            language.CompileCommand = compileCommand;
+            language.RunCommand = runCommand;
 
             await _languageRepository.Update(language);
             await _unitOfWork.SaveChangesAsync(ct);
@@ -67,21 +61,5 @@ namespace MeetCode.Infrastructure.Services
             var languages = await _languageRepository.GetAsync(ct);
             return languages.ToList();
         }
-
-        private sealed record LanguageTemplate(
-            string? DefaultCompile,
-            string? DefaultRun);
-
-        private Dictionary<string, LanguageTemplate> Rules = new(StringComparer.OrdinalIgnoreCase)
-        {
-            ["csharp"] = new(
-                "csc /out:program.exe {file}.cs",
-                "dotnet program.dll"
-                ),
-            ["java"] = new(
-                "javac {file}.java",
-                "java {file}"
-                )
-        };
     }
 }
