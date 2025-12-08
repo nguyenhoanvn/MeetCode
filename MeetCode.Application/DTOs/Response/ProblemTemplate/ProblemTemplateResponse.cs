@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace MeetCode.Application.DTOs.Response.ProblemTemplate
 {
     public sealed record ProblemTemplateResponse(
-        string ProblemTitle,
         string LanguageName,
         string TemplateCode);
 }

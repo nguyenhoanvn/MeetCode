@@ -15,8 +15,7 @@ namespace MeetCode.Server.Mapping
         {
             CreateMap<ProblemTemplate, ProblemTemplateResponse>()
                 .ConstructUsing(src => new ProblemTemplateResponse(
-                    src.Problems.Title,
-                    src.Languages.Name,
+                    src.Language.Name,
                     src.TemplateCode));
 
             // Add

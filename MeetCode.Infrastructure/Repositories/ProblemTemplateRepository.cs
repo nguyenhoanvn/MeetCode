@@ -21,22 +21,22 @@ namespace MeetCode.Infrastructure.Repositories
         public async Task<IEnumerable<ProblemTemplate>> GetAsync(CancellationToken ct)
         {
             return await _db.ProblemTemplates
-                .Include(pt => pt.Languages)
-                .Include(pt => pt.Problems)
+                .Include(pt => pt.Language)
+                .Include(pt => pt.Problem)
                 .ToListAsync();
         }
         public async Task<ProblemTemplate?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             return await _db.ProblemTemplates
-                .Include(pt => pt.Languages)
-                .Include(pt => pt.Problems)
+                .Include(pt => pt.Language)
+                .Include(pt => pt.Problem)
                 .FirstOrDefaultAsync(pt => pt.TemplateId == id, ct);
         }
         public async Task<IEnumerable<ProblemTemplate>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct)
         {
             return await _db.ProblemTemplates
-                .Include(pt => pt.Languages)
-                .Include(pt => pt.Problems)
+                .Include(pt => pt.Language)
+                .Include(pt => pt.Problem)
                 .Where(pt => ids.Contains(pt.TemplateId))
                 .ToListAsync();
         }
@@ -65,16 +65,16 @@ namespace MeetCode.Infrastructure.Repositories
         public async Task<ProblemTemplate?> GetProblemTemplateByProblemIdAsync(Guid problemId, CancellationToken ct)
         {
             return await _db.ProblemTemplates
-                .Include(l => l.Languages)
-                .Include(p => p.Problems)
+                .Include(l => l.Language)
+                .Include(p => p.Problem)
                 .FirstOrDefaultAsync(pt => pt.ProblemId == problemId, ct);
         }
-        public async Task<ProblemTemplate?> GetProblemTemplateByProblemIdLanguageIdAsync(Guid problemId, Guid languageId, CancellationToken ct)
+        public async Task<ProblemTemplate?> GetProblemTemplateByProblemIdLanguageNameAsync(Guid problemId, string languageName, CancellationToken ct)
         {
             return await _db.ProblemTemplates
-                .Include(l => l.Languages)
-                .Include(p => p.Problems)
-                .FirstOrDefaultAsync(pt => (pt.ProblemId == problemId) && (pt.LangId == languageId), ct);
+                .Include(l => l.Language)
+                .Include(p => p.Problem)
+                .FirstOrDefaultAsync(pt => (pt.ProblemId == problemId) && (pt.Language.Name == languageName), ct);
         }
     }
 }

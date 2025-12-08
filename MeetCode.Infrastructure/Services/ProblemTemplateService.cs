@@ -101,9 +101,9 @@ namespace MeetCode.Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public async Task<ProblemTemplate?> FindTemplateByProblemIdLanguageIdAsync(Guid problemId, Guid languageId, CancellationToken ct)
+        public async Task<ProblemTemplate?> FindTemplateByProblemIdLanguageNameAsync(Guid problemId, string languageName, CancellationToken ct)
         {
-            return await _problemTemplateRepository.GetProblemTemplateByProblemIdLanguageIdAsync(problemId, languageId, ct);
+            return await _problemTemplateRepository.GetProblemTemplateByProblemIdLanguageNameAsync(problemId, languageName, ct);
         }
     }
 }

@@ -19,8 +19,8 @@ namespace MeetCode.Domain.Entities
         public string? RunCommand { get; set; }
         public bool IsEnabled { get; set; } = true;
 
-        public virtual Problem Problems { get; set; } = null!;
-        public virtual Language Languages { get; set; } = null!;
+        public virtual Problem Problem { get; set; } = null!;
+        public virtual Language Language { get; set; } = null!;
 
         public override string ToString()
         {
