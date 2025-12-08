@@ -41,18 +41,18 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
         }
         public async Task<Result<RunCodeCommandResult>> Handle(RunCodeCommand request, CancellationToken ct)
         {
-            var template = await _problemTemplateService.FindTemplateByProblemIdLanguageIdAsync(request.ProblemId, request.LanguageId, ct);
+            var template = await _problemTemplateService.FindTemplateByProblemIdLanguageNameAsync(request.ProblemId, request.LanguageName, ct);
             if (template == null)
             {
-                _logger.LogWarning($"Cannot find template with ProblemId {request.ProblemId} and LanguageId {request.LanguageId}");
+                _logger.LogWarning($"Cannot find template with ProblemId {request.ProblemId} and LanguageName {request.LanguageName}");
                 throw new EntityNotFoundException("Problem", nameof(request.ProblemId), request.ProblemId.ToString());
             }
 
-            var language = await _languageService.FindLanguageByIdAsync(request.LanguageId, ct);
+            var language = await _languageService.FindLanguageByNameAsync(request.LanguageName, ct);
             if (language == null)
             {
-                _logger.LogWarning($"Cannot find language with Id {request.LanguageId}");
-                throw new EntityNotFoundException("Language", nameof(request.LanguageId), request.ProblemId.ToString());
+                _logger.LogWarning($"Cannot find language with name {request.LanguageName}");
+                throw new EntityNotFoundException("Language", nameof(request.LanguageName), request.ProblemId.ToString());
             }
 
             var testCases = (await _testCaseService.FindTestCaseByIdsAsync(request.TestCaseIds, ct)).ToList();

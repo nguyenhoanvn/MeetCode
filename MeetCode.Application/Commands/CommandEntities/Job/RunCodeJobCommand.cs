@@ -11,7 +11,7 @@ namespace MeetCode.Application.Commands.CommandEntities.Job
 {
     public sealed record RunCodeJobCommand(
         string Code,
-        Guid LanguageId,
+        string LanguageName,
         Guid ProblemId,
         List<Guid> TestCaseIds
         ) : IRequest<Result<EnqueueResult<RunCodeJobCommand>>>;

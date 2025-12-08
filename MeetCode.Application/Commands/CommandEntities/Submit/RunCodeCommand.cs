@@ -14,7 +14,7 @@ namespace MeetCode.Application.Commands.CommandEntities.Submit
     public sealed record RunCodeCommand(
         string Code,
         Guid JobId,
-        Guid LanguageId,
+        string LanguageName,
         Guid ProblemId,
         List<Guid> TestCaseIds
         ) : IRequest<Result<RunCodeCommandResult>>;

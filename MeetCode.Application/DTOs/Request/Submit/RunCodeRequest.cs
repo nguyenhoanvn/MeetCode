@@ -8,7 +8,7 @@ namespace MeetCode.Application.DTOs.Request.Submit
 {
     public sealed record RunCodeRequest(
         string Code,
-        Guid LanguageId,
+        string LanguageName,
         Guid ProblemId,
         List<Guid> TestCaseIds
         );
