@@ -5,8 +5,9 @@ import useTabs from "../hooks/useTabs";
 import TestCaseListPage from "./TestCaseListPage";
 import { TestCase } from "../types/testCase";
 import useRunCode from "../hooks/useRunCode";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Problem } from "../types/problem";
+import TestResultsPage from "./TestResultsPage";
 
 interface CodeEditorPageProps {
     problem?: Problem
@@ -14,7 +15,7 @@ interface CodeEditorPageProps {
 
 export default function CodeEditorPage(props: CodeEditorPageProps) {
     const { selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick } = useCodeEditor(props.problem);
-    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading } = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? []);
+    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading, jobId } = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? []);
     const { selectedTab, handleSelectTab } = useTabs();
 
     const tabs = [
@@ -124,7 +125,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                 </div>
                 <div className="flex-1 overflow-auto">
                     {selectedTab === 0 && <TestCaseListPage testCaseList={props.problem?.testCaseList ?? []} onChange={handleChangeTestCase}/>}
-                    {selectedTab === 1 && <div><p>currently selected {selectedTab}</p></div>}
+                    {selectedTab === 1 && <p>hello</p>}
                 </div>
             </div>
         </SplitterPanel>

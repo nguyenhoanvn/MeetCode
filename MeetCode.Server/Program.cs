@@ -109,7 +109,6 @@ builder.Services.AddScoped<IJobSender, RabbitMqSender>();
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();
 builder.Services.AddSingleton<ILanguageTemplateGenerator, CSharpTemplateGenerator>();
 builder.Services.AddSingleton<ILanguageTemplateGenerator, JavaTemplateGenerator>();
-builder.Services.AddSingleton<IJobWebSocketRegistry, JobWebSocketRegistry>();
 
 builder.Services.AddControllers(options =>
 {
@@ -211,33 +210,12 @@ using (var scope = app.Services.CreateScope())
         logger.LogError($"Failed to seed the database: {ex.Message}");
     }
 }
-app.Map("/ws", async (HttpContext context, IJobWebSocketRegistry registry) =>
-{
-    if (!context.WebSockets.IsWebSocketRequest)
-    {
-        context.Response.StatusCode = 400;
-        return;
-    }
-
-    var socket = await context.WebSockets.AcceptWebSocketAsync();
-    var jobIdRaw = context.Request.Query["jobId"].ToString();
-    if (!Guid.TryParse(jobIdRaw, out var jobId))
-    {
-        context.Response.StatusCode = 400;
-        return;
-    }
-
-    await registry.SubscribeAsync(jobId, socket);
-    await registry.HandleConnectionAsync(socket);
-});
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseDefaultFiles();   // Looks for index.html
 app.UseStaticFiles();    // Serves React static files
-
-app.MapFallbackToFile("index.html");
 
 app.UseCors("AllowReactApp");
 
@@ -250,5 +228,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 app.Run();

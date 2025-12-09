@@ -9,7 +9,14 @@ namespace MeetCode.Server.Mapping
         public SubmitProfile()
         {
             // Run code enqueuing
-            CreateMap<RunCodeRequest, RunCodeJobCommand>();
+            CreateMap<(Guid jobId, RunCodeRequest request), RunCodeJobCommand>()
+                .ConstructUsing(src => new RunCodeJobCommand(
+                    src.jobId,
+                    src.request.Code,
+                    src.request.LanguageName,
+                    src.request.ProblemId,
+                    src.request.TestCaseIds
+                    ));
         }
     }
 }

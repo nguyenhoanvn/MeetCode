@@ -32,7 +32,8 @@ namespace MeetCode.Server.Controllers
         [ExpectedFailures(ResultStatus.Error)]
         public async Task<Result<EnqueueResult<RunCodeJobCommand>>> RunCode(RunCodeRequest request, CancellationToken ct)
         {
-            var cmd = _mapper.Map<RunCodeJobCommand>(request);
+            var jobId = Guid.NewGuid();
+            var cmd = _mapper.Map<RunCodeJobCommand>((jobId, request));
 
             var result = await _mediator.Send(cmd, ct);
 

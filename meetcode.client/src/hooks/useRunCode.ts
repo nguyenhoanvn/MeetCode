@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { RunCode } from "../types/runCode"
 import { runCode } from "../api/submit";
 import { TestCase } from "../types/testCase";
+import { TestResult } from "../types/testResult";
 
 export default function useRunCode(initLanguageName: string, initProblemId: string, initCode: string, initTestCaseIds: Array<string>) {
     const [runCodeRequest, setRunCode] = useState<RunCode>({
@@ -10,19 +11,22 @@ export default function useRunCode(initLanguageName: string, initProblemId: stri
         code: initCode,
         testCaseIds: initTestCaseIds
     });
+
+    const [jobId, setJobId] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     
     const submitJob = async () => {
         setLoading(true);
         try {
             const resp = await runCode(runCodeRequest);
+            setJobId(resp.jobId);
             console.log(resp);
         } catch (err: any) {
             console.error(err);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const handleChangeCode = (value?: string) => {
         setRunCode(prev => ({
@@ -50,6 +54,7 @@ export default function useRunCode(initLanguageName: string, initProblemId: stri
         handleChangeCode,
         handleChangeTestCase,
         loading,
-        submitJob
+        submitJob,
+        jobId
     };
 }

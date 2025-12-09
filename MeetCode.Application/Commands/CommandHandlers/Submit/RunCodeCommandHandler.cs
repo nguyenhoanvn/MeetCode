@@ -23,20 +23,17 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
         private readonly IProblemTemplateService _problemTemplateService;
         private readonly ILanguageService _languageService;
         private readonly ITestCaseService _testCaseService;
-        private readonly IJobWebSocketRegistry _ws;
         public RunCodeCommandHandler(
             ISubmitService submitService,
             IProblemTemplateService problemTemplateService,
             ILanguageService languageService,
             ITestCaseService testCaseService,
-            IJobWebSocketRegistry ws,
             ILogger<RunCodeCommandHandler> logger)
         {
             _submitService = submitService;
             _problemTemplateService = problemTemplateService;
             _languageService = languageService;
             _testCaseService = testCaseService;
-            _ws = ws;
             _logger = logger;
         }
         public async Task<Result<RunCodeCommandResult>> Handle(RunCodeCommand request, CancellationToken ct)
@@ -72,7 +69,6 @@ namespace MeetCode.Application.Commands.CommandHandlers.Submit
                 
                 var result = new RunCodeCommandResult(request.JobId, "Completed", resultList);
 
-                await _ws.SendToJobAsync(request.JobId, result);
                 return Result.Success(result);
             } catch (Exception ex)
             {

@@ -29,7 +29,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Job
             try
             {
                 await _jobSender.EnqueueJobAsync<RunCodeJobCommand>(request, "run_code_queue", ct);
-                var result = new EnqueueResult<RunCodeJobCommand>(Guid.NewGuid(), "queued", request, "run_code_queue");
+                var result = new EnqueueResult<RunCodeJobCommand>(request.JobId, "queued", request, "run_code_queue");
                 return Result.Success(result);
             }
             catch (Exception ex)

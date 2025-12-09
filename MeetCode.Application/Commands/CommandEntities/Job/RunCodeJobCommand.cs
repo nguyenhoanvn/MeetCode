@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace MeetCode.Application.Commands.CommandEntities.Job
 {
     public sealed record RunCodeJobCommand(
+        Guid JobId,
         string Code,
         string LanguageName,
         Guid ProblemId,

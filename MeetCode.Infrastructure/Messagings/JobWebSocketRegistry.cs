@@ -18,40 +18,38 @@ namespace MeetCode.Infrastructure.Messagings
         {
             var buffer = new byte[4096];
 
-            while (socket.State == WebSocketState.Open)
+            try
             {
-                var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
-
-                if (result.MessageType == WebSocketMessageType.Close)
+                while (socket.State == WebSocketState.Open)
                 {
-                    break;
+                    // Just keep the socket alive. No need to parse messages.
+                    var result = await socket.ReceiveAsync(buffer, CancellationToken.None);
+
+                    if (result.MessageType == WebSocketMessageType.Close)
+                        break;
                 }
-
-                var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-
-                var json = JsonDocument.Parse(message);
-                if (json.RootElement.TryGetProperty("subscribe", out var jobIdElement))
+            }
+            finally
+            {
+                // Remove socket on disconnect
+                foreach (var (jobId, ws) in _connections)
                 {
-                    if (Guid.TryParse(jobIdElement.GetString(), out var jobId))
+                    if (ws == socket)
                     {
-                        await SubscribeAsync(jobId, socket);
+                        _connections.TryRemove(jobId, out _);
+                        break;
                     }
                 }
-            }
 
-            foreach (var (jobId, ws) in _connections)
-            {
-                if (ws == socket)
-                {
-                    _connections.TryGetValue(jobId, out _);
-                }
+                if (socket.State != WebSocketState.Closed)
+                    await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed", CancellationToken.None);
             }
-
-            await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed", CancellationToken.None);
         }
-        public async Task SubscribeAsync(Guid jobId, WebSocket socket)
+
+        public Task SubscribeAsync(Guid jobId, WebSocket socket)
         {
             _connections[jobId] = socket;
+            return Task.CompletedTask;
         }
 
         public async Task SendToJobAsync(Guid jobId, object message)
