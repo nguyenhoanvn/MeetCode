@@ -10,6 +10,7 @@ import DashboardPage from "./pagesAdmin/DashboardPage";
 import AdminLayout from "./pagesAdmin/Layout";
 import TablePage from "./pagesAdmin/TablePage";
 import ProblemPage from "./pagesAdmin/ProblemPage";
+import { WSTestPage } from "./pages/WSTestPage";
 
 export default function AppRouter() {
     return (
@@ -27,6 +28,7 @@ export default function AppRouter() {
                     <Route path="tables" element={<TablePage />} />
                     <Route path="problems" element={<ProblemPage />} />
                 </Route>
+                <Route path="/test" element={<WSTestPage/>}/>
             </Routes>
         </BrowserRouter>
     );

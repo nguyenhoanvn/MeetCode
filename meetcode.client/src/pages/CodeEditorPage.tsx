@@ -15,8 +15,9 @@ interface CodeEditorPageProps {
 
 export default function CodeEditorPage(props: CodeEditorPageProps) {
     const { selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick } = useCodeEditor(props.problem);
-    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading, jobId } = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? []);
+    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading, jobId, results } = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? []);
     const { selectedTab, handleSelectTab } = useTabs();
+
 
     const tabs = [
         { label: "Test Cases", icon: "task_alt", color: "text-green-400" },
@@ -125,7 +126,10 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                 </div>
                 <div className="flex-1 overflow-auto">
                     {selectedTab === 0 && <TestCaseListPage testCaseList={props.problem?.testCaseList ?? []} onChange={handleChangeTestCase}/>}
-                    {selectedTab === 1 && <p>hello</p>}
+                    {selectedTab === 1 && <TestResultsPage
+        jobId={jobId}
+        results={results}
+    />}
                 </div>
             </div>
         </SplitterPanel>
