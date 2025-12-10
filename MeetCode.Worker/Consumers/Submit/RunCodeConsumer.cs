@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Submit;
+using MeetCode.Application.Commands.CommandResults.Submit;
 using MeetCode.Application.Interfaces.Services;
 using MeetCode.Domain.Exceptions;
 using Microsoft.Extensions.Configuration;
@@ -51,6 +52,7 @@ namespace MeetCode.Worker.Consumers.Submit
                 await _channel.BasicQosAsync(0, 1, false, ct);
 
                 await _channel.QueueDeclareAsync("run_code_queue", true, false, false, null);
+                await _channel.QueueDeclareAsync("run_result_queue", true, false, false, null);
 
                 var consumer = new AsyncEventingBasicConsumer(_channel);
 
@@ -94,7 +96,9 @@ namespace MeetCode.Worker.Consumers.Submit
                 using var scope = _serviceProvider.CreateScope();
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                await mediator.Send(cmd, ct);
+                var result = await mediator.Send(cmd, ct);
+
+                await PublishResultAsync(result, ct);
 
                 await _channel!.BasicAckAsync(ea.DeliveryTag, false, ct);
 
@@ -113,6 +117,27 @@ namespace MeetCode.Worker.Consumers.Submit
                 await _channel!.BasicNackAsync(ea.DeliveryTag, false, true, ct);
             }
         }
+
+        private async Task PublishResultAsync(RunCodeCommandResult result, CancellationToken ct)
+        {
+            var json = JsonSerializer.Serialize(result);
+            var body = Encoding.UTF8.GetBytes(json);
+
+            var props = new BasicProperties
+            {
+                Persistent = true
+            };
+
+            await _channel!.BasicPublishAsync(
+                exchange: "",
+                routingKey: "run_result_queue",
+                mandatory: false,
+                basicProperties: props,
+                body: body,
+                cancellationToken: ct
+            );
+        }
+
         public override void Dispose()
         {
             _channel?.Dispose();

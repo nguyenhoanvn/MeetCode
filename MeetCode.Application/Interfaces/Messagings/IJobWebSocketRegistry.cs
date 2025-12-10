@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fleck;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
@@ -9,8 +10,8 @@ namespace MeetCode.Application.Interfaces.Messagings
 {
     public interface IJobWebSocketRegistry
     {
-        Task HandleConnectionAsync(WebSocket socket);
-        Task SubscribeAsync(Guid jobId, WebSocket socket);
-        Task SendToJobAsync(Guid jobId, object message);
+        Task RegisterAsync(Guid jobId, IWebSocketConnection socket);
+        Task SendToJobAsync(Guid jobId, object payload);
+        Task RemoveAsync(Guid jobId);
     }
 }

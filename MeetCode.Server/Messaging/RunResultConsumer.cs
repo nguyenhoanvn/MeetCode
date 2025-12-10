@@ -1,5 +1,7 @@
-﻿using MeetCode.Application.Commands.CommandResults.Submit;
+﻿using Fleck;
+using MeetCode.Application.Commands.CommandResults.Submit;
 using MeetCode.Application.Interfaces.Messagings;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -19,14 +21,16 @@ namespace MeetCode.Server.Messaging
         private IConnection? _connection;
         private IChannel? _channel;
 
-        public RunResultConsumer(ILogger<RunResultConsumer> logger, IJobWebSocketRegistry wsRegistry)
+        public RunResultConsumer(ILogger<RunResultConsumer> logger,
+            IJobWebSocketRegistry wsRegistry,
+            IConfiguration configuration)
         {
             _logger = logger;
             _wsRegistry = wsRegistry;
             _factory = new ConnectionFactory
             {
-                HostName = "localhost", // or read from config
-                Port = 5672,
+                HostName = configuration["RabbitMQ:HostName"] ?? "localhost",
+                Port = configuration.GetValue<int>("RabbitMQ:Port", 5672),
                 AutomaticRecoveryEnabled = true,
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
             };
@@ -47,6 +51,7 @@ namespace MeetCode.Server.Messaging
                     var body = ea.Body.ToArray();
                     var json = Encoding.UTF8.GetString(body);
                     var result = JsonSerializer.Deserialize<RunCodeCommandResult>(json);
+                    Console.WriteLine("deserializeed: " + result);
 
                     if (result != null)
                     {

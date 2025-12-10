@@ -1,33 +1,42 @@
-using System.Reflection;
+using Fleck;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
+using MeetCode.Application.Commands.CommandEntities.Auth;
+using MeetCode.Application.Commands.CommandEntities.Job;
+using MeetCode.Application.Commands.CommandEntities.Submit;
+using MeetCode.Application.Commands.CommandValidators.Language;
+using MeetCode.Application.DTOs.Other;
+using MeetCode.Application.Interfaces.Helpers;
+using MeetCode.Application.Interfaces.Messagings;
+using MeetCode.Application.Interfaces.Repositories;
+using MeetCode.Application.Interfaces.Services;
+using MeetCode.Infrastructure.Helpers;
+using MeetCode.Infrastructure.Messagings;
+using MeetCode.Infrastructure.Persistence;
+using MeetCode.Infrastructure.Persistence.Configurations;
+using MeetCode.Infrastructure.Repositories;
+using MeetCode.Infrastructure.Services;
+using MeetCode.Server.Helpers;
+using MeetCode.Server.Mapping;
+using MeetCode.Server.Messaging;
+using MeetCode.Server.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using MeetCode.Server.Mapping;
-using System.IdentityModel.Tokens.Jwt;
 using StackExchange.Redis;
-using MeetCode.Application.Interfaces.Repositories;
-using MeetCode.Application.Interfaces.Services;
-using MeetCode.Application.Commands.CommandEntities.Auth;
-using MeetCode.Infrastructure.Services;
-using MeetCode.Infrastructure.Repositories;
-using MeetCode.Infrastructure.Persistence;
-using MeetCode.Infrastructure.Persistence.Configurations;
-using MeetCode.Server.Middlewares;
-using MeetCode.Server.Helpers;
-using System.Text.Json.Serialization;
-using MeetCode.Application.Commands.CommandValidators.Language;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Security.Claims;
-using MeetCode.Infrastructure.Messagings;
-using MeetCode.Application.Interfaces.Helpers;
-using MeetCode.Infrastructure.Helpers;
-using MeetCode.Application.Interfaces.Messagings;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +54,9 @@ builder.Services.AddCors(options =>
                 .AllowCredentials();
         });
 });
+
+builder.Services.AddSingleton<IJobWebSocketRegistry, JobWebSocketRegistry>();
+builder.Services.AddHostedService<RunResultConsumer>();
 
 // EF Core (SQL Server)
 builder.Services.AddDbContext<AppDbContext>(opts =>
@@ -105,7 +117,7 @@ builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IProblemTemplateService, ProblemTemplateService>();
 builder.Services.AddScoped<ISubmitService, SubmitService>();
-builder.Services.AddScoped<IJobSender, RabbitMqSender>();
+builder.Services.AddSingleton<IJobSender, RabbitMqSender>();
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();
 builder.Services.AddSingleton<ILanguageTemplateGenerator, CSharpTemplateGenerator>();
 builder.Services.AddSingleton<ILanguageTemplateGenerator, JavaTemplateGenerator>();
@@ -192,7 +204,38 @@ JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 
+
+var server = new WebSocketServer("ws://0.0.0.0:8181");
+
+Dictionary<Guid, IWebSocketConnection> jobConnections = new();
+
 var app = builder.Build();
+
+var wsRegistry = app.Services.GetRequiredService<IJobWebSocketRegistry>();
+var jobSender = app.Services.GetRequiredService<IJobSender>();
+
+server.Start(ws =>
+{
+    ws.OnMessage = async message =>
+    {
+        try
+        {
+            Console.WriteLine("49867542975642397657942367942395743298542397534954986754297564239765794236794239574329854239753495 message: " + message);
+            var doc = JsonDocument.Parse(message);
+
+            var jobId = doc.RootElement.GetProperty("JobId").GetGuid();
+            var messageSentJson = doc.RootElement.GetProperty("MessageSent").GetRawText();
+
+            await wsRegistry.RegisterAsync(jobId, ws);
+
+        }
+        catch (Exception ex)
+        {
+            await ws.Send($"Error: {ex.Message}");
+        }
+    };
+});
+
 
 using (var scope = app.Services.CreateScope())
 {
