@@ -23,7 +23,6 @@ namespace MeetCode.Infrastructure.Services
         private readonly ILogger<DockerValidator> _logger;
         public DockerValidator(
             IHttpClientFactory httpClient,
-
             ILogger<DockerValidator> logger)
         {
             _httpClient = httpClient;
@@ -81,7 +80,7 @@ namespace MeetCode.Infrastructure.Services
 
                 var testResult = new TestResult
                 (
-                    TestCase: testCase,
+                    TestCaseId: testCase.TestId,
                     Result: containerResult.ToString(),
                     IsSuccessful: true,
                     ExecTimeMs: sw.ElapsedMilliseconds
@@ -92,7 +91,7 @@ namespace MeetCode.Infrastructure.Services
             {
                 var testResult = new TestResult
                     (
-                        TestCase: testCase,
+                        TestCaseId: testCase.TestId,
                         Result: ex.Message,
                         IsSuccessful: false,
                         ExecTimeMs: 0
