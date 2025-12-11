@@ -25,7 +25,11 @@ namespace MeetCode.Infrastructure.Messagings
         {
             if (_connections.TryGetValue(jobId, out var ws))
             {
-                ws.Send(JsonSerializer.Serialize(payload));
+                ws.Send(JsonSerializer.Serialize(payload,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    }));
             }
             return Task.CompletedTask;
         }
