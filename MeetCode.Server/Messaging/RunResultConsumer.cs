@@ -1,5 +1,6 @@
 ﻿using Fleck;
 using MeetCode.Application.Commands.CommandResults.Submit;
+using MeetCode.Application.DTOs.Response.Submit;
 using MeetCode.Application.Interfaces.Messagings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -50,8 +51,7 @@ namespace MeetCode.Server.Messaging
                 {
                     var body = ea.Body.ToArray();
                     var json = Encoding.UTF8.GetString(body);
-                    var result = JsonSerializer.Deserialize<RunCodeCommandResult>(json);
-                    Console.WriteLine("deserializeed: " + result);
+                    var result = JsonSerializer.Deserialize<RunCodeResponse>(json);
 
                     if (result != null)
                     {

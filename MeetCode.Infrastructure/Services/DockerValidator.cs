@@ -80,7 +80,7 @@ namespace MeetCode.Infrastructure.Services
 
                 var testResult = new TestResult
                 (
-                    TestCaseId: testCase.TestId,
+                    TestCase: testCase,
                     Result: containerResult.ToString(),
                     IsSuccessful: true,
                     ExecTimeMs: sw.ElapsedMilliseconds
@@ -91,7 +91,7 @@ namespace MeetCode.Infrastructure.Services
             {
                 var testResult = new TestResult
                     (
-                        TestCaseId: testCase.TestId,
+                        TestCase: testCase,
                         Result: ex.Message,
                         IsSuccessful: false,
                         ExecTimeMs: 0

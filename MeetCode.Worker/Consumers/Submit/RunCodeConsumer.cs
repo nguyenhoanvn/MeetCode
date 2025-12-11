@@ -1,6 +1,9 @@
-﻿using MediatR;
+﻿using Ardalis.Result;
+using AutoMapper;
+using MediatR;
 using MeetCode.Application.Commands.CommandEntities.Submit;
 using MeetCode.Application.Commands.CommandResults.Submit;
+using MeetCode.Application.DTOs.Response.Submit;
 using MeetCode.Application.Interfaces.Services;
 using MeetCode.Domain.Exceptions;
 using Microsoft.Extensions.Configuration;
@@ -23,16 +26,19 @@ namespace MeetCode.Worker.Consumers.Submit
         private readonly ILogger<RunCodeConsumer> _logger;
         private readonly IConnectionFactory _factory;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IMapper _mapper;
         private IConnection? _connection;
         private IChannel? _channel;
 
         public RunCodeConsumer(
             IServiceProvider serviceProvider,
             ILogger<RunCodeConsumer> logger,
+            IMapper mapper,
             IConfiguration configuration)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
+            _mapper = mapper;
             _factory = new ConnectionFactory
             {
                 HostName = configuration["RabbitMQ:HostName"] ?? "localhost",
@@ -98,7 +104,9 @@ namespace MeetCode.Worker.Consumers.Submit
 
                 var result = await mediator.Send(cmd, ct);
 
-                await PublishResultAsync(result, ct);
+                var resp = result.Map(value => _mapper.Map<RunCodeResponse>(value));
+
+                await PublishResultAsync(resp, ct);
 
                 await _channel!.BasicAckAsync(ea.DeliveryTag, false, ct);
 
@@ -118,7 +126,7 @@ namespace MeetCode.Worker.Consumers.Submit
             }
         }
 
-        private async Task PublishResultAsync(RunCodeCommandResult result, CancellationToken ct)
+        private async Task PublishResultAsync(RunCodeResponse result, CancellationToken ct)
         {
             var json = JsonSerializer.Serialize(result);
             var body = Encoding.UTF8.GetBytes(json);
