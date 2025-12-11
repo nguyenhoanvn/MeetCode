@@ -132,6 +132,7 @@ builder.Services.AddControllers(options =>
     {
         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -220,7 +221,6 @@ server.Start(ws =>
     {
         try
         {
-            Console.WriteLine("49867542975642397657942367942395743298542397534954986754297564239765794236794239574329854239753495 message: " + message);
             var doc = JsonDocument.Parse(message);
 
             var jobId = doc.RootElement.GetProperty("JobId").GetGuid();
