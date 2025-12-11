@@ -4,7 +4,7 @@
         Guid TestId,
         string Visibility,
         string InputJson,
-        string OutputJson,
+        string Output,
         int Weight,
         Guid ProblemId
         );

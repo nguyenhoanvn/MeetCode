@@ -126,10 +126,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                 </div>
                 <div className="flex-1 overflow-auto">
                     {selectedTab === 0 && <TestCaseListPage testCaseList={props.problem?.testCaseList ?? []} onChange={handleChangeTestCase}/>}
-                    {selectedTab === 1 && <TestResultsPage
-        jobId={jobId}
-        results={results}
-    />}
+                    {selectedTab === 1 && <TestResultsPage jobId={jobId} results={results}/>}
                 </div>
             </div>
         </SplitterPanel>

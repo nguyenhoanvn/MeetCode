@@ -1,4 +1,4 @@
-import { TestCase } from "./testCase";
+import { ParsedTestCase, TestCase } from "./testCase";
 
 export interface TestResult {
     testCase: TestCase;
@@ -6,3 +6,7 @@ export interface TestResult {
     isSuccessful: boolean;
     execTimeMs: number;
 };
+
+export interface ParsedTestResult extends Omit<TestResult, "testCase"> {
+    testCase: ParsedTestCase;
+}

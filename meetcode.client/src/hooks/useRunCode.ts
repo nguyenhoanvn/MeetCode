@@ -3,6 +3,7 @@ import { RunCode } from "../types/runCode"
 import { runCode } from "../api/submit";
 import { TestCase } from "../types/testCase";
 import { TestResult } from "../types/testResult";
+import { TestJobResult } from "../types/testJobResult";
 
 export default function useRunCode(initLanguageName: string, initProblemId: string, initCode: string, initTestCaseIds: Array<string>) {
     const [runCodeRequest, setRunCode] = useState<RunCode>({
@@ -67,27 +68,24 @@ export default function useRunCode(initLanguageName: string, initProblemId: stri
         };
 
         socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log("WS message:", data);
-            console.log("Message TestResults:", data.TestResults);
-            console.log("Is array?", Array.isArray(data.TestResults));
-            console.log("JobId match?", data.JobId, "===", jobId, data.JobId === jobId);
+            console.log("received: " + event.data);
+            const data: TestJobResult = JSON.parse(event.data);
 
-            if (data.JobId !== jobId) {
+            if (data.jobId !== jobId) {
                 console.log("JobId mismatch, ignoring");
                 return;
             }
 
-            if (!Array.isArray(data.TestResults)) {
+            if (!Array.isArray(data.testResults)) {
                 console.log("TestResults is not an array");
                 return;
             }
 
-            const mappedResults = data.TestResults.map((r: any) => ({
-                testCaseId: r.TestCaseId,
-                result: r.Result,
-                isSuccessful: r.IsSuccessful,
-                execTimeMs: r.ExecTimeMs
+            const mappedResults = data.testResults.map((r: TestResult) => ({
+                testCase: r.testCase,
+                result: r.result,
+                isSuccessful: r.isSuccessful,
+                execTimeMs: r.execTimeMs
             }));
             
             console.log("Setting results to:", mappedResults);

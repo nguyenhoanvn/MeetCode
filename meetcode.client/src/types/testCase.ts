@@ -8,7 +8,7 @@ export interface TestCase {
     testId: string;
     visibility: Visibility;
     inputJson: string;
-    outputJson: string;
+    output: string;
     weight: number;
     problemId: string;
 }
