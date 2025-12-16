@@ -19,7 +19,7 @@ export default function TestCaseListPage(props: TestCaseListPageProps) {
     }, [testCases]);
 
     return (
-        <>
+        <div className="h-full w-full overflow-auto min-h-0">
             <div className="px-5 py-1 flex flex-row gap-3">
                 {testCases.map((item, index) => (
                     <div key={item.testId} className="flex flex-col cursor-pointer relative group"
@@ -32,9 +32,9 @@ export default function TestCaseListPage(props: TestCaseListPageProps) {
                                 close
                             </span>
                         </div>
-                        <p className={`px-3 py-1 h-full w-fit rounded-lg 
+                        <p className={`px-3 py-1 h-full w-fit rounded-lg text-sm
                         ${selectedTab === index ? "bg-gray-600" : "hover:bg-gray-600"}`}>
-                            Test {index + 1}
+                            Case {index + 1}
                         </p>
                     </div>
                 ))}
@@ -51,6 +51,6 @@ export default function TestCaseListPage(props: TestCaseListPageProps) {
                     </div>
                 )}
             </div>
-        </>
+        </div>
     )
 }

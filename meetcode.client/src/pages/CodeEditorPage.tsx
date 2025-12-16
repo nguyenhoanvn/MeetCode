@@ -8,6 +8,7 @@ import useRunCode from "../hooks/useRunCode";
 import { useEffect, useState } from "react";
 import { Problem } from "../types/problem";
 import TestResultsPage from "./TestResultsPage";
+import TestResultLoadingPage from "./TestResultLoadingPage";
 
 interface CodeEditorPageProps {
     problem?: Problem
@@ -15,7 +16,7 @@ interface CodeEditorPageProps {
 
 export default function CodeEditorPage(props: CodeEditorPageProps) {
     const { selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick } = useCodeEditor(props.problem);
-    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading, jobId, results } = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? []);
+    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading, jobId, results} = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? [], () => handleSelectTab(1));
     const { selectedTab, handleSelectTab } = useTabs();
 
 
@@ -32,7 +33,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                             width: 100% !important;
                             border-top: 1px solid white;
                             border-bottom: 1px solid white;
-                            height: 10px !important;
+                            height: 7px !important;
                             background-color: transparent;
                             transition: box-shadow 0.2s ease, background-color 0.2s ease;
                         }
@@ -45,7 +46,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
             <div className="h-screen w-full flex flex-col overflow-hidden"> 
                 <div className="w-full h-1/14 shrink-0 flex items-center border-gray-300 border-b relative">
                     <button type="button" onClick={handleDropdownClick}
-                    className={`flex items-center relative h-full left-1/30 bg-gray-700 rounded-lg w-1/6 wrap-anywhere cursor-pointer
+                    className={`flex items-center relative h-full left-10 bg-gray-700 rounded-lg w-50 wrap-anywhere cursor-pointer
                     ${languageDropdown ? "rounded-b-none" : ""}`}>
                         <span className="capitalize absolute left-1/8 font-black">{selectedLanguage}</span>
                         <span className="material-symbols-outlined absolute right-1/20">
@@ -53,7 +54,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                         </span>
                     </button>
                     <div className={`${languageDropdown ? "block" : "hidden"}
-                        bg-gray-700 absolute left-1/30 top-full w-1/6 z-10`}>
+                        bg-gray-700 absolute left-10 top-full w-50 z-10`}>
                         <div onClick={(e) => {
                             e.stopPropagation();
                             handleLanguageChange("csharp")}}
@@ -108,14 +109,14 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                             />
                         </SplitterPanel>
 
-                        <SplitterPanel size={40} className="min-h-10 overflow-hidden">
+                        <SplitterPanel size={40} className="min-h-8">
                             <div className="w-full h-full flex flex-col min-h-0">
-                                <div className="h-10 bg-gray-800 flex flex-row items-center px-1">
+                                <div className="bg-gray-800 flex flex-row items-center p-1">
                                     {tabs.map((tab, index) => (
                                         <div
                                             key={tab.label}
                                             onClick={() => handleSelectTab(index)}
-                                            className="h-3/4 w-1/10 flex items-center justify-center gap-1 rounded-lg 
+                                            className="w-30 flex items-center justify-center gap-1 rounded-lg 
                                                 cursor-pointer hover:bg-gray-600"
                                         >
                                             <span className={`material-symbols-outlined !text-md ${tab.color}`}>
@@ -125,9 +126,9 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                                         </div>
                                     ))}
                                 </div>
-                                <div className="flex-1 min-h-0 overflow-hidden">
+                                <div className="flex-1 min-h-0">
                                     {selectedTab === 0 && <TestCaseListPage testCaseList={props.problem?.testCaseList ?? []} onChange={handleChangeTestCase}/>}
-                                    {selectedTab === 1 && <TestResultsPage jobId={jobId} results={results}/>}
+                                    {selectedTab === 1 && loading ? <TestResultLoadingPage/> : <TestResultsPage jobId={jobId} results={results}/>}
                                 </div>
                             </div>
                         </SplitterPanel>

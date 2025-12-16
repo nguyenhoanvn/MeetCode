@@ -5,7 +5,7 @@ import { TestCase } from "../types/testCase";
 import { TestResult } from "../types/testResult";
 import { TestJobResult } from "../types/testJobResult";
 
-export default function useRunCode(initLanguageName: string, initProblemId: string, initCode: string, initTestCaseIds: Array<string>) {
+export default function useRunCode(initLanguageName: string, initProblemId: string, initCode: string, initTestCaseIds: Array<string>, onResultArrived?: () => void) {
     const [runCodeRequest, setRunCode] = useState<RunCode>({
         languageName: initLanguageName,
         problemId: initProblemId,
@@ -20,14 +20,9 @@ export default function useRunCode(initLanguageName: string, initProblemId: stri
 
     const submitJob = async () => {
         setLoading(true);
-        setResults([]);
+        const resp = await runCode(runCodeRequest);
+        setJobId(resp.jobId);
 
-        try {
-            const resp = await runCode(runCodeRequest);
-            setJobId(resp.jobId);
-        } finally {
-            setLoading(false);
-        }
     };
 
     const handleChangeCode = (value?: string) => {
@@ -91,6 +86,8 @@ export default function useRunCode(initLanguageName: string, initProblemId: stri
             console.log("Setting results to:", mappedResults);
             setResults(mappedResults);
             setLoading(false);
+
+            onResultArrived?.();
         };
 
         return () => socket.close();
