@@ -12,7 +12,7 @@ export default function ProblemDetailPage() {
     const { problem, initLoading, initError } = useProblemDetail(slug!);
     const { selectedTab, handleSelectTab } = useTabs();
 
-    const tabs = ["Question", "Solution", "Submission", "Note"];
+    const tabs = ["Question"];
 
     return(
         <>
@@ -31,9 +31,13 @@ export default function ProblemDetailPage() {
                 `}
                 
             </style>
-            <div className="w-screen h-screen flex flex-col">
-                <NavigationBar/>
-                <div className="flex-1 p-3">
+            <div className="w-screen h-screen flex flex-col overflow-hidden">
+                <div className="shrink-0">
+                    <NavigationBar />
+                </div>
+
+                <div className="flex-1 min-h-0 p-3">
+
                     <Splitter className="h-full problem-splitter" layout="horizontal">
                         <SplitterPanel size={40} 
                         className="flex align-items-center justify-content-center
@@ -59,9 +63,6 @@ export default function ProblemDetailPage() {
                             <div className="flex-1 w-full p-2">
                                 <div> 
                                     {selectedTab === 0 && problem && <ProblemQuestionPage problemDetail={problem} />}
-                                    {selectedTab === 1 && <p>Currently chosen Solution</p>}
-                                    {selectedTab === 2 && <p>Currently chosen Submission</p>}
-                                    {selectedTab === 3 && <p>Currently chosen Note</p>}
                                 </div>
                             </div>
                         </SplitterPanel>

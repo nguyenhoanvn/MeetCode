@@ -22,7 +22,11 @@ export default function TestResultsPage(props: TestResultsPageProps) {
 
     return (
         <div className="px-5 py-1 flex flex-col gap-5">
-            <div className="flex flex-row items-center gap-5">
+            {props.results.length === 0 ? (
+                <p>No test results yet</p>
+            ) : (
+                <>
+                <div className="flex flex-row items-center gap-5">
                 <div>
                     {selectedCase.isSuccessful ? 
                     (<p className="text-xl text-green-400 font-light">Accepted</p>
@@ -54,9 +58,6 @@ export default function TestResultsPage(props: TestResultsPageProps) {
                     </div>
                 ))}
             </div>
-            {props.results.length === 0 ? (
-                <p>No test results yet</p>
-            ) : (
                 <div className="">
                     {parsedInput && (
                         <div className="flex flex-col gap-3">
@@ -86,7 +87,9 @@ export default function TestResultsPage(props: TestResultsPageProps) {
                         </div>
                     )}
                 </div>
+                </>
             )}
+            
         </div>
     );
 }
