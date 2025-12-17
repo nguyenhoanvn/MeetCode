@@ -1,3 +1,4 @@
+import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 import {refresh} from "./auth";
 import { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from "axios";
 
@@ -17,6 +18,15 @@ export const enableUserAuthInterceptor = (axiosInstance: AxiosInstance): void =>
                 }
             }
             return Promise.reject(error);
+        }
+    )
+}
+
+export const enableApiProblemDetailParsingInterceptor = (axiosInstance: AxiosInstance): void => {
+    axiosInstance.interceptors.response.use(
+        res => res,
+        (error: AxiosError<ApiProblemDetail>) => {
+            return Promise.reject(error.response?.data);
         }
     )
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { enableUserAuthInterceptor } from "./interceptors";
+import { enableApiProblemDetailParsingInterceptor, enableUserAuthInterceptor } from "./interceptors";
 
 const domain = "localhost:7254";
 
@@ -29,3 +29,8 @@ export const submitApi = axios.create({
 
 enableUserAuthInterceptor(authApi);
 enableUserAuthInterceptor(profileApi);
+
+enableApiProblemDetailParsingInterceptor(authApi);
+enableApiProblemDetailParsingInterceptor(problemApi);
+enableApiProblemDetailParsingInterceptor(profileApi);
+enableApiProblemDetailParsingInterceptor(submitApi);

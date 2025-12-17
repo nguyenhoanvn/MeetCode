@@ -1,7 +1,8 @@
 import { authApi } from "./client";
 
 export const register = async (registerRequest: {displayName: string; email: string; password: string;}) => {
-    await authApi.post("/register", registerRequest);
+    const response = await authApi.post("/register", registerRequest);
+    return response;
 }
     
 
