@@ -10,10 +10,10 @@ namespace MeetCode.Application.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<User?> FindUserByEmailAsync(string email, CancellationToken ct);
+        Task<Result<User>> FindUserByEmailAsync(string email, CancellationToken ct);
         bool IsPasswordMatch(string requestPassword, string userDbPassword);
         Task<User?> FindUserAsync(Guid userId, CancellationToken ct);
         string HashPassword(string plainPassword);
-        Task<User?> CreateUserAsync(string email, string displayName, string plainPassword, CancellationToken ct);
+        Task<Result<User>> CreateUserAsync(string email, string displayName, string plainPassword, CancellationToken ct);
     }
 }
