@@ -1,6 +1,8 @@
 ﻿namespace MeetCode.Application.DTOs.Response.Auth
 {
     public sealed record LoginResponse(
-        bool isSuccessfully
+        string AccessToken,
+        string RefreshToken,
+        string DisplayName
         );
 }

@@ -10,6 +10,5 @@ namespace MeetCode.Application.Queries.QueryResults.Auth
         string AccessToken,
         string RefreshToken, 
         string DisplayName,
-        string Role,
-        bool IsSuccessful);
+        string Role);
 }

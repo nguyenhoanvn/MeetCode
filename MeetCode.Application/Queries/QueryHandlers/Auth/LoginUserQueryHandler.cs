@@ -11,50 +11,55 @@ using MeetCode.Application.Queries.QueryResults.Auth;
 using Microsoft.Extensions.Logging;
 using MeetCode.Application.Commands.CommandHandlers.Auth;
 using MeetCode.Application.Commands.CommandResults.Auth;
+using MeetCode.Application.DTOs.Response.Auth;
+using AutoMapper;
 
 namespace MeetCode.Application.Queries.QueryHandlers.Auth
 {
-    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Result<LoginUserQueryResult>>
+    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Result<LoginResponse>>
     {
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
         private readonly ILogger<LoginUserQueryHandler> _logger;
         private readonly IAuthService _authService;
         public LoginUserQueryHandler(
             ITokenService tokenService,
             IUserService userService,
+            IMapper mapper,
             ILogger<LoginUserQueryHandler> logger,
             IAuthService authService)
         {
             _tokenService = tokenService;
             _userService = userService;
+            _mapper = mapper;
             _logger = logger;
             _authService = authService;
         }
 
-        public async Task<Result<LoginUserQueryResult>> Handle(LoginUserQuery request, CancellationToken ct)
+        public async Task<Result<LoginResponse>> Handle(LoginUserQuery request, CancellationToken ct)
         {
 
             _logger.LogInformation($"Login handler started for user {request.Email}");
             // Verify email
             var email = request.Email.Trim().ToLowerInvariant();
-            var user = await _userService.FindUserByEmailAsync(email, ct);
+            var userResult = await _userService.FindUserByEmailAsync(email, ct);
 
-            if (user == null)
+            if (!userResult.IsSuccess)
             {
                 _logger.LogInformation($"Login failed because email not match");
-                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false);
-                return Result.Success(result);
+                return Result.Invalid(new ValidationError(nameof(email), "Email is invalid"));
             }
+
+            var user = userResult.Value;
 
             // Verify password
             var isPasswordMatch = _userService.IsPasswordMatch(request.Password, user.PasswordHash);
 
             if (!isPasswordMatch)
             {
-                _logger.LogWarning($"Login failed because password does not match");
-                var result = new LoginUserQueryResult("hehe", "hehe", "hehe", "hehe", false);
-                return Result.Success(result);
+                _logger.LogInformation($"Login failed because password does not match");
+                return Result.Invalid(new ValidationError(nameof(request.Password), "Password is invalid"));
             }
 
             string accessToken = _tokenService.GenerateJwtToken(user.UserId, user.Email, user.Role);
@@ -65,8 +70,10 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
 
             _logger.LogInformation($"Login completed for user with email: {email}");
 
-            return Result.Success(new LoginUserQueryResult(accessToken, refreshToken, user.DisplayName, user.Role, true));
+            var result = new LoginUserQueryResult(accessToken, refreshToken, user.DisplayName, user.Role);
+            var resp = _mapper.Map<LoginResponse>(result);
 
+            return Result.Success(resp);
         }
     }
 }
