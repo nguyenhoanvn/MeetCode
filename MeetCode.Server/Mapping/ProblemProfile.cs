@@ -31,45 +31,19 @@ namespace MeetCode.Server.Mapping
                     context.Mapper.Map<List<ProblemTemplateResponse>>(src.ProblemTemplates)
                 ));
 
-            CreateMap<Problem, AdminProblemResponse>()
-                .ConstructUsing((src, context) => new AdminProblemResponse(
-                    src.ProblemId,
-                    src.Title,
-                    src.Slug,
-                    src.StatementMd,
-                    src.Difficulty,
-                    src.TotalSubmissionCount,
-                    src.ScoreAcceptedCount,
-                    src.AcceptanceRate,
-                    context.Mapper.Map<List<TagResponse>>(src.Tags),
-                    context.Mapper.Map<List<TestCaseResponse>>(src.TestCases),
-                    context.Mapper.Map<List<ProblemTemplateResponse>>(src.ProblemTemplates),
-                    src.IsActive,
-                    src.CreatedBy
-                ));
             // Add
             CreateMap<ProblemAddRequest, ProblemAddCommand>();
-            CreateMap<ProblemAddCommandResult, AdminProblemResponse>()
-                .ConstructUsing((src, context) =>
-                    context.Mapper.Map<AdminProblemResponse>(src.Problem));
 
             // Get all
             CreateMap<ProblemAllQueryResult, ProblemAllResponse>()
                 .ConstructUsing((src, context) => new ProblemAllResponse(
                     context.Mapper.Map<List<ProblemResponse>>(src.ProblemList)
                     ));
-            CreateMap<ProblemAllQueryResult, AdminProblemAllResponse>()
-                .ConstructUsing((src, context) => new AdminProblemAllResponse(
-                    context.Mapper.Map<List<AdminProblemResponse>>(src.ProblemList)
-                    ));
 
             // Read 
             CreateMap<ProblemReadQueryResult, ProblemResponse>()
                 .ConstructUsing((src, context) =>
                     context.Mapper.Map<ProblemResponse>(src.Problem));
-            CreateMap<ProblemReadQueryResult, AdminProblemResponse>()
-                .ConstructUsing((src, context) =>
-                    context.Mapper.Map<AdminProblemResponse>(src.Problem));
 
             // Update
             CreateMap<(Guid problemId, ProblemUpdateRequest request), ProblemUpdateCommand>()

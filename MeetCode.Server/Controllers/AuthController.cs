@@ -21,15 +21,12 @@ namespace MeetCode.Server.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly ISender _mediator;
-    private readonly IMapper _mapper;
     private readonly ILogger<AuthController> _logger;
     public AuthController(
         ISender mediator,
-        IMapper mapper,
         ILogger<AuthController> logger)
     {
         _mediator = mediator;
-        _mapper = mapper;
         _logger = logger;
     }
 
@@ -39,11 +36,13 @@ public class AuthController : ControllerBase
     [ExpectedFailures(ResultStatus.Invalid)]
     public async Task<Result<RegisterResponse>> Register([FromBody] RegisterRequest request, CancellationToken ct)
     {
-        var cmd = _mapper.Map<RegisterUserCommand>(request);
+        var cmd = new RegisterUserCommand(
+                request.Email,
+                request.DisplayName,
+                request.Password
+            );
 
-        var result = await _mediator.Send(cmd, ct);
-
-        var resp = result.Map(value => _mapper.Map<RegisterResponse>(value));
+        var resp = await _mediator.Send(cmd, ct);
 
         return resp;
     }
@@ -54,16 +53,19 @@ public class AuthController : ControllerBase
     [ExpectedFailures(ResultStatus.Invalid)]
     public async Task<Result<LoginResponse>> Login([FromBody] LoginRequest request, CancellationToken ct)
     {
-        var cmd = _mapper.Map<LoginUserQuery>(request);
+        var cmd = new LoginUserQuery(
+                request.Email,
+                request.Password
+            );
 
-        var result = await _mediator.Send(cmd, ct);
+        var resp = await _mediator.Send(cmd, ct);
 
         // Happy case
-        if (result.Value.IsSuccessful == true)
+        if (resp.IsSuccess == true)
         {
             HttpContext.Response.Cookies.Append(
             "accessToken",
-            result.Value.AccessToken,
+            resp.Value.AccessToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -73,7 +75,7 @@ public class AuthController : ControllerBase
             });
             HttpContext.Response.Cookies.Append(
                 "refreshToken",
-                result.Value.RefreshToken,
+                resp.Value.RefreshToken,
                 new CookieOptions
                 {
                     HttpOnly = true,
@@ -82,8 +84,6 @@ public class AuthController : ControllerBase
                     Expires = DateTimeOffset.UtcNow.AddMinutes(30)
                 });
         }
-
-        var resp = result.Map(value => _mapper.Map<LoginResponse>(value));
 
         return resp;
     }
@@ -123,9 +123,9 @@ public class AuthController : ControllerBase
 
     [HttpGet("refresh")]
     [TranslateResultToActionResult]
-    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(RefreshTokenResult), StatusCodes.Status200OK)]
     [ExpectedFailures(ResultStatus.Error)]
-    public async Task<Result<RefreshTokenResponse>> Refresh(CancellationToken ct)
+    public async Task<Result<RefreshTokenResult>> Refresh(CancellationToken ct)
     { 
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
                 string.IsNullOrWhiteSpace(refreshTokenPlain))
@@ -134,13 +134,13 @@ public class AuthController : ControllerBase
             return Result.Success();
         }
 
-        var cmd = _mapper.Map<RefreshTokenCommand>(refreshTokenPlain);
+        var cmd = new RefreshTokenCommand(refreshTokenPlain);
 
-        var result = await _mediator.Send(cmd, ct);
+        var resp = await _mediator.Send(cmd, ct);
 
         HttpContext.Response.Cookies.Append(
             "accessToken",
-            result.Value.AccessToken,
+            resp.Value.AccessToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -151,7 +151,7 @@ public class AuthController : ControllerBase
 
         HttpContext.Response.Cookies.Append(
             "refreshToken",
-            result.Value.RefreshToken,
+            resp.Value.RefreshToken,
             new CookieOptions
             {
                 HttpOnly = true,
@@ -159,8 +159,6 @@ public class AuthController : ControllerBase
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTimeOffset.UtcNow.AddDays(30)
             });
-
-        var resp = result.Map(value => _mapper.Map<RefreshTokenResponse>(value));
 
         return resp;
     }
@@ -171,11 +169,12 @@ public class AuthController : ControllerBase
     [ExpectedFailures(ResultStatus.Invalid)]
     public async Task<Result<ForgotPasswordResponse>> ForgotPassword([FromBody] ForgotPasswordRequest request, CancellationToken ct)
     {
-        var cmd = _mapper.Map<ForgotPasswordQuery>(request);
+        var cmd = new ForgotPasswordQuery(
+                request.Email
+            );
 
-        var result = await _mediator.Send(cmd, ct);
+        var resp = await _mediator.Send(cmd, ct);
 
-        var resp = result.Map(value => _mapper.Map<ForgotPasswordResponse>(value));
         return resp;
     }
 
@@ -185,11 +184,12 @@ public class AuthController : ControllerBase
     [ExpectedFailures(ResultStatus.Invalid, ResultStatus.Error)]
     public async Task<Result<VerifyResetPasswordOTPResponse>> VerifyOTP([FromBody] VerifyResetPasswordOTPRequest request, CancellationToken ct)
     {
-        var cmd = _mapper.Map<VerifyResetPasswordOTPQuery>(request);
+        var cmd = new VerifyResetPasswordOTPQuery(
+                request.Email,
+                request.Code
+            );
 
-        var result = await _mediator.Send(cmd, ct);
-
-        var resp = result.Map(value => _mapper.Map<VerifyResetPasswordOTPResponse>(value));
+        var resp = await _mediator.Send(cmd, ct);
 
         return resp;
     }
@@ -200,11 +200,12 @@ public class AuthController : ControllerBase
     [ExpectedFailures(ResultStatus.Invalid, ResultStatus.Unauthorized)]
     public async Task<Result<ResetPasswordResponse>> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken ct)
     {
-        var cmd = _mapper.Map<ResetPasswordCommand>(request);
+        var cmd = new ResetPasswordCommand(
+                request.Email,
+                request.NewPassword
+            );
 
-        var result = await _mediator.Send(cmd, ct);
-
-        var resp = result.Map(value => _mapper.Map<ResetPasswordResponse>(value));
+        var resp = await _mediator.Send(cmd, ct);
 
         return resp;
     }

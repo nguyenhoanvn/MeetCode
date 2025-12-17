@@ -32,12 +32,17 @@ namespace MeetCode.Infrastructure.Services
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
-        public async Task<User?> FindUserByEmailAsync(string email, CancellationToken ct)
+        public async Task<Result<User>> FindUserByEmailAsync(string email, CancellationToken ct)
         {
             _logger.LogInformation("Attempting to find user by email");
             var user = await _userRepository.GetUserByEmailWithTokensAsync(email, ct);
+            if (user == null)
+            {
+                _logger.LogWarning("User with email {Email} cannot be found", email);
+                return Result.Invalid(new ValidationError(nameof(email), "Email is not match"));
+            }
             _logger.LogInformation("User found for provided email");
-            return user;
+            return Result.Success(user);
         }
 
         public bool IsPasswordMatch(string requestPassword, string userDbPassword)
@@ -64,17 +69,14 @@ namespace MeetCode.Infrastructure.Services
         {
             return BCrypt.Net.BCrypt.HashPassword(plainPassword);
         }
-        public async Task<User?> CreateUserAsync(string email, string displayName, string plainPassword, CancellationToken ct)
+        public async Task<Result<User>> CreateUserAsync(string email, string displayName, string plainPassword, CancellationToken ct)
         {
-            var existingUser = await FindUserByEmailAsync(email, ct);
+            var existingUserResult = await FindUserByEmailAsync(email, ct);
 
-            if (existingUser != null)
+            if (!existingUserResult.IsInvalid())
             {
-                _logger.LogWarning($"User with email {email} already exists");
-                throw new DuplicateEntityException<User>(new Dictionary<string, string>
-                {
-                    { nameof(existingUser.Email), existingUser.Email }
-                });
+                _logger.LogWarning("User with email {Email} already exists", email);
+                return Result.Invalid(new ValidationError(nameof(email), $"User with email {email} already exists"));
             }
 
             var user = new User
@@ -85,7 +87,7 @@ namespace MeetCode.Infrastructure.Services
                 Role = UserRole.User,
                 PasswordHash = HashPassword(plainPassword),
                 IsActive = true,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTimeOffset.UtcNow,
             };
 
             await _userRepository.AddAsync(user, ct);
@@ -94,10 +96,9 @@ namespace MeetCode.Infrastructure.Services
             if (saved <= 0)
             {
                 _logger.LogWarning($"Failed to add user {email} to the database");
-                throw new DbUpdateException("Failed to save the new problem to the database.");
+                return Result.Error($"Failed to add user {email} to the database");
             }
-            return user;
+            return Result.Success(user);
         }
-
     }
 }

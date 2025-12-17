@@ -16,12 +16,13 @@ namespace MeetCode.Server.Mapping
             CreateMap<LoginRequest, LoginUserQuery>();
             CreateMap<LoginUserQueryResult, LoginResponse>()
                 .ConstructUsing(src => new LoginResponse(
-                    src.IsSuccessful
+                    src.AccessToken,
+                    src.RefreshToken,
+                    src.DisplayName
                     ));
 
             // Register
             CreateMap<RegisterRequest, RegisterUserCommand>();
-            CreateMap<RegisterUserResult, RegisterResponse>();
 
             // RefreshToken
             CreateMap<RefreshTokenRequest, RefreshTokenCommand>();
