@@ -80,7 +80,7 @@ namespace MeetCode.Infrastructure.Services
             }
         }
 
-        public async Task<RefreshToken?> FindRefreshTokenByTokenAsync(string plainRefreshToken, CancellationToken ct)
+        public async Task<Result<RefreshToken>> FindRefreshTokenByTokenAsync(string plainRefreshToken, CancellationToken ct)
         {
             _logger.LogInformation("Find Refresh token based on token started");
             var hashedToken = HashToken(plainRefreshToken);
@@ -89,15 +89,15 @@ namespace MeetCode.Infrastructure.Services
             if (refreshTokenEntity == null)
             {
                 _logger.LogWarning("Refresh token with input token not found");
-                return null;
+                return Result.Invalid(new ValidationError(nameof(hashedToken), "Refresh token with input token not found"));
             }
             if (!refreshTokenEntity.IsValid())
             {
                 _logger.LogWarning("Refresh token is revoked or expired");
-                return null;
+                return Result.Invalid(new ValidationError(nameof(refreshTokenEntity.IsValid), "Refresh token is revoked or expired"));
             }
             _logger.LogInformation("Refresh token found successfully");
-            return refreshTokenEntity;
+            return Result.Success(refreshTokenEntity);
         }
         public async Task<RefreshToken> CreateRefreshTokenAsync(Guid userId, string plainRefreshToken, CancellationToken ct)
         {

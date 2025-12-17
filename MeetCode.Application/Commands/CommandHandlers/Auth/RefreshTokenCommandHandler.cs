@@ -36,7 +36,18 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
 
             _logger.LogInformation("Issue refresh token handler started");
             // Find refresh token 
-            var refreshToken = await _tokenService.FindRefreshTokenByTokenAsync(request.PlainRefreshToken, ct);
+            var refreshTokenResult = await _tokenService.FindRefreshTokenByTokenAsync(request.PlainRefreshToken, ct);
+
+            if (!refreshTokenResult.IsSuccess)
+            {
+                _logger.LogWarning("Validation failed for token {Token}. Errors: {Error}",
+                    request.PlainRefreshToken,
+                    string.Join("\n", refreshTokenResult.ValidationErrors.Select(e => $"{e.Identifier}: {e.ErrorMessage}"))
+                );
+                return Result.Invalid(refreshTokenResult.ValidationErrors);
+            }
+
+            var refreshToken = refreshTokenResult.Value;
 
             // Find user with refresh token
             var user = await _userService.FindUserAsync(refreshToken.UserId, ct);
