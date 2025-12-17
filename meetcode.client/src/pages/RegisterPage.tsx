@@ -2,7 +2,16 @@ import { useRegister } from "../hooks/useRegister";
 import NavigationBar from "../components/NavigationBar";
 
 export default function RegisterPage() {
-    const {registerForm, handleChange, handleSubmit, loading, error} = useRegister();
+    const {registerForm, handleChange, handleSubmit, loading, error, errorField} = useRegister();
+
+    const inputClass = (fieldName: string) =>
+    `border-2 px-4 py-2 w-1/1 rounded-2xl text-md duration-300 focus:outline-none
+     ${
+        errorField === fieldName
+            ? "border-red-500 focus:border-red-500"
+            : "focus:border-[#1e3a8a]"
+     }`;
+
 
     return (
         <div className="h-screen w-screen overflow-hidden">
@@ -25,10 +34,7 @@ export default function RegisterPage() {
                                 autoFocus
                                 onChange={handleChange}
                                 placeholder="Display Name..."
-                                className="border-2 px-4 py-2 w-1/1 rounded-2xl text-md
-                                duration-300
-                                focus:outline-none
-                                focus:border-[#1e3a8a]"/>
+                                className={inputClass("displayName")}/>
                             </div>
                             <div>
                                 <input type="email" 
@@ -38,10 +44,7 @@ export default function RegisterPage() {
                                 autoComplete="off"
                                 onChange={handleChange}
                                 placeholder="Email..."
-                                className="border-2 px-4 py-2 w-1/1 rounded-2xl text-md
-                                duration-300
-                                focus:outline-none
-                                focus:border-[#1e3a8a]"/>
+                                className={inputClass("email")}/>
                             </div>
                             <div>
                                 <input type="password" 
@@ -51,17 +54,20 @@ export default function RegisterPage() {
                                 autoComplete="off"
                                 onChange={handleChange}
                                 placeholder="Password..."
-                                className="border-2 px-4 py-2 w-1/1 rounded-2xl text-md
-                                duration-300
-                                focus:outline-none
-                                focus:border-[#1e3a8a]"/>
+                                className={inputClass("password")}/>
                             </div>
+                            {error ? 
+                            (<div className="text-red-400 text-sm flex items-center gap-1">
+                                <span className="material-symbols-outlined text-sm!">
+                                    error
+                                </span>
+                                {error}
+                            </div>) : (<></>)}
                             <div className="mt-4">
                                 <p className="text-sm font-light">By clicking Register, you really agree with MeetCode's terms of service and privacy policy?</p>
                             </div>
-                            <button type="submit" className={`${loading ? "bg-gray-700 cursor-not-allowed" : "cursor-pointer"} 
+                            <button type="submit" disabled={loading || !!error} className={`${loading || error ? "bg-gray-700 disabled" : "cursor-pointer hover:border-transparent hover:bg-[#1e3a8a]"} 
                             border-2 border-[#1e3a8a] py-3 rounded-xl
-                            hover:border-transparent hover:bg-[#1e3a8a]
                             duration-500`}>
                                 {loading ? "Registering..." : "Register"}
                             </button>
