@@ -1,4 +1,4 @@
 ﻿namespace MeetCode.Application.DTOs.Response.Auth
 {
-    public sealed record VerifyResetPasswordOTPResponse(bool IsSuccess);
+    public sealed record VerifyResetPasswordOTPResponse();
 }
