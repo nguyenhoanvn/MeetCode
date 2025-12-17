@@ -9,7 +9,7 @@ using MeetCode.Application.Queries.QueryEntities.ProblemTemplate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MeetCode.Server.Controllers
+namespace MeetCode.Server.ControllersAdmin
 {
     [Route("templates")]
     [ApiController]

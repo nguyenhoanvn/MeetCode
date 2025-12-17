@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ardalis.Result.AspNetCore;
 using Ardalis.Result;
 
-namespace MeetCode.Server.Controllers
+namespace MeetCode.Server.ControllersAdmin
 {
     [Route("tags")]
     [ApiController]

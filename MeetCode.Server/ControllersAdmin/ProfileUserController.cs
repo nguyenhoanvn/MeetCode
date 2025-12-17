@@ -10,7 +10,7 @@ using MeetCode.Application.Queries.QueryEntities.Profile;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace MeetCode.Server.Controllers
+namespace MeetCode.Server.ControllersAdmin
 {
     [Route("profile")]
     [ApiController]

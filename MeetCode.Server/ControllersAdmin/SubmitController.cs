@@ -9,7 +9,7 @@ using MeetCode.Application.Commands.CommandEntities.Submit;
 using MeetCode.Application.DTOs.Other;
 using MeetCode.Application.Commands.CommandEntities.Job;
 
-namespace MeetCode.Server.Controllers
+namespace MeetCode.Server.ControllersAdmin
 {
     [Route("submit")]
     [ApiController]

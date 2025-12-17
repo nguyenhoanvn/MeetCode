@@ -9,7 +9,7 @@ using MeetCode.Application.Commands.CommandEntities.TestCase;
 using MeetCode.Application.DTOs.Request.TestCase;
 using MeetCode.Application.Queries.QueryEntities.TestCase;
 
-namespace MeetCode.Server.Controllers
+namespace MeetCode.Server.ControllersAdmin
 {
     [Route("test-cases")]
     [ApiController]
