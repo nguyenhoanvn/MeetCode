@@ -32,7 +32,7 @@ export default function TestResultsPage(props: TestResultsPageProps) {
             
                     <div className="flex flex-row items-center gap-5">
                         <div>
-                            {selectedCase.isSuccessful ? 
+                            {selectedCase.result === selectedCase.testCase.output ? 
                             (<p className="text-xl text-green-400 font-light">Accepted</p>
                             ) : 
                             (<p className="text-xl text-red-500 font-light">Rejected</p>
@@ -45,7 +45,7 @@ export default function TestResultsPage(props: TestResultsPageProps) {
                         {props.results.map((item, index) => (
                             <div key={item.testCase.testId} className="flex flex-col cursor-pointer relative group"
                             onClick={() => setSelectedTab(index)}>
-                                {selectedCase.isSuccessful ?
+                                {selectedCase.result === selectedCase.testCase.output ?
                                     (<p className={`px-3 py-1 h-full w-fit rounded-lg border-green-400 flex items-center gap-1
                                     ${selectedTab === index ? "bg-gray-600" : "hover:bg-gray-600"}`}>
                                         <span className="material-symbols-outlined text-green-500 text-sm!">
@@ -78,7 +78,7 @@ export default function TestResultsPage(props: TestResultsPageProps) {
                                 <div className="flex flex-col gap-1">
                                     <p className="text-sm text-gray-400">Output</p>
                                     <div className="flex flex-col px-3 py-3 bg-gray-700 text-sm rounded-lg gap-1">
-                                        <p className={`text-sm ${selectedCase.isSuccessful ? "text-green-400" : "text-red-500"}`}>{selectedCase.result}</p>
+                                        <p className={`text-sm ${selectedCase.result === selectedCase.testCase.output ? "text-green-400" : "text-red-500"}`}>{selectedCase.result}</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-1">
