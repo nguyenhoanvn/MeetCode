@@ -12,10 +12,11 @@ using MeetCode.Application.Queries.QueryResults.Auth;
 using Microsoft.Extensions.Logging;
 using MeetCode.Application.Commands.CommandEntities.Auth;
 using MeetCode.Application.Commands.CommandResults.Auth;
+using MeetCode.Application.DTOs.Response.Auth;
 
 namespace MeetCode.Application.Queries.QueryHandlers.Auth
 {
-    public class ForgotPasswordQueryHandler : IRequestHandler<ForgotPasswordQuery, Result<ForgotPasswordQueryResult>>
+    public class ForgotPasswordQueryHandler : IRequestHandler<ForgotPasswordQuery, Result<ForgotPasswordResponse>>
     {
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
@@ -33,18 +34,16 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             _cacheService = cacheService;
         }
 
-        public async Task<Result<ForgotPasswordQueryResult>> Handle(ForgotPasswordQuery request, CancellationToken ct)
+        public async Task<Result<ForgotPasswordResponse>> Handle(ForgotPasswordQuery request, CancellationToken ct)
         {
-            var user = await _userService.FindUserByEmailAsync(request.Email, ct);
-            if (user == null)
+            var userResult = await _userService.FindUserByEmailAsync(request.Email, ct);
+            if (!userResult.IsSuccess)
             {
                 _logger.LogInformation("No user with such email stored in database");
-                var resultAlt = new ForgotPasswordQueryResult(
-                    CurrentUser: null,
-                    true
-                    );
-                return Result.Success(resultAlt);
+                return Result.Invalid(userResult.ValidationErrors);
             }
+
+            var user = userResult.Value;
             _logger.LogInformation($"User with email {request.Email} found");
 
             var code = RandomNumberGenerator.GetInt32(100000, 999999).ToString();
@@ -55,15 +54,11 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
 
             await _emailService.SendEmailAsync(
                 to: request.Email,
-                subject: "Reetlank reset password verification code",
+                subject: "MeetCode reset password verification code",
                 body: $"<p>Your reset password verification code is {code}</p>"
                 );
 
-            var result = new ForgotPasswordQueryResult(
-                CurrentUser: user,
-                true
-                );
-            return Result.Success(result);
+            return Result.Success(new ForgotPasswordResponse());
 
         }
     }

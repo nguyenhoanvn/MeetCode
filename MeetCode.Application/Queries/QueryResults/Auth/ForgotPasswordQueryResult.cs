@@ -7,5 +7,5 @@ using MeetCode.Domain.Entities;
 
 namespace MeetCode.Application.Queries.QueryResults.Auth
 {
-    public sealed record ForgotPasswordQueryResult(User CurrentUser, bool IsSuccess);
+    public sealed record ForgotPasswordQueryResult(User CurrentUser);
 }
