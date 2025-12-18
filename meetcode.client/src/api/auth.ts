@@ -8,7 +8,7 @@ export const register = async (registerRequest: {displayName: string; email: str
 
 export const login = async (loginRequest: {email: string; password: string;}) =>  {
     const response = await authApi.post("/login", loginRequest);
-    return response.data;
+    return response;
 }
 
 export const refresh = async () => {
