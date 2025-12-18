@@ -1,22 +1,58 @@
+import { Link } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 
 export default function LoginPage() {
-    const {loginForm, resp, handleChange, handleSubmit, loading, error} = useLogin();
+    const {loginForm, handleChange, handleSubmit, loading, error} = useLogin();
+
+    const randomNumber = Math.floor(Math.random() * 20);
 
     return (
         <div className="w-screen h-screen bg-amber-300">
             <div className="grid grid-cols-[60%_40%] h-screen w-screen">
-                <div className="bg-white">
+                <div className="bg-red relative w-full h-full">
+                    {randomNumber === 1 ? 
+                    (<video
+                        className="absolute inset-0 w-full h-full object-cover"
+                        src="/videos/meme/coding1.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                    />) :
+                    (<video
+                        className="absolute inset-0 w-full h-full object-cover"
+                        src="/videos/normal/coding1.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                    />)}
                     
+                    <div className="absolute p-50 inset-0 bg-black/30 flex flex-col">
+                        <Link to="/"><p className="text-4xl font-black text-blue-300">MeetCode</p></Link>
+                        <div className="mt-auto flex flex-col gap-8">
+                            <div className="flex flex-col gap-2">
+                                <p className="text-2xl text-slate-300 font-medium">Welcome to</p>
+                                <p className="text-3xl font-medium"><Link to="/"><span className="text-blue-300">MeetCode</span></Link> Coding Platform</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-gray-400">If you feel familiar with any of front end design here, you are not wrong</p>
+                                <p className="text-sm text-gray-400">This website is full of hidden <a href="https://en.wikipedia.org/wiki/Easter_egg_(media)"><span className="font-medium hover:text-blue-300 text-blue-500 transition duration-100">easter egg</span></a>, hope the luck guide you find them all</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="flex flex-col bg-[#161b22] px-10 py-3 gap-10 justify-center">
                     <div className="">
                         <p className="text-2xl text-gray-200 font-black">Welcome back!<br/>
-                        Login your account</p>
+                        Login your account <span className="text-sm font-light">or <Link to="/auth/register"><span className="font-medium hover:text-blue-300 text-blue-500 transition duration-100">Register</span></Link> to have one for $0.00!</span></p>
                         <p className="text-sm font-extralight text-gray-200 mt-3">Ready to be tortured?</p>
-                        <p className={`${!resp.isSuccessfully && resp.message != "" ? "block" : "hidden"} text-sm font-extralight text-red-600 mt-3`}>
-                            {resp.message}
-                        </p>
+                        {error ? (
+                            <p className="text-sm font-extralight text-red-600 mt-3">
+                                {error}
+                            </p>
+                        ) : (<></>)}
+                        
                     </div>
                     <div>
                         <form onSubmit={(e) => {

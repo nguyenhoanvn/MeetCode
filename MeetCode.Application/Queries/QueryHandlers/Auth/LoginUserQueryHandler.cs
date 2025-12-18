@@ -48,7 +48,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             if (!userResult.IsSuccess)
             {
                 _logger.LogInformation($"Login failed because email not match");
-                return Result.Invalid(new ValidationError(nameof(email), "Email is invalid"));
+                return Result.Invalid(new ValidationError(nameof(email), "Invalid credentials"));
             }
 
             var user = userResult.Value;
@@ -59,7 +59,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             if (!isPasswordMatch)
             {
                 _logger.LogInformation($"Login failed because password does not match");
-                return Result.Invalid(new ValidationError(nameof(request.Password), "Password is invalid"));
+                return Result.Invalid(new ValidationError(nameof(request.Password), "Invalid credentials"));
             }
 
             string accessToken = _tokenService.GenerateJwtToken(user.UserId, user.Email, user.Role);
