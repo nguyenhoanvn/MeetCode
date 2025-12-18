@@ -40,7 +40,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Auth
             if (!userResult.IsSuccess)
             {
                 _logger.LogInformation("No user with such email stored in database");
-                return Result.Invalid(userResult.ValidationErrors);
+                return Result.Success(new ForgotPasswordResponse());
             }
 
             var user = userResult.Value;
