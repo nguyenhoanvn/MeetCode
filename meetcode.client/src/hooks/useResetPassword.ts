@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { resetPassword } from "../api/auth";
 import { useNavigate } from "react-router-dom";
+import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 
 interface ResetPasswordForm {
     newPassword: string;
@@ -10,8 +11,7 @@ interface ResetPasswordForm {
 export default function useResetPassword() {
     const [resetPasswordForm, setResetPasswordForm] = useState<ResetPasswordForm>({newPassword: "", confirmPassword: ""});
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
+    const [error, setError] = useState<string | null>("");
 
     const navigate = useNavigate();
 
@@ -20,12 +20,10 @@ export default function useResetPassword() {
         setResetPasswordForm(prev => {
             const updatedForm = {...prev, [name]: value};
             if (updatedForm.confirmPassword && updatedForm.newPassword !== updatedForm.confirmPassword) {
-                setMessage("Passwords do not match");
+                setError("Passwords do not match");
             } else {
-                setMessage("");
+                setError(null);
             }
-
-            setError("");
             return updatedForm;
         });
     }
@@ -37,19 +35,25 @@ export default function useResetPassword() {
                 email: sessionStorage.getItem("resetEmail") || "",
                 newPassword: resetPasswordForm.newPassword
             };
+            await resetPassword(requestPayload);
             sessionStorage.removeItem("resetEmail");
-            const response = await resetPassword(requestPayload);
-            if (response.isSuccess) {
-                navigate("/auth/login");
-            } else {
-                setMessage("Failed to update password");
-            }
-        } catch (err: any) {
-            setError(err.message || "Unexpected exception happens while resetting password");
+            navigate("/auth/login");
+
+        } catch (err: unknown) {
+            const apiError = err as ApiProblemDetail;
+                if (apiError.errors) {
+                    const entries = Object.entries(apiError.errors ?? {});
+                    if (entries.length > 0) {
+                        const [field, messages] = entries[0]; 
+                        setError(messages[0]);     
+                    }
+                } else {
+                    setError("Unknown error");
+                }
         } finally {
             setLoading(false);
         }
     }
 
-    return {resetPasswordForm, loading, error, message, handleResetPasswordFormChange, handleResetPasswordSubmit};
+    return {resetPasswordForm, loading, error, handleResetPasswordFormChange, handleResetPasswordSubmit};
 }

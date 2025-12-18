@@ -13,7 +13,7 @@ namespace MeetCode.Application.Commands.CommandValidators.Auth
         public ResetPasswordCommandValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("OTP is required.")
+                .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format");
             RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage("Password is required.")

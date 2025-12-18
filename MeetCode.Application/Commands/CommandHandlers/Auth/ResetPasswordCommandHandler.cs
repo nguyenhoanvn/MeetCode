@@ -37,7 +37,6 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
 
         public async Task<Result<ResetPasswordResponse>> Handle(ResetPasswordCommand request, CancellationToken ct)
         {
-
             var userResult = await _userService.FindUserByEmailAsync(request.Email, ct);
             if (!userResult.IsSuccess)
             {
@@ -48,7 +47,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
             var user = userResult.Value;
 
             var newPasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
-            if (newPasswordHash.Equals(user.PasswordHash))
+            if (BCrypt.Net.BCrypt.Verify(request.NewPassword, user.PasswordHash))
             {
                 _logger.LogWarning("New password cannot the same with old password");
                 return Result.Invalid(new ValidationError(nameof(request.NewPassword), "New password cannot the same with old password"));
