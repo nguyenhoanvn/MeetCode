@@ -13,9 +13,6 @@ namespace MeetCode.Application.Commands.CommandValidators.Language
     {
         public LanguageUpdateCommandValidator(IDockerValidator dockerValidator)
         {
-            RuleFor(x => x.Version)
-                .NotEmpty().WithMessage("Version is required.")
-                .Must(x => x.Contains(".")).WithMessage("Version is invaliid");
             RuleFor(x => x)
                 .MustAsync(async (x, ct) =>
                 {

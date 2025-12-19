@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MeetCode.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 
 namespace MeetCode.Domain.Entities;
@@ -27,5 +28,37 @@ public partial class Language
     public override string ToString()
     {
         return this.ToGenericString();
+    }
+
+    public void UpdateBasicInfo(LanguageBasicUpdateObject info)
+    {
+        if (info.Name is not null)
+        {
+            Name = info.Name;
+        }
+        if (info.Version is not null)
+        {
+            Version = info.Version;
+        }
+        if (info.FileExtension is not null)
+        {
+            FileExtension = info.FileExtension;
+        }
+        if (info.CompileImage is not null)
+        {
+            CompileImage = info.CompileImage;
+        }
+        if (info.RuntimeImage is not null)
+        {
+            RuntimeImage = info.RuntimeImage;
+        }
+        if (info.CompileCommand is not null)
+        {
+            CompileCommand = info.CompileCommand;
+        }
+        if (info.RunCommand is not null)
+        {
+            RunCommand = info.RunCommand;
+        }
     }
 }

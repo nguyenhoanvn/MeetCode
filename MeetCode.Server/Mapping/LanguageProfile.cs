@@ -24,9 +24,9 @@ namespace MeetCode.Server.Mapping
                 ));
 
             // Read
-            CreateMap<(Guid langID, LanguageReadRequest request), LanguageReadQuery>()
+            CreateMap<(Guid langId, LanguageReadRequest request), LanguageReadQuery>()
                 .ConstructUsing(src => new LanguageReadQuery(
-                    src.langID));
+                    src.langId));
             CreateMap<LanguageReadQueryResult, LanguageResponse>()
                 .ConstructUsing((src, context) =>
                     context.Mapper.Map<LanguageResponse>(src.Language)
@@ -40,10 +40,13 @@ namespace MeetCode.Server.Mapping
                     ));
 
             // Update
-            CreateMap<(string name, LanguageUpdateRequest request), LanguageUpdateCommand>()
+            CreateMap<(Guid langId, LanguageUpdateRequest request), LanguageUpdateCommand>()
                 .ConstructUsing(src => new LanguageUpdateCommand(
-                    src.name,
+                    src.langId,
+                    src.request.Name,
                     src.request.Version,
+                    src.request.FileExtension,
+                    src.request.CompileImage,
                     src.request.RuntimeImage,
                     src.request.CompileCommand,
                     src.request.RunCommand

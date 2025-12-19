@@ -10,10 +10,13 @@ using MeetCode.Application.Commands.CommandResults.Language;
 namespace MeetCode.Application.Commands.CommandEntities.Language
 {
     public sealed record LanguageUpdateCommand(
-        string Name,
-        string Version,
-        string RuntimeImage,
-        string CompileCommand = "",
-        string RunCommand = ""
+        Guid LangId,
+        string? Name,
+        string? Version,
+        string? FileExtension,
+        string? CompileImage,
+        string? RuntimeImage,
+        string? CompileCommand,
+        string? RunCommand
         ) : IRequest<Result<LanguageUpdateCommandResult>>;
 }

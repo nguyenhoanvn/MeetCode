@@ -6,6 +6,7 @@ using MeetCode.Application.Interfaces.Repositories;
 using MeetCode.Application.Interfaces.Services;
 using MeetCode.Domain.Entities;
 using MeetCode.Domain.Exceptions;
+using MeetCode.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -33,19 +34,25 @@ namespace MeetCode.Application.Commands.CommandHandlers.Language
         }
         public async Task<Result<LanguageUpdateCommandResult>> Handle(LanguageUpdateCommand request, CancellationToken ct)
         {
-            _logger.LogInformation($"Attempting to update language {request.Name}");
+            _logger.LogInformation($"Attempting to update language {request.LangId}");
 
-            var language = await _languageRepository.GetByNameAsync(request.Name, ct);
+            var language = await _languageRepository.GetByIdAsync(request.LangId, ct);
             if (language == null)
             {
-                _logger.LogWarning("Language {Name} cannot be found.", request.Name);
-                return Result.Invalid(new ValidationError(nameof(request.Name), $"Language {request.Name} cannot be found."));
+                _logger.LogWarning("Language {Id} cannot be found.", request.LangId);
+                return Result.Invalid(new ValidationError(nameof(request.LangId), $"Language {request.LangId} cannot be found."));
             }
 
-            language.Version = request.Version;
-            language.RuntimeImage = request.RuntimeImage;
-            language.CompileCommand = request.CompileCommand;
-            language.RunCommand = request.RunCommand;
+            var updateObject = new LanguageBasicUpdateObject(
+                    request.Name,
+                    request.Version,
+                    request.FileExtension,
+                    request.CompileImage,
+                    request.RuntimeImage,
+                    request.CompileCommand,
+                    request.RunCommand
+                );
+            language.UpdateBasicInfo(updateObject);
 
             await _languageRepository.Update(language);
             await _unitOfWork.SaveChangesAsync(ct);
