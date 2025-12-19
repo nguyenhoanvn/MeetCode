@@ -1,4 +1,5 @@
 import { Language } from "./language";
+import { Problem } from "./problem";
 
 export interface ProblemTemplate {
     templateId: string;
