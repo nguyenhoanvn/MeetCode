@@ -31,7 +31,7 @@ namespace MeetCode.Application.Queries.QueryHandlers.Language
             _logger.LogInformation("Attempting to read language {LangId}", request.LangId);
 
             var language = await _languageRepository.GetByIdAsync(request.LangId, ct);
-            if (language == null)
+            if (language == null)   
             {
                 _logger.LogWarning($"Cannot find language with Id {request.LangId}");
                 return Result.Invalid(new ValidationError (nameof(language), $"Cannot find language with Id {request.LangId}"));

@@ -13,8 +13,9 @@ namespace MeetCode.Application.Queries.QueryValidators.Language
         public LanguageReadQueryValidator()
         {
             RuleFor(x => x.LangId)
-                .NotEmpty().WithMessage("Language ID is required.")
-                .Must(l => l.GetType() == typeof(Guid)).WithMessage("Language ID is invalid");
+                .NotEmpty().WithMessage("Language Name is required.")
+                .Must(x => x.GetType() == typeof(Guid)).WithMessage("Language Id type mismatch.");
+
         }
     }
 }

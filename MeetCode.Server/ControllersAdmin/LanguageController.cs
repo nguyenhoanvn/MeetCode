@@ -1,4 +1,5 @@
-﻿using Ardalis.Result;
+﻿
+using Ardalis.Result;
 using Ardalis.Result.AspNetCore;
 using AutoMapper;
 using MediatR;
@@ -49,15 +50,18 @@ namespace MeetCode.Server.ControllersAdmin
             return result;
         }
 
-        [HttpPatch("{name}")]
+        [HttpPatch("{langId}")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(LanguageUpdateCommandResult), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.Error, ResultStatus.NotFound)]
-        public async Task<Result<LanguageUpdateCommandResult>> LanguageUpdate([FromRoute] string name, [FromBody] LanguageUpdateRequest request, CancellationToken ct)
+        public async Task<Result<LanguageUpdateCommandResult>> LanguageUpdate([FromRoute] Guid langId, [FromBody] LanguageUpdateRequest request, CancellationToken ct)
         {
             var cmd = new LanguageUpdateCommand(
-                name,
+                langId,
+                request.Name,
                 request.Version,
+                request.FileExtension,
+                request.CompileImage,
                 request.RuntimeImage,
                 request.CompileCommand,
                 request.RunCommand
