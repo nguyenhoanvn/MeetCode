@@ -4,7 +4,8 @@ import logo from "../assets/images/logo.png";
 export default function AdminSidebar() {
     const navList: Array<{ label: string; url: string }> = [
         { label: "Dashboard", url: "" },
-        { label: "Problems", url: "problems" }
+        { label: "Problems", url: "problems" },
+        { label: "Languages", url: "languages"}
     ];
 
     return (
@@ -24,7 +25,7 @@ export default function AdminSidebar() {
                         <Link
                             key={item.url}
                             to={item.url}
-                            className="px-10 py-3 hover:bg-gray-100 block"
+                            className="px-10 py-3 hover:bg-blue-700 block"
                         >
                             {item.label}
                         </Link>
