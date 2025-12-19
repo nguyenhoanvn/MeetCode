@@ -10,6 +10,8 @@ import DashboardPage from "./pagesAdmin/DashboardPage";
 import AdminLayout from "./pagesAdmin/Layout";
 import TablePage from "./pagesAdmin/TablePage";
 import ProblemPage from "./pagesAdmin/ProblemPage";
+import LanguagePage from "./pagesAdmin/LanguagePage";
+import LanguageDetailPage from "./pagesAdmin/LanguageDetailPage";
 
 export default function AppRouter() {
     return (
@@ -24,7 +26,8 @@ export default function AppRouter() {
                 <Route path="/problems/:slug" element={<ProblemDetailPage/>}/>
                 <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<DashboardPage />} />
-                    <Route path="tables" element={<TablePage />} />
+                    <Route path="languages" element={<LanguagePage />} />
+                    <Route path="languages/:id" element={<LanguageDetailPage/>}/>
                     <Route path="problems" element={<ProblemPage />} />
                 </Route>
             </Routes>
