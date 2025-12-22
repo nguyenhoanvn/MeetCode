@@ -1,6 +1,6 @@
 import { Language } from "../types/admin/language";
 import { LanguageGetRequest } from "../types/request/languageGetRequest";
-import { LanguageGetResponse } from "../types/response/languageGetResponse";
+import { LanguageResponse } from "../types/response/languageResponse";
 import { LanguageListResponse } from "../types/response/languageListResponse";
 import { LanguageUpdateRequest } from "../types/system/languageUpdateRequest";
 import { languageApi } from "./client"
@@ -12,8 +12,8 @@ export const languageList = async () => {
 }
 
 /* Get by name language endpoint */
-export const languageGet = async (request: LanguageGetRequest) => {
-    const response = await languageApi.get<LanguageGetResponse>(`/${request.langId}`);
+export const languageGet = async (langId: string) => {
+    const response = await languageApi.get<LanguageResponse>(`/${langId}`);
     return response.data.language;
 }
 
@@ -25,4 +25,10 @@ export const languageUpdate = async (
     const response = await languageApi.patch(`/${langId}`, request);
 
     return response.data;
+}
+
+/* Toggle status language endpoint */
+export const languageStatusToggle = async (langId: string) => {
+    const response = await languageApi.patch<LanguageResponse>(`/${langId}/toggle`);
+    return response.data.language;
 }

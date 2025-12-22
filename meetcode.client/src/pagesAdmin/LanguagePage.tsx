@@ -7,7 +7,6 @@ export default function LanguagePage() {
 
     return (
         <TablePage
-            overview="Overview"
             title="Languages"
             columns={[
                 { header: "Name" },
@@ -22,7 +21,7 @@ export default function LanguagePage() {
                     <td className="px-4 py-2 border-r border-gray-500">{language.name}</td>
                     <td className="px-4 py-2 border-r border-gray-500">{language.version}</td>
                     <td className="px-4 py-2 border-r border-gray-500">{language.fileExtension}</td>
-                    <td className="px-4 py-2 border-r border-gray-500">{language.isEnabled ? "Active" : "Disabled"}</td>
+                    <td className="px-4 py-2 border-r border-gray-500">{language.isEnabled ? <p className="text-green-400">Active</p> : <p className="text-red-500">Disabled</p>}</td>
                     <td className="px-4 py-2 border-r border-gray-500"><span className="text-blue-500 font-black hover:text-blue-300 transition duration-100"><Link to={`${language.langId}`}>View</Link></span></td>
                 </tr>
             )}

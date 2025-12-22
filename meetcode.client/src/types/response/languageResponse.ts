@@ -1,5 +1,5 @@
 import { Language } from "../admin/language";
 
-export interface LanguageGetResponse {
+export interface LanguageResponse {
     language: Language;
 }

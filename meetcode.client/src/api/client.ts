@@ -32,7 +32,13 @@ export const languageApi = axios.create({
     baseURL: "https://" + domain + "/admin/languages",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
-})
+});
+
+export const problemTemplateApi = axios.create({
+    baseURL: "https://" + domain + "/admin/templates",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+});
 
 
 /* Interceptor enable for user auth */
@@ -45,3 +51,4 @@ enableApiProblemDetailParsingInterceptor(problemApi);
 enableApiProblemDetailParsingInterceptor(profileApi);
 enableApiProblemDetailParsingInterceptor(submitApi);
 enableApiProblemDetailParsingInterceptor(languageApi);
+enableApiProblemDetailParsingInterceptor(problemTemplateApi);

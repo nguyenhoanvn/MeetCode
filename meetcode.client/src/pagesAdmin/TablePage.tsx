@@ -4,7 +4,6 @@ type Column = {
 };
 
 type TablePageProps<T> = {
-    overview: string;
     title: string;
     addAction?: string;
     onActionClick?: () => void;
@@ -14,7 +13,6 @@ type TablePageProps<T> = {
 };
 
 export default function TablePage<T>({
-    overview,
     title,
     addAction,
     onActionClick,
@@ -24,15 +22,13 @@ export default function TablePage<T>({
 } : TablePageProps<T>) {
     return (
         <div className="h-full w-full flex flex-col p-5 gap-10">
-            {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="">
-                    <p className="text-md uppercase text-gray-400 font-light">{overview}</p>
-                    <p className="text-2xl capitalize text-white">{title}</p>
+                    <p className="text-lg uppercase text-gray-400 font-light">Overview</p>
+                    <p className="text-3xl capitalize text-white">{title}</p>
                 </div>       
             </div>
 
-            {/* Content */}
             <div className="flex flex-col gap-3">
                 <div className="">
                     {addAction && (

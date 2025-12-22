@@ -5,7 +5,8 @@ export default function AdminSidebar() {
     const navList: Array<{ label: string; url: string }> = [
         { label: "Dashboard", url: "" },
         { label: "Problems", url: "problems" },
-        { label: "Languages", url: "languages"}
+        { label: "Languages", url: "languages"},
+        { label: "Problem Templates", url: "problemTemplates"}
     ];
 
     return (
