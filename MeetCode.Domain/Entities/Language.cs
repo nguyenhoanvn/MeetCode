@@ -7,7 +7,7 @@ namespace MeetCode.Domain.Entities;
 public partial class Language
 {
     public Guid LangId { get; set; }
-
+    
     public string Name { get; set; } = null!;
 
     public string Version { get; set; } = null!;
@@ -28,6 +28,11 @@ public partial class Language
     public override string ToString()
     {
         return this.ToGenericString();
+    }
+
+    public void ToggleStatus()
+    {
+        IsEnabled = !IsEnabled;
     }
 
     public void UpdateBasicInfo(LanguageBasicUpdateObject info)

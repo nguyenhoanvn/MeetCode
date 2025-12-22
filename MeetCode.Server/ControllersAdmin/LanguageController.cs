@@ -72,5 +72,20 @@ namespace MeetCode.Server.ControllersAdmin
             return result;
         }
 
+        [HttpPatch("{langId}/toggle")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(LanguageStatusToggleCommandResult), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error, ResultStatus.Invalid)]
+        public async Task<Result<LanguageStatusToggleCommandResult>> LanguageToggle([FromRoute] Guid langId, CancellationToken ct)
+        {
+            var cmd = new LanguageStatusToggleCommand(
+                langId
+                );
+
+            var result = await _mediator.Send(cmd, ct);
+
+            return result;
+        }
+
     }
 }

@@ -21,18 +21,21 @@ namespace MeetCode.Infrastructure.Repositories
         {
             return await _db.Languages
                 .Include(l => l.Submissions)
+                .Include(l => l.ProblemTemplates)
                 .ToListAsync(ct);
         }
         public async Task<Language?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             return await _db.Languages
                 .Include(l => l.Submissions)
+                .Include(l => l.ProblemTemplates)
                 .FirstOrDefaultAsync(l => l.LangId == id, ct);
         }
         public async Task<IEnumerable<Language>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct)
         {
             return await _db.Languages
                 .Include(l => l.Submissions)
+                .Include(l => l.ProblemTemplates)
                 .Where(l => ids.Contains(l.LangId))
                 .ToListAsync(ct);
         }
