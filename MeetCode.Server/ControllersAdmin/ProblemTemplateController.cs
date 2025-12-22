@@ -6,12 +6,13 @@ using MeetCode.Application.Commands.CommandEntities.ProblemTemplate;
 using MeetCode.Application.DTOs.Request.ProblemTemplate;
 using MeetCode.Application.DTOs.Response.ProblemTemplate;
 using MeetCode.Application.Queries.QueryEntities.ProblemTemplate;
+using MeetCode.Application.Queries.QueryResults.ProblemTemplate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetCode.Server.ControllersAdmin
 {
-    [Route("templates")]
+    [Route("admin/templates")]
     [ApiController]
     public class ProblemTemplateController : ControllerBase
     {
@@ -24,6 +25,32 @@ namespace MeetCode.Server.ControllersAdmin
         {
             _mediator = mediator;
             _mapper = mapper;
+        }
+
+        [HttpGet()]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemTemplateAllQueryResult), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error, ResultStatus.Invalid)]
+        public async Task<Result<ProblemTemplateAllQueryResult>> TemplateAll(CancellationToken ct)
+        {
+            var cmd = new ProblemTemplateAllQuery();
+
+            var result = await _mediator.Send(cmd, ct);
+
+            return result;
+        }
+
+        [HttpGet("{templateId:guid}")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemTemplateReadQueryResult), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error, ResultStatus.Invalid)]
+        public async Task<Result<ProblemTemplateReadQueryResult>> TemplateReadById([FromRoute] Guid templateId, CancellationToken ct)
+        {
+            var cmd = new ProblemTemplateReadByIdQuery(templateId);
+
+            var result = await _mediator.Send(cmd, ct);
+
+            return result;
         }
 
         [HttpPost("{problemId}")]
@@ -47,7 +74,7 @@ namespace MeetCode.Server.ControllersAdmin
         [ExpectedFailures(ResultStatus.Error)]
         public async Task<Result<ProblemTemplateResponse>> TemplateRead([FromRoute] string problemSlug, CancellationToken ct)
         {
-            var cmd = new ProblemTemplateReadQuery(problemSlug);
+            var cmd = new ProblemTemplateReadBySlugQuery(problemSlug);
 
             var result = await _mediator.Send(cmd, ct);
 

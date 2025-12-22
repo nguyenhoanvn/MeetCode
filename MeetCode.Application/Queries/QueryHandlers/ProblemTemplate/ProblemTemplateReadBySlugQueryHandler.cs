@@ -12,19 +12,19 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Queries.QueryHandlers.ProblemTemplate
 {
-    public class ProblemTemplateReadQueryHandler : IRequestHandler<ProblemTemplateReadQuery, Result<ProblemTemplateReadQueryResult>>
+    public class ProblemTemplateReadBySlugQueryHandler : IRequestHandler<ProblemTemplateReadBySlugQuery, Result<ProblemTemplateReadQueryResult>>
     {
         private readonly IProblemTemplateService _problemTemplateService;
-        private readonly ILogger<ProblemTemplateReadQueryHandler> _logger;
-        public ProblemTemplateReadQueryHandler(
+        private readonly ILogger<ProblemTemplateReadBySlugQueryHandler> _logger;
+        public ProblemTemplateReadBySlugQueryHandler(
             IProblemTemplateService problemTemplateService,
-            ILogger<ProblemTemplateReadQueryHandler> logger)
+            ILogger<ProblemTemplateReadBySlugQueryHandler> logger)
         {
             _problemTemplateService = problemTemplateService;
             _logger = logger;
         }
 
-        public async Task<Result<ProblemTemplateReadQueryResult>> Handle(ProblemTemplateReadQuery request, CancellationToken ct)
+        public async Task<Result<ProblemTemplateReadQueryResult>> Handle(ProblemTemplateReadBySlugQuery request, CancellationToken ct)
         {
             var problemTemplate = await _problemTemplateService.FindTemplateBySlugAsync(request.ProblemSlug, ct);
             if (problemTemplate == null)

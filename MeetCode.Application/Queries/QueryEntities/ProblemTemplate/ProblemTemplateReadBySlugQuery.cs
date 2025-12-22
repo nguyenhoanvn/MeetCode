@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Queries.QueryEntities.ProblemTemplate
 {
-    public sealed record ProblemTemplateReadQuery(string ProblemSlug) : IRequest<Result<ProblemTemplateReadQueryResult>>;
+    public sealed record ProblemTemplateReadBySlugQuery(string ProblemSlug) : IRequest<Result<ProblemTemplateReadQueryResult>>;
 }

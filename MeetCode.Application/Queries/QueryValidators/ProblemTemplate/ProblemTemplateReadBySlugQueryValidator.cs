@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.Queries.QueryValidators.ProblemTemplate
 {
-    public class ProblemTemplateReadQueryValidator : AbstractValidator<ProblemTemplateReadQuery>
+    public class ProblemTemplateReadBySlugQueryValidator : AbstractValidator<ProblemTemplateReadBySlugQuery>
     {
-        public ProblemTemplateReadQueryValidator()
+        public ProblemTemplateReadBySlugQueryValidator()
         {
 
         }
