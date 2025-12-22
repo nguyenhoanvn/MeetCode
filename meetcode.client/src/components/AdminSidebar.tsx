@@ -6,7 +6,7 @@ export default function AdminSidebar() {
         { label: "Dashboard", url: "" },
         { label: "Problems", url: "problems" },
         { label: "Languages", url: "languages"},
-        { label: "Problem Templates", url: "problemTemplates"}
+        { label: "Problem Templates", url: "problem-templates"}
     ];
 
     return (

@@ -12,6 +12,7 @@ import ProblemPage from "./pagesAdmin/ProblemPage";
 import LanguagePage from "./pagesAdmin/LanguagePage";
 import LanguageDetailPage from "./pagesAdmin/LanguageDetailPage";
 import ProblemTemplatePage from "./pagesAdmin/ProblemTemplatePage";
+import ProblemTemplateDetailPage from "./pagesAdmin/ProblemTemplateDetailPage";
 
 export default function AppRouter() {
     return (
@@ -29,7 +30,8 @@ export default function AppRouter() {
                     <Route path="languages" element={<LanguagePage />} />
                     <Route path="languages/:id" element={<LanguageDetailPage/>}/>
                     <Route path="problems" element={<ProblemPage />} />
-                    <Route path="problemTemplates" element={<ProblemTemplatePage />} />
+                    <Route path="problem-templates" element={<ProblemTemplatePage />} />
+                    <Route path="problem-templates/:id" element={<ProblemTemplateDetailPage />}/>
                 </Route>
             </Routes>
         </BrowserRouter>
