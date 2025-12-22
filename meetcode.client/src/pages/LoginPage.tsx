@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
+import { useState } from "react";
 
 export default function LoginPage() {
     const {loginForm, handleChange, handleSubmit, loading, error} = useLogin();
 
-    const randomNumber = Math.floor(Math.random() * 20);
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 20));
 
     return (
         <div className="w-screen h-screen bg-amber-300">

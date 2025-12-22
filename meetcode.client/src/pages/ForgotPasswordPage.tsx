@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import useForgotPassword from "../hooks/useForgotPassword";
+import { useState } from "react";
 
 export default function ForgotPasswordPage() {
     const { forgotForm, otpForm, loading, error, errorField, sendOtpButton, verifyOtpButton,
@@ -15,7 +16,7 @@ export default function ForgotPasswordPage() {
             : "focus:border-[#1e3a8a]"
      }`;
 
-    const randomNumber = Math.floor(Math.random() * 20);
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 20));
     return(
         <div className="h-screen w-screen bg-amber-300">
             <div className="grid grid-cols-[60%_40%] h-screen w-screen">

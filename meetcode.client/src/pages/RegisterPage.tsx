@@ -2,6 +2,7 @@ import { useRegister } from "../hooks/useRegister";
 import NavigationBar from "../components/NavigationBar";
 import logo from "../assets/images/logo.png";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function RegisterPage() {
     const {registerForm, handleChange, handleSubmit, loading, error, errorField} = useRegister();
@@ -14,7 +15,7 @@ export default function RegisterPage() {
             : "focus:border-[#1e3a8a]"
      }`;
 
-     const randomNumber = Math.floor(Math.random() * 20);
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 20));
 
 
     return (
