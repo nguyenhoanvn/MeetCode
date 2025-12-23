@@ -40,11 +40,6 @@ namespace MeetCode.Server.Mapping
                     context.Mapper.Map<List<ProblemResponse>>(src.ProblemList)
                     ));
 
-            // Read 
-            CreateMap<ProblemReadQueryResult, ProblemResponse>()
-                .ConstructUsing((src, context) =>
-                    context.Mapper.Map<ProblemResponse>(src.Problem));
-
             // Update
             CreateMap<(Guid problemId, ProblemUpdateRequest request), ProblemUpdateCommand>()
                 .ConstructUsing(src => new ProblemUpdateCommand(
