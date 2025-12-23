@@ -6,6 +6,7 @@ type Column = {
 type TablePageProps<T> = {
     title: string;
     addAction?: string;
+    error: string | null;
     onActionClick?: () => void;
     columns: Column[];
     data: T[];
@@ -15,6 +16,7 @@ type TablePageProps<T> = {
 export default function TablePage<T>({
     title,
     addAction,
+    error,
     onActionClick,
     columns,
     data,
@@ -31,6 +33,9 @@ export default function TablePage<T>({
 
             <div className="flex flex-col gap-3">
                 <div className="">
+                    {error && (
+                        <p className="text-red-500"><span className="font-bold">Error: </span>{error}</p>
+                    )}
                     {addAction && (
                         <button
                             onClick={onActionClick}

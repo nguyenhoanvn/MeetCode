@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Language } from "../types/admin/language";
-import { languageList } from "../api/language";
+import { languageList } from "../api/admin/language";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 
 export default function useLanguageList() {
@@ -37,6 +37,8 @@ export default function useLanguageList() {
     }
 
     return {
-        languages
+        languages,
+        error,
+        loading
     };
 }

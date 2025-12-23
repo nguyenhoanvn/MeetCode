@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Language } from "../types/admin/language";
-import { languageGet, languageStatusToggle } from "../api/language";
+import { languageGet, languageStatusToggle } from "../api/admin/language";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 
 export default function useLanguageDetail(id: string) {
