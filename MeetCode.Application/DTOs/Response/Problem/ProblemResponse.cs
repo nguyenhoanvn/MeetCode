@@ -17,5 +17,5 @@ namespace MeetCode.Application.DTOs.Response.Problem
         List<TagResponse> TagList,
         List<TestCaseResponse> TestCaseList,
         List<ProblemTemplateResponse> TemplateList
-        ) : IProblemResponse;
+        );
 }

@@ -25,13 +25,15 @@ namespace MeetCode.Application.Queries.QueryHandlers.Problem
         }
         public async Task<Result<ProblemAllQueryResult>> Handle(ProblemAllQuery request, CancellationToken ct)
         {
+            _logger.LogInformation("Attempting to read problem list");
+
             var problemList = await _problemService.ReadAllProblemsAsync(ct);
-            if (problemList == null)
+            if (problemList.Count() <= 0)
             {
-                throw new InvalidOperationException("Problem list is null");
+                _logger.LogWarning("Problem list is empty");
             }
-            var result = new ProblemAllQueryResult(problemList);
-            return Result.Success(result);
+
+            return Result.Success(new ProblemAllQueryResult(problemList));
         }
     }
 }
