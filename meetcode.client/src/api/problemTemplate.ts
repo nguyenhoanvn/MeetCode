@@ -13,3 +13,9 @@ export const problemTemplateGet = async (id: string) => {
     const response = await problemTemplateApi.get<ProblemTemplateResponse>(`/${id}`);
     return response.data.problemTemplate;
 }
+
+/* Toggle template status */
+export const problemTemplateToggle = async (id: string) => {
+    const response = await problemTemplateApi.patch<ProblemTemplateResponse>(`/${id}/toggle`);
+    return response.data.problemTemplate;
+}

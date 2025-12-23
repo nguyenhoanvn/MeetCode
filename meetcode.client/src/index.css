@@ -24,3 +24,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: 'Consolas';
+  src: url('/fonts/Consolas.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-consolas: 'Consolas', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  border-left: 1px solid #475569;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #475569; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5B6F86; 
+}

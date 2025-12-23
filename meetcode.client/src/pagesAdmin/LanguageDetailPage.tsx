@@ -92,11 +92,11 @@ export default function LanguageDetailPage() {
                 </div>
                 <div className="flex flex-col gap-3">
                     <p className="font-medium text-lg">Submissions</p>
-                    <Link to="/"><p className="font-light bg-blue-900 hover:bg-blue-950 border-gray-500 border p-3 rounded-lg max-w-fit">Total: {language?.submissions.length} {language?.submissions.length === 1 ? "submission" : "submissions"}</p></Link>
+                    <Link className="w-fit" to={`/admin/languages/${language?.langId}`}><p className="font-light bg-blue-900 hover:bg-blue-950 border-gray-500 border p-3 rounded-lg max-w-fit">Total: {language?.submissions.length} {language?.submissions.length === 1 ? "submission" : "submissions"}</p></Link>
                 </div>
                 <div className="flex flex-col gap-3">
                     <p className="font-medium text-lg">Problem Templates</p>
-                    <Link to="/"><p className="font-light bg-blue-900 hover:bg-blue-950 border-gray-500 border p-3 rounded-lg max-w-fit">Total: {language?.problemTemplates.length} {language?.problemTemplates.length === 1 ? "template" : "templates"}</p></Link>
+                    <Link className="w-fit" to={`/admin/problem-templates`}><p className="font-light bg-blue-900 hover:bg-blue-950 border-gray-500 border p-3 rounded-lg max-w-fit">Total: {language?.problemTemplates.length} {language?.problemTemplates.length === 1 ? "template" : "templates"}</p></Link>
                 </div>
             </div> 
         </div>
