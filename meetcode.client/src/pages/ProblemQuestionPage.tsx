@@ -22,18 +22,6 @@ Output: 3
 
     return (
         <>
-            <style>
-                        {`
-                        .prose .code-inline
-                        {
-                            background-color: #1f2937;
-                            border: 1px solid #4b5563;
-                            border-width: 1px;
-                            padding-inline: 2px;
-                            border-radius: 2px;
-                        }
-                        `}
-            </style>
             <div>
                 <div className="prose p-5">  
                     <h1 className="font-black capitalize text-xl">
@@ -52,7 +40,7 @@ Output: 3
                         components={{
                             code({ children }) {
                                 if (!String(children).includes("\n")) {
-                                    return <code className="code-inline">{children}</code>;
+                                    return <code className="bg-slate-800 border border-gray-600 p-1 rounded-sm">{children}</code>;
                                 }    
                                 return (
                                     <CodeBlock>

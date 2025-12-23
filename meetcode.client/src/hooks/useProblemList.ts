@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { problemList as fetchProblemList } from "../api/problem";
-import { problemSearch as fetchProblemSearch } from "../api/problem";
+import { problemList as fetchProblemList } from "../api/admin/problem";
 import { useNavigate } from "react-router-dom";
 
 enum Difficulty {

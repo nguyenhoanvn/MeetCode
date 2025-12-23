@@ -5,7 +5,6 @@ import LoginPage from "./pages/LoginPage";
 import ProblemListPage from "./pages/ProblemListPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import ProblemDetailPage from "./pages/ProblemDetailPage";
 import DashboardPage from "./pagesAdmin/DashboardPage";
 import AdminLayout from "./pagesAdmin/Layout";
 import ProblemPage from "./pagesAdmin/ProblemPage";
@@ -13,6 +12,7 @@ import LanguagePage from "./pagesAdmin/LanguagePage";
 import LanguageDetailPage from "./pagesAdmin/LanguageDetailPage";
 import ProblemTemplatePage from "./pagesAdmin/ProblemTemplatePage";
 import ProblemTemplateDetailPage from "./pagesAdmin/ProblemTemplateDetailPage";
+import ProblemDetailPage from "./pagesAdmin/ProblemDetailPage";
 
 export default function AppRouter() {
     return (
@@ -30,6 +30,7 @@ export default function AppRouter() {
                     <Route path="languages" element={<LanguagePage />} />
                     <Route path="languages/:id" element={<LanguageDetailPage/>}/>
                     <Route path="problems" element={<ProblemPage />} />
+                    <Route path="problems/:id" element={<ProblemDetailPage/>}/>
                     <Route path="problem-templates" element={<ProblemTemplatePage />} />
                     <Route path="problem-templates/:id" element={<ProblemTemplateDetailPage />}/>
                 </Route>

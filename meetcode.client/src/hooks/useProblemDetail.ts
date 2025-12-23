@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { problemDetail } from "../api/problem";
 import { Problem } from "../types/problem";
 
 export default function useProblemDetail(slug: string) {

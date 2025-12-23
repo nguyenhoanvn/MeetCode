@@ -3,11 +3,13 @@ import { ProblemTemplate } from "./problemTemplate";
 import { Submission } from "./submission";
 import { TestCase } from "./testCase";
 
-export enum Difficulty {
-    Easy = 'easy',
-    Medium = 'medium',
-    Hard = 'hard'
-}
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
+export const difficultyStyle: Record<Difficulty, string> = {
+  easy: "text-emerald-300",
+  medium: "text-yellow-300",
+  hard: "text-red-300",
+};
 
 export interface Problem {
     problemId: string;
@@ -16,7 +18,7 @@ export interface Problem {
     statementMd: string;
     difficulty: Difficulty;
     timeLimitMs: number;
-    memoryLimitKb: number;
+    memoryLimitMb: number;
     createdBy: string;
     createdAt: string;
     updatedAt: string | null;
