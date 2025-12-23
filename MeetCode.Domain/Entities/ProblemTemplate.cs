@@ -26,6 +26,10 @@ namespace MeetCode.Domain.Entities
         {
             return this.ToGenericString();
         }
+        public void ToggleStatus()
+        {
+            IsEnabled = !IsEnabled;
+        }
     }
 
 

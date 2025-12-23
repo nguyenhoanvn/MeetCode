@@ -3,6 +3,7 @@ using Ardalis.Result.AspNetCore;
 using AutoMapper;
 using MediatR;
 using MeetCode.Application.Commands.CommandEntities.ProblemTemplate;
+using MeetCode.Application.Commands.CommandResults.ProblemTemplate;
 using MeetCode.Application.DTOs.Request.ProblemTemplate;
 using MeetCode.Application.DTOs.Response.ProblemTemplate;
 using MeetCode.Application.Queries.QueryEntities.ProblemTemplate;
@@ -66,6 +67,19 @@ namespace MeetCode.Server.ControllersAdmin
             var resp = result.Map(value => _mapper.Map<ProblemTemplateResponse>(value));
 
             return resp;
+        }
+
+        [HttpPatch("{templateId}/toggle")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemTemplateToggleCommandResult), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error, ResultStatus.Invalid)]
+        public async Task<Result<ProblemTemplateToggleCommandResult>> TemplateToggle(Guid templateId, CancellationToken ct)
+        {
+            var cmd = new ProblemTemplateToggleCommand(templateId);
+
+            var result = await _mediator.Send(cmd, ct);
+
+            return result;
         }
 
         [HttpGet("{problemSlug}")]
