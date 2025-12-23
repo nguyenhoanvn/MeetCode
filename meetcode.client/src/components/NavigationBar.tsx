@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/images/logo.png";
 import useNavBar from "../hooks/useNavBar";
 
 export default function NavigationBar() {
@@ -8,7 +7,7 @@ export default function NavigationBar() {
     return (
         <div className="flex flex-row items-center gap-10 bg-[#0D1117] border-b px-0.5 py-0.75">
             <Link to="/" className="p-3 ml-5">
-                <img className="w-7 h-7 duration-500 hover:scale-110" src={logo}></img>
+                <img className="w-7 h-7 duration-500 hover:scale-110" src="/images/logo.png"></img>
             </Link>
             <Link to="/problems">
                 <p className="text-gray-200 font-black text-sm px-10 py-1 duration-500 hover:bg-[#1E3A8A] rounded-2xl" onClick={handleProblem}>Problems</p>

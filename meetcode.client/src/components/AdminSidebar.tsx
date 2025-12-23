@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/images/logo.png";
 
 export default function AdminSidebar() {
     const navList: Array<{ label: string; url: string }> = [
@@ -14,7 +13,7 @@ export default function AdminSidebar() {
             <div className="flex flex-col border-r">
                 <div className="flex px-10 py-3 gap-3 items-center border-b">
                     <div>
-                        <img className="w-10 h-10" src={logo}></img>
+                        <img className="w-10 h-10" src="/images/logo.png"></img>
                     </div>
                     <div className="flex flex-col">
                         <span className="font-black text-md">MeetCode</span>
