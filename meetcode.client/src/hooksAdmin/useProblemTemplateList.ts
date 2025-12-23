@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ProblemTemplate } from "../types/admin/problemTemplate";
-import { problemTemplateList } from "../api/problemTemplate";
+import { problemTemplateList } from "../api/admin/problemTemplate";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 
 export default function useProblemTemplateList() {

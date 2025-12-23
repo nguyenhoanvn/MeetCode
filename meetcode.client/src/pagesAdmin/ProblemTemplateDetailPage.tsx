@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import useProblemTemplateDetail from "../hooksAdmin/useProblemTemplateDetail";
 import { Editor } from "@monaco-editor/react";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 export default function ProblemTemplateDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -9,16 +10,9 @@ export default function ProblemTemplateDetailPage() {
     return (
         <>
             {loading && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-                    <div className="flex flex-col items-center gap-4">
-                        <span className="material-symbols-outlined animate-spin">
-                            progress_activity
-                        </span>
-                        <p className="text-white text-lg font-light">Loading templates...</p>
-                    </div>
-                </div>
+                <LoadingOverlay message="Loading template..."/>
             )}
-            <div className="h-full w-full flex flex-col p-5 gap-10">
+            <div className="h-full w-full flex flex-col p-5 pb-10 gap-10">
                 <div className="flex items-center">
                     <div className="">
                         <p className="text-lg uppercase text-gray-400 font-light">Problem Template Detail</p>
@@ -73,11 +67,11 @@ export default function ProblemTemplateDetailPage() {
                     </div>
                     <div className="flex flex-col gap-3">
                         <p className="font-medium text-lg">Compile Command</p>
-                        <p className="font-light border-gray-500 border p-3 rounded-lg max-w-fit">{problemTemplate?.compileCommand ?? "none"}</p>
+                        <p className="font-light border-gray-500 border p-3 rounded-lg max-w-fit">{problemTemplate?.compileCommand ?? "None"}</p>
                     </div>
                     <div className="flex flex-col gap-3">
                         <p className="font-medium text-lg">Run Command</p>
-                        <p className="font-light border-gray-500 border p-3 rounded-lg max-w-fit">{problemTemplate?.runCommand ?? "none"}</p>
+                        <p className="font-light border-gray-500 border p-3 rounded-lg max-w-fit">{problemTemplate?.runCommand ?? "None"}</p>
                     </div>
                     <div className="flex flex-col gap-3 col-span-2 h-75 w-250">
                         <p className="font-medium text-lg">Starter Code</p>
