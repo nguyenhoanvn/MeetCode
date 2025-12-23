@@ -11,10 +11,11 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MeetCode.Application.Queries.QueryEntities.Problem;
 using Ardalis.Result.AspNetCore;
+using MeetCode.Application.Queries.QueryResults.Problem;
 
 namespace MeetCode.Server.ControllersAdmin
 {
-    [Route("problems")]
+    [Route("admin/problems")]
     [ApiController]
     public class ProblemController : ControllerBase
     {
@@ -51,33 +52,41 @@ namespace MeetCode.Server.ControllersAdmin
 
         [HttpGet]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(ProblemAllResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemAllQueryResult), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.Error)]
-        public async Task<Result<ProblemAllResponse>> ProblemList(CancellationToken ct)
+        public async Task<Result<ProblemAllQueryResult>> ProblemList(CancellationToken ct)
         {
             var cmd = new ProblemAllQuery();
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = result.Map(value => _mapper.Map<ProblemAllResponse>(value));
-
-            return resp;
+            return result;
         }
 
-        [HttpGet("{slug}")]
+        [HttpGet("{problemId}")]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(ProblemResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemReadQueryResult), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error)]
-        public async Task<Result<ProblemResponse>> ProblemRead([FromRoute]string slug, CancellationToken ct)
+        public async Task<Result<ProblemReadQueryResult>> ProblemRead([FromRoute] Guid problemId, CancellationToken ct)
         {
-            var cmd = new ProblemReadQuery(slug);
+            var cmd = new ProblemReadByIdQuery(problemId);
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = result.Map(value => _mapper.Map<ProblemResponse>(value));
+            return result;
+        }
 
-            return resp;
+        [HttpPatch("{problemId}/toggle")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(ProblemToggleCommandResult), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error, ResultStatus.Invalid)]
+        public async Task<Result<ProblemToggleCommandResult>> ProblemToggle([FromRoute] Guid problemId, CancellationToken ct)
+        {
+            var cmd = new ProblemToggleCommand(problemId);
 
+            var result = await _mediator.Send(cmd, ct);
+
+            return result;
         }
 
         [HttpPatch("{problemId}")]

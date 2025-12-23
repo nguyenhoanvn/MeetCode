@@ -53,6 +53,11 @@ public partial class Problem
         Slug = Regex.Replace(Title.ToLowerInvariant().Trim(), @"\s+", "-").ToLowerInvariant();
     }
 
+    public void ToggleStatus()
+    {
+        IsActive = !IsActive;
+    }
+
     public void UpdateBasic(string statementMd, string difficulty)
     {
         StatementMd = statementMd;
