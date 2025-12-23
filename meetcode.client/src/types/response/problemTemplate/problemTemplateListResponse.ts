@@ -1,4 +1,4 @@
-import { ProblemTemplate } from "../admin/problemTemplate";
+import { ProblemTemplate } from "../../admin/problemTemplate";
 
 export interface ProblemTemplateListResponse {
     templateList: ProblemTemplate[];

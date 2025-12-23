@@ -22,19 +22,19 @@ export const submitApi = axios.create({
 });
 
 /* Domain endpoints */
-export const problemApi = axios.create({
-    baseURL: "https://" + domain + "/problems",
+export const adminProblemApi = axios.create({
+    baseURL: "https://" + domain + "/admin/problems",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
 });
 
-export const languageApi = axios.create({
+export const adminLanguageApi = axios.create({
     baseURL: "https://" + domain + "/admin/languages",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
 });
 
-export const problemTemplateApi = axios.create({
+export const adminProblemTemplateApi = axios.create({
     baseURL: "https://" + domain + "/admin/templates",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
@@ -47,8 +47,8 @@ enableUserAuthInterceptor(profileApi);
 
 /* Interceptor enable for api problem detail parsing */
 enableApiProblemDetailParsingInterceptor(authApi);
-enableApiProblemDetailParsingInterceptor(problemApi);
+enableApiProblemDetailParsingInterceptor(adminProblemApi);
 enableApiProblemDetailParsingInterceptor(profileApi);
 enableApiProblemDetailParsingInterceptor(submitApi);
-enableApiProblemDetailParsingInterceptor(languageApi);
-enableApiProblemDetailParsingInterceptor(problemTemplateApi);
+enableApiProblemDetailParsingInterceptor(adminLanguageApi);
+enableApiProblemDetailParsingInterceptor(adminProblemTemplateApi);
