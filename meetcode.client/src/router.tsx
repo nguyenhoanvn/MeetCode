@@ -13,6 +13,7 @@ import LanguageDetailPage from "./pagesAdmin/LanguageDetailPage";
 import ProblemTemplatePage from "./pagesAdmin/ProblemTemplatePage";
 import ProblemTemplateDetailPage from "./pagesAdmin/ProblemTemplateDetailPage";
 import ProblemDetailPage from "./pagesAdmin/ProblemDetailPage";
+import TagPage from "./pagesAdmin/TagPage";
 
 export default function AppRouter() {
     return (
@@ -33,6 +34,7 @@ export default function AppRouter() {
                     <Route path="problems/:id" element={<ProblemDetailPage/>}/>
                     <Route path="problem-templates" element={<ProblemTemplatePage />} />
                     <Route path="problem-templates/:id" element={<ProblemTemplateDetailPage />}/>
+                    <Route path="tags" element={<TagPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

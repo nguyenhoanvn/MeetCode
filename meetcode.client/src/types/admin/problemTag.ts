@@ -1,5 +1,7 @@
+import { Problem } from "./problem";
+
 export interface ProblemTag {
     tagId: string;
     name: string;
-    problems: Array<string>;
+    problems: Problem[];
 }

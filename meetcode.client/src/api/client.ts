@@ -40,6 +40,12 @@ export const adminProblemTemplateApi = axios.create({
     headers: {"Content-Type": "application/json"},
 });
 
+export const adminTagApi = axios.create({
+    baseURL: "https://" + domain + "/admin/tags",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+})
+
 
 /* Interceptor enable for user auth */
 enableUserAuthInterceptor(authApi);
@@ -52,3 +58,4 @@ enableApiProblemDetailParsingInterceptor(profileApi);
 enableApiProblemDetailParsingInterceptor(submitApi);
 enableApiProblemDetailParsingInterceptor(adminLanguageApi);
 enableApiProblemDetailParsingInterceptor(adminProblemTemplateApi);
+enableApiProblemDetailParsingInterceptor(adminTagApi);
