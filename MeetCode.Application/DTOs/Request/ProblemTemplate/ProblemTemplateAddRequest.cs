@@ -15,5 +15,5 @@ namespace MeetCode.Application.DTOs.Request.ProblemTemplate
             return $"{DataType} {Name}";
         }
     }
-    public sealed record ProblemTemplateAddRequest(string MethodName, string ReturnType, Variable[] Parameters, Guid LangId);
+    public sealed record ProblemTemplateAddRequest(string MethodName, string ReturnType, Variable[] Parameters, Guid ProblemId, Guid LangId);
 }

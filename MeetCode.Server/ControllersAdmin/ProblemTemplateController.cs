@@ -54,19 +54,23 @@ namespace MeetCode.Server.ControllersAdmin
             return result;
         }
 
-        [HttpPost("{problemId}")]
+        [HttpPost()]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(ProblemTemplateResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ProblemTemplateAddCommandResult), StatusCodes.Status201Created)]
         [ExpectedFailures(ResultStatus.Error)]
-        public async Task<Result<ProblemTemplateResponse>> TemplateAdd(Guid problemId, ProblemTemplateAddRequest request, CancellationToken ct)
+        public async Task<Result<ProblemTemplateAddCommandResult>> TemplateAdd(ProblemTemplateAddRequest request, CancellationToken ct)
         {
-            var cmd = _mapper.Map<ProblemTemplateAddCommand>((problemId, request));
+            var cmd = new ProblemTemplateAddCommand(
+                    request.MethodName,
+                    request.ReturnType,
+                    request.Parameters.Select(p => p.ToString()).ToArray(),
+                    request.ProblemId,
+                    request.LangId
+                );
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = result.Map(value => _mapper.Map<ProblemTemplateResponse>(value));
-
-            return resp;
+            return result;
         }
 
         [HttpPatch("{templateId}/toggle")]
