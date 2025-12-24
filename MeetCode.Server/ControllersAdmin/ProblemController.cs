@@ -45,9 +45,9 @@ namespace MeetCode.Server.ControllersAdmin
                     request.TagIds
                 );
 
-            var resp = await _mediator.Send(cmd, ct);
+            var result = await _mediator.Send(cmd, ct);
 
-            return resp;
+            return result;
         }
 
         [HttpGet]

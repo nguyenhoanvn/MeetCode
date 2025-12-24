@@ -11,6 +11,6 @@ namespace MeetCode.Application.Interfaces.Services
 {
     public interface ISessionService
     {
-        Guid ExtractUserIdFromJwt(CancellationToken ct);
+        Result<Guid> ExtractUserIdFromJwt(CancellationToken ct);
     }
 }

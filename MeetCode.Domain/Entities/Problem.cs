@@ -28,7 +28,7 @@ public partial class Problem
 
     public int TotalSubmissionCount { get; set; } = 0;
 
-    public int ScoreAcceptedCount { get; set; }
+    public int ScoreAcceptedCount { get; set; } = 0;
 
     public double? AcceptanceRate { get; set; }
 

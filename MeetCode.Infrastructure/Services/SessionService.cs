@@ -16,34 +16,34 @@ namespace MeetCode.Infrastructure.Services
 {
     public class SessionService : ISessionService
     {
-        private readonly IUserRepository _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<SessionService> _logger;
         public SessionService(
-            IUserRepository userRepository,
             IHttpContextAccessor httpContextAccessor,
             ILogger<SessionService> logger)
         {
-            _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
-        public Guid ExtractUserIdFromJwt(CancellationToken ct)
+        public Result<Guid> ExtractUserIdFromJwt(CancellationToken ct)
         {
             _logger.LogInformation($"Extracting user Id from JWT (access token)");
+
             var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
             if (userClaim == null)
             {
                 _logger.LogWarning("Extract JWT Sub is failed, Sub is invalid");
-                throw new InvalidOperationException("JWT does not contain a 'sub' (UserId) claim");
+                return Result.Unauthorized("You are not logged in");
             }
+
             if (!Guid.TryParse(userClaim.Value, out var userId))
             {
                 _logger.LogWarning("Cannot parse result to user Id");
-                throw new InvalidOperationException($"Invalid userId format in JWT claim: {userClaim.Value}");
+                return Result.Error(new ErrorList(new[] { "Internal error occured" }));
             }
+
             _logger.LogInformation("Extracting user Id successfully");
-            return userId;
+            return Result.Success(userId);
         }
     }
 }
