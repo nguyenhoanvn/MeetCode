@@ -1,3 +1,4 @@
+import { ProblemAddRequest } from "../../types/request/problem/problemAddRequest";
 import { ProblemListResponse } from "../../types/response/problem/problemListResponse";
 import { ProblemResponse } from "../../types/response/problem/problemResponse";
 import { adminProblemApi } from "../client"
@@ -17,5 +18,11 @@ export const problemGet = async (id: string) => {
 /* Toggle status problem endpoint */
 export const problemToggle = async (id: string) => {
     const response = await adminProblemApi.patch<ProblemResponse>(`/${id}/toggle`);
+    return response.data.problem;
+}
+
+/* Add problem endpoint */
+export const problemAdd = async (request: ProblemAddRequest) => {
+    const response = await adminProblemApi.post<ProblemResponse>("", request);
     return response.data.problem;
 }
