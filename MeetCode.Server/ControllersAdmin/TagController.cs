@@ -38,6 +38,7 @@ namespace MeetCode.Server.ControllersAdmin
             return resp;
         }
 
+
         [HttpGet]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(TagAllQueryResult), StatusCodes.Status200OK)]
@@ -51,7 +52,20 @@ namespace MeetCode.Server.ControllersAdmin
             return result;
         }
 
-        [HttpGet("{tagId}")]
+        [HttpGet("search")]
+        [TranslateResultToActionResult]
+        [ProducesResponseType(typeof(TagSearchQueryResult), StatusCodes.Status200OK)]
+        [ExpectedFailures(ResultStatus.Error)]
+        public async Task<Result<TagSearchQueryResult>> TagSearch([FromQuery] string name, CancellationToken ct)
+        {
+            var cmd = new TagSearchQuery(name);
+
+            var result = await _mediator.Send(cmd, ct);
+
+            return result;
+        }
+
+        [HttpGet("{tagId:guid}")]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(TagReadQueryResult), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error)]

@@ -56,5 +56,16 @@ namespace MeetCode.Infrastructure.Repositories
         {
             return await _db.ProblemTags.FirstOrDefaultAsync(t => t.Name == name, ct);
         }
+
+        public async Task<IEnumerable<ProblemTag>> GetAllContainNameAsync(string name, CancellationToken ct)
+        {
+            var tags = await _db.ProblemTags
+                .Where(t => EF.Functions.Like(t.Name, $"%{name}%"))
+                .OrderBy(t => t.Name)
+                .Take(5)
+                .ToListAsync(ct);
+
+            return tags;
+        }
     }
 }

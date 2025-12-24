@@ -10,5 +10,6 @@ namespace MeetCode.Application.Interfaces.Repositories
     public interface ITagRepository : IRepository<ProblemTag>
     {
         Task<ProblemTag?> GetByNameAsync(string name, CancellationToken ct);
+        Task<IEnumerable<ProblemTag>> GetAllContainNameAsync(string name, CancellationToken ct);
     }
 }
