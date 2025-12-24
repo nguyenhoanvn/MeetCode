@@ -7,10 +7,11 @@ using MeetCode.Application.DTOs.Response.Tag;
 using Microsoft.AspNetCore.Mvc;
 using Ardalis.Result.AspNetCore;
 using Ardalis.Result;
+using MeetCode.Application.Queries.QueryResults.Tag;
 
 namespace MeetCode.Server.ControllersAdmin
 {
-    [Route("tags")]
+    [Route("admin/tags")]
     [ApiController]
     public class TagController : ControllerBase
     {
@@ -39,35 +40,28 @@ namespace MeetCode.Server.ControllersAdmin
 
         [HttpGet]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(TagAllResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TagAllQueryResult), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.Error)]
-        public async Task<Result<TagAllResponse>> TagList(CancellationToken ct)
+        public async Task<Result<TagAllQueryResult>> TagList(CancellationToken ct)
         {
-            var request = new TagAllRequest();
-
-            var cmd = _mapper.Map<TagAllQuery>(request);
+            var cmd = new TagAllQuery();
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = _mapper.Map<TagAllResponse>(result.Value);
-
-            return resp;
+            return result;
         }
 
         [HttpGet("{tagId}")]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(TagResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TagReadQueryResult), StatusCodes.Status200OK)]
         [ExpectedFailures(ResultStatus.NotFound, ResultStatus.Error)]
-        public async Task<Result<TagResponse>> TagRead([FromRoute] Guid tagId, CancellationToken ct)
+        public async Task<Result<TagReadQueryResult>> TagRead([FromRoute] Guid tagId, CancellationToken ct)
         {
-            var request = new TagReadRequest();
-            var cmd = _mapper.Map<TagReadQuery>((tagId, request));
+            var cmd = new TagReadByIdQuery(tagId);
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = result.Map(value => _mapper.Map<TagResponse>(value));
-
-            return resp;
+            return result;
         }
 
         [HttpPut("{tagId}")]

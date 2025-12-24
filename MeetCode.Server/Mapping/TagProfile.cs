@@ -35,9 +35,6 @@ namespace MeetCode.Server.Mapping
                     ));
 
             // Read
-            CreateMap<(Guid tagId, TagReadRequest request), TagReadQuery>()
-                .ConstructUsing(src => new TagReadQuery(
-                    src.tagId));
             CreateMap<TagReadQueryResult, TagResponse>()
                 .ConstructUsing((src, context) =>
                     context.Mapper.Map<TagResponse>(src.Tag));
