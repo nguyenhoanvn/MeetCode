@@ -13,3 +13,9 @@ export const tagGet = async (id: string) => {
     const response = await adminTagApi.get<TagResponse>(`/${id}`);
     return response.data.tag;
 }
+
+/* Search tag containing name endpoint */
+export const tagSearch = async (name: string) => {
+    const response = await adminTagApi.get<TagListResponse>(`/search?name=${name}`);
+    return response.data.tagList;
+}

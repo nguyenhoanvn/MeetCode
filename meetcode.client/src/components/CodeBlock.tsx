@@ -8,7 +8,7 @@ export default function CodeBlock(input: CodeBlockProps) {
     const {copied, handleCopyToClipboard} = useCodeBlock(input.children);
 
     return (
-        <div className="relative group my-3">
+        <div className="relative group my-3 border border-gray-500 rounded-lg">
             <div className="absolute right-3 top-3 bg-gray-400 px-2 py-0.5 rounded-md
             opacity-0 group-hover:opacity-100 transition">
                 <button className="cursor-pointer"

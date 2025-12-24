@@ -12,7 +12,7 @@ export default function ProblemPage() {
             )}
             <TablePage
                 title="Problems"
-                addAction="Add Problem"
+                addAction={["Add Problem", "/admin/problems/add"]}
                 error={error}
                 columns={[
                     { header: "Title" },

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 type Column = {
     header: string;
     className?: string;
@@ -5,9 +7,8 @@ type Column = {
 
 type TablePageProps<T> = {
     title: string;
-    addAction?: string;
+    addAction?: [label: string, path: string];
     error: string | null;
-    onActionClick?: () => void;
     columns: Column[];
     data: T[];
     renderRow: (item: T) => React.ReactNode;
@@ -17,7 +18,6 @@ export default function TablePage<T>({
     title,
     addAction,
     error,
-    onActionClick,
     columns,
     data,
     renderRow
@@ -37,14 +37,15 @@ export default function TablePage<T>({
                         <p className="text-red-500"><span className="font-bold">Error: </span>{error}</p>
                     )}
                     {addAction && (
-                        <button
-                            onClick={onActionClick}
-                            className="h-9 flex items-center gap-2 px-3 rounded-lg
-                                    bg-blue-700 hover:bg-blue-800 hover:cursor-pointer transition-colors ml-auto"
-                        >
-                            <span className="material-symbols-outlined">add</span>
-                            <span>{addAction}</span>
-                        </button>
+                        <Link to={addAction[1]}>
+                            <button
+                                className="h-9 flex items-center gap-2 px-3 rounded-lg
+                                        bg-blue-700 hover:bg-blue-800 hover:cursor-pointer transition-colors ml-auto"
+                            >
+                                <span className="material-symbols-outlined">add</span>
+                                <span>{addAction[0]}</span>
+                            </button>
+                        </Link>
                     )}
                 </div>
             
