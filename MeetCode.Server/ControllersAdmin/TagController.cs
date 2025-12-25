@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ardalis.Result.AspNetCore;
 using Ardalis.Result;
 using MeetCode.Application.Queries.QueryResults.Tag;
+using MeetCode.Application.Commands.CommandResults.Tag;
 
 namespace MeetCode.Server.ControllersAdmin
 {
@@ -25,17 +26,17 @@ namespace MeetCode.Server.ControllersAdmin
 
         [HttpPost]
         [TranslateResultToActionResult]
-        [ProducesResponseType(typeof(TagResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(TagAddCommandResult), StatusCodes.Status201Created)]
         [ExpectedFailures(ResultStatus.Forbidden, ResultStatus.Conflict, ResultStatus.Error)]
-        public async Task<Result<TagResponse>> TagCreate([FromBody] TagAddRequest request, CancellationToken ct)
+        public async Task<Result<TagAddCommandResult>> TagCreate([FromBody] TagAddRequest request, CancellationToken ct)
         {
-            var cmd = _mapper.Map<TagAddCommand>(request);
+            var cmd = new TagAddCommand(
+                request.Name
+                );
 
             var result = await _mediator.Send(cmd, ct);
 
-            var resp = result.Map(value => _mapper.Map<TagResponse>(value));
-
-            return resp;
+            return result;
         }
 
 
