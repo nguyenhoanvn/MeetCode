@@ -15,6 +15,7 @@ import ProblemTemplateDetailPage from "./pagesAdmin/ProblemTemplateDetailPage";
 import ProblemDetailPage from "./pagesAdmin/ProblemDetailPage";
 import TagPage from "./pagesAdmin/TagPage";
 import ProblemAddPage from "./pagesAdmin/ProblemAddPage";
+import TagAddPage from "./pagesAdmin/TagAddPage";
 
 export default function AppRouter() {
     return (
@@ -37,6 +38,7 @@ export default function AppRouter() {
                     <Route path="problem-templates" element={<ProblemTemplatePage />} />
                     <Route path="problem-templates/:id" element={<ProblemTemplateDetailPage />}/>
                     <Route path="tags" element={<TagPage/>}/>
+                    <Route path="tags/add" element={<TagAddPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

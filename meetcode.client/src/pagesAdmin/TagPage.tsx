@@ -12,8 +12,8 @@ export default function TagPage() {
                 <LoadingOverlay message="Loading tags..." />
             )}
             <TablePage
-                title="Problems"
-                addAction="Add Problem"
+                title="Tags"
+                addAction={["Add Tag", "/admin/tags/add"]}
                 error={error}
                 columns={[
                     { header: "Name" },
