@@ -1,4 +1,5 @@
-import { ProblemTemplate } from "../problemTemplate";
+import { ProblemTemplate } from "../admin/problemTemplate";
+
 
 export interface ProblemTemplateResponse {
     problemTemplate: ProblemTemplate;

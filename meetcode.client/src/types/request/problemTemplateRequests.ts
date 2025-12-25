@@ -1,7 +1,9 @@
 export interface ProblemTemplateAddRequest {
+    problemId: string;
     langId: string;
-    templateCode: string;
-    runnerCode: string;
-    compileCommand?: string;
-    runCommand?: string;
+    methodName: string;
+    returnType: string;
+    parameters: string[];
+    compileCommand: string | null;
+    runCommand: string | null;
 }

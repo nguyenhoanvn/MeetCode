@@ -1,3 +1,4 @@
+import { ProblemTemplateAddRequest } from "../../types/request/problemTemplateRequests";
 import { ProblemTemplateListResponse, ProblemTemplateResponse } from "../../types/response/problemTemplateResponses";
 import { adminProblemTemplateApi } from "../client"
 
@@ -17,4 +18,9 @@ export const problemTemplateGet = async (id: string) => {
 export const problemTemplateToggle = async (id: string) => {
     const response = await adminProblemTemplateApi.patch<ProblemTemplateResponse>(`/${id}/toggle`);
     return response.data.problemTemplate;
+}
+
+export const problemTemplateAdd = async (request: ProblemTemplateAddRequest) => {
+    const repsonse = await adminProblemTemplateApi.post<ProblemTemplateResponse>("", request);
+    return repsonse.data.problemTemplate;
 }

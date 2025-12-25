@@ -14,6 +14,7 @@ export default function ProblemTemplatePage() {
             <TablePage
                 title="Problem Templates"
                 error={error}
+                addAction={["Add Template", "/admin/problem-templates/add"]}
                 columns={[
                     { header: "Problem" },
                     { header: "Language" },
