@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ProblemAddRequest, TagOption } from "../types/request/problem/problemAddRequest";
+import { ProblemAddRequest, TagOption } from "../types/request/problemRequests";
 import { problemAdd } from "../api/admin/problem";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 import { ProblemTag } from "../types/admin/problemTag";

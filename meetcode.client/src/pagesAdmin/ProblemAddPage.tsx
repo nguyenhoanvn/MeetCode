@@ -59,7 +59,7 @@ export default function ProblemAddPage() {
                     <p className="text-red-500"><span className="font-bold">Error: </span>{error}</p>
                 ) : (<></>)}
                 {/* Sucess message */}
-                {success == null ? (
+                {success ? (
                     <p className="text-green-400"><span className="font-bold">Success: </span>{success}</p>
                 ) : (<></>)}
 
@@ -114,14 +114,20 @@ export default function ProblemAddPage() {
                     {/* Time limit input */}
                     <div className="flex flex-col gap-3">
                         <p className="font-medium text-lg">Time Limit</p>
-                        <input type="number" placeholder="10" name="timeLimitMs" onChange={handleChange} value={problemAddForm.timeLimitMs}
-                            className={`${inputClass("timeLimitMs")}`} />
+                        <div className="flex gap-3 items-center">
+                            <input type="number" placeholder="10" name="timeLimitMs" onChange={handleChange} value={problemAddForm.timeLimitMs}
+                                className={`${inputClass("timeLimitMs")}`} />
+                            <p>ms</p>
+                        </div>
                     </div>
                     {/* Memory limit input */}
                     <div className="flex flex-col gap-3">
                         <p className="font-medium text-lg">Memory Limit</p>
-                        <input type="number" placeholder="10" name="memoryLimitMb" onChange={handleChange} value={problemAddForm.memoryLimitMb}
-                            className={`${inputClass("memoryLimitMb")}`} />
+                        <div className="flex gap-3 items-center">
+                            <input type="number" placeholder="10" name="memoryLimitMb" onChange={handleChange} value={problemAddForm.memoryLimitMb}
+                                className={`${inputClass("memoryLimitMb")}`} />
+                            <p>Mb</p>
+                        </div>
                     </div>
                     {/* Tag input */}
                     <div className="flex flex-col gap-3">
