@@ -1,3 +1,8 @@
+export interface LanguageOption {
+    langId: string;
+    name: string;
+}
+
 export interface LanguageUpdateRequest {
     name?: string;
     version?: string;

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { ProblemAddRequest, TagOption } from "../types/request/problemRequests";
+import { ProblemAddRequest } from "../types/request/problemRequests";
 import { problemAdd } from "../api/admin/problem";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 import { ProblemTag } from "../types/admin/problemTag";
 import { tagSearch } from "../api/admin/tag";
 import { Difficulty } from "../types/admin/problem";
+import { TagOption } from "../types/request/tagRequests";
 
 export interface ProblemAddForm {
     title: string;

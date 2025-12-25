@@ -1,8 +1,8 @@
 import { Difficulty } from "../admin/problem";
 
-export type TagOption = {
-    tagId: string;
-    name: string;
+export interface ProblemOption {
+    problemId: string;
+    title: string;
 }
 
 export interface ProblemAddRequest {
