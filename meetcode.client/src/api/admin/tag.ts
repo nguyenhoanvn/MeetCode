@@ -1,6 +1,6 @@
-import TagListResponse from "../../types/response/tag/tagListResponse"
-import TagResponse from "../../types/response/tag/tagResponse";
+import { TagAddRequest } from "../../types/request/tagRequests";
 import { adminTagApi } from "../client"
+import { TagListResponse, TagResponse } from "../../types/response/tagResponses";
 
 /* Get all tag endpoint */
 export const tagList = async () => {
@@ -18,4 +18,11 @@ export const tagGet = async (id: string) => {
 export const tagSearch = async (name: string) => {
     const response = await adminTagApi.get<TagListResponse>(`/search?name=${name}`);
     return response.data.tagList;
+}
+
+/* Tag add endpoint */
+export const tagAdd = async (request: TagAddRequest) => {
+    const response = await adminTagApi.post<TagResponse>("", request);
+    console.log(response);
+    return response.data.tag;
 }

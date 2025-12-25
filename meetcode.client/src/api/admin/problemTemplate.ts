@@ -1,5 +1,4 @@
-import { ProblemTemplateListResponse } from "../../types/response/problemTemplate/problemTemplateListResponse";
-import { ProblemTemplateResponse } from "../../types/response/problemTemplate/problemTemplateResponse"
+import { ProblemTemplateListResponse, ProblemTemplateResponse } from "../../types/response/problemTemplateResponses";
 import { adminProblemTemplateApi } from "../client"
 
 /* Get all templates endpoint */

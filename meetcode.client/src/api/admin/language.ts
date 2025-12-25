@@ -1,8 +1,6 @@
-
-import { LanguageListResponse } from "../../types/response/language/languageListResponse";
-import { LanguageUpdateRequest } from "../../types/request/language/languageUpdateRequest";
+import { LanguageUpdateRequest } from "../../types/request/languageRequests";
+import { LanguageListResponse, LanguageResponse } from "../../types/response/languageResponses";
 import { adminLanguageApi } from "../client"
-import { LanguageResponse } from "../../types/response/language/languageResponse";
 
 /* Get all languages endpoint */
 export const languageList = async () => {

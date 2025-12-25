@@ -1,6 +1,5 @@
-import { ProblemAddRequest } from "../../types/request/problem/problemAddRequest";
-import { ProblemListResponse } from "../../types/response/problem/problemListResponse";
-import { ProblemResponse } from "../../types/response/problem/problemResponse";
+import { ProblemAddRequest } from "../../types/request/problemRequests";
+import { ProblemListResponse, ProblemResponse } from "../../types/response/problemResponses";
 import { adminProblemApi } from "../client"
 
 /* Get all problem endpoint */

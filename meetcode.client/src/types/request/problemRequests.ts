@@ -1,6 +1,4 @@
-import { Difficulty } from "../../admin/problem";
-import { ProblemTag } from "../../admin/problemTag";
-import { ProblemTemplateAddRequest } from "../problemTemplate/problemTemplateAddRequest";
+import { Difficulty } from "../admin/problem";
 
 export type TagOption = {
     tagId: string;
