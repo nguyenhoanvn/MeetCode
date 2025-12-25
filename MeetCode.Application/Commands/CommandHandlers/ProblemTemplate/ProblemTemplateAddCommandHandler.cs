@@ -63,7 +63,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.ProblemTemplate
             if (await _problemTemplateRepository.IsProblemTemplateExistsAsync(request.ProblemId, request.LangId, ct))
             {
                 _logger.LogWarning("Template associated with problem {ProblemId} and language {LangId} exists", request.ProblemId, request.LangId);
-                return Result.Conflict($"Template associated with problem {request.ProblemId} and language {request.LangId} exists");
+                return Result.Invalid(new ValidationError($"{nameof(request.ProblemId)}, {nameof(request.LangId)}", $"Template associated with problem {request.ProblemId} and language {request.LangId} exists"));
             }
 
             if (!_templateMap.TryGetValue(language.Name.ToLower(), out var generator))
@@ -80,10 +80,15 @@ namespace MeetCode.Application.Commands.CommandHandlers.ProblemTemplate
                 ProblemId = request.ProblemId,
                 LangId = request.LangId,
                 TemplateCode = templateCode,
-                RunnerCode = runnerCode
+                RunnerCode = runnerCode,
+                CompileCommand = request.CompileCommand,
+                RunCommand = request.RunCommand
             };
 
-            return Result.Success(new ProblemTemplateAddCommandResult(problemTemplate));
+            await _problemTemplateRepository.AddAsync(problemTemplate, ct);
+            await _unitOfWork.SaveChangesAsync(ct);
+
+            return Result.Created(new ProblemTemplateAddCommandResult(problemTemplate));
         }
     }
 }

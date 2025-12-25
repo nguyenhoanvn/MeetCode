@@ -57,15 +57,17 @@ namespace MeetCode.Server.ControllersAdmin
         [HttpPost()]
         [TranslateResultToActionResult]
         [ProducesResponseType(typeof(ProblemTemplateAddCommandResult), StatusCodes.Status201Created)]
-        [ExpectedFailures(ResultStatus.Error)]
-        public async Task<Result<ProblemTemplateAddCommandResult>> TemplateAdd(ProblemTemplateAddRequest request, CancellationToken ct)
+        [ExpectedFailures(ResultStatus.Error, ResultStatus.Invalid)]
+        public async Task<Result<ProblemTemplateAddCommandResult>> TemplateAdd([FromBody] ProblemTemplateAddRequest request, CancellationToken ct)
         {
             var cmd = new ProblemTemplateAddCommand(
+                    request.ProblemId,
+                    request.LangId,
                     request.MethodName,
                     request.ReturnType,
                     request.Parameters.Select(p => p.ToString()).ToArray(),
-                    request.ProblemId,
-                    request.LangId
+                    request.CompileCommand,
+                    request.RunCommand
                 );
 
             var result = await _mediator.Send(cmd, ct);

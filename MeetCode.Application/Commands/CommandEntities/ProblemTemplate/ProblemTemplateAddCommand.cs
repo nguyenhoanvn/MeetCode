@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 namespace MeetCode.Application.Commands.CommandEntities.ProblemTemplate
 {
     public sealed record ProblemTemplateAddCommand(
+        Guid ProblemId,
+        Guid LangId,
         string MethodName,
         string ReturnType,
         string[] Parameters,
-        Guid ProblemId,
-        Guid LangId
+        string? CompileCommand = default,
+        string? RunCommand = default
         ) : IRequest<Result<ProblemTemplateAddCommandResult>>;
 }

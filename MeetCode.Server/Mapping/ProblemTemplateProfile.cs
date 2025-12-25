@@ -18,15 +18,6 @@ namespace MeetCode.Server.Mapping
                     src.Language.Name,
                     src.TemplateCode));
 
-            // Add
-            CreateMap<(Guid problemId, ProblemTemplateAddRequest request), ProblemTemplateAddCommand>()
-                .ConstructUsing(src => new ProblemTemplateAddCommand(
-                    src.request.MethodName,
-                    src.request.ReturnType,
-                    src.request.Parameters.Select(p => p.ToString()).ToArray(),
-                    src.problemId,
-                    src.request.LangId
-                    ));
             CreateMap<ProblemTemplateAddCommandResult, ProblemTemplateResponse>()
                 .ConstructUsing((src, context) => context.Mapper.Map<ProblemTemplateResponse>(src.ProblemTemplate));
 

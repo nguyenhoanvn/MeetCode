@@ -22,7 +22,7 @@ namespace MeetCode.Server.Middlewares
         {
             var response = await next();
 
-            if (response is Ardalis.Result.IResult result && !result.IsOk())
+            if (response is Ardalis.Result.IResult result && (!result.IsOk() && !result.IsCreated()))
             {
                 _logger.LogError(
                     "Handler {HandlerName} failed: {Errors}",
