@@ -81,13 +81,14 @@ public class AuthController : ControllerBase
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.None,
-                    Expires = DateTimeOffset.UtcNow.AddMinutes(30)
+                    Expires = DateTimeOffset.UtcNow.AddDays(30)
                 });
         }
 
         return resp;
     }
 
+    [Authorize(Roles = "User")]
     [HttpPost("logout")]
     [TranslateResultToActionResult]
     [ProducesResponseType(StatusCodes.Status200OK)]

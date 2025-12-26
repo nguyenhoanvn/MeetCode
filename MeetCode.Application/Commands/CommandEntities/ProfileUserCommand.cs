@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MeetCode.Application.Commands.CommandResults;
+using MeetCode.Application.Commands.CommandResults.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MeetCode.Application.Commands.CommandEntities;
-using MeetCode.Application.Commands.CommandResults;
+using MeetCode.Application.Commands.CommandResults.Profile;
 using MeetCode.Application.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
