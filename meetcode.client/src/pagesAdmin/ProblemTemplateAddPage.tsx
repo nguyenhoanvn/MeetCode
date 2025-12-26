@@ -90,7 +90,7 @@ export default function ProblemTemplateAddPage() {
                                 }
                             } as React.ChangeEvent<HTMLInputElement>)
                         }>
-                            <SelectTrigger className="font-light border-gray-400 border p-3 rounded-lg w-100 flex items-center">
+                            <SelectTrigger className={`font-light ${errorField === "problemId" ? "border-red-500" : "border-gray-400"} border p-3 rounded-lg w-100 flex items-center`}>
                                 <SelectValue placeholder="Select a problem">
                                     <span className="capitalize">
                                         {selectedProblem?.title}
@@ -130,7 +130,7 @@ export default function ProblemTemplateAddPage() {
                                 }
                             } as React.ChangeEvent<HTMLInputElement>)
                         }>
-                            <SelectTrigger className="font-light border-gray-400 border p-3 rounded-lg w-100 flex items-center">
+                            <SelectTrigger className={`font-light ${errorField === "langId" ? "border-red-500" : "border-gray-400"} border p-3 rounded-lg w-100 flex items-center`}>
                                 <SelectValue placeholder="Select a language">
                                     <span className="capitalize">
                                         {selectedLanguage?.name}
@@ -185,7 +185,7 @@ export default function ProblemTemplateAddPage() {
                         {/* Pills */}
                         <div className="flex gap-10 items-center">
                             <div className="flex">
-                                <div className="flex px-2 py-3 gap-1 border rounded-lg border-gray-400 max-w-300 min-w-100 min-h-15">
+                                <div className={`flex px-2 py-3 gap-1 border rounded-lg ${errorField === "parameters" ? "border-red-400" : "border-gray-400"}  max-w-300 min-w-100 min-h-15`}>
                                     {problemTemplateAddForm.parameters.map((param, i) => (
                                         <div
                                             key={i}

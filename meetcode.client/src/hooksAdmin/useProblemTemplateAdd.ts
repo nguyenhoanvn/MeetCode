@@ -38,9 +38,39 @@ export default function useProblemTemplateAdd() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null);
+        setErrorField(null);
         const {name, value} = e.target;
 
         setProblemTemplateAddForm((prev) => ({...prev, [name]: value}));
+    }
+
+    const validate = () => {
+        if (!problemTemplateAddForm.problemId) {
+            setError("Problem is required")
+            setErrorField("problemId");
+            return false;
+        }
+        if (!problemTemplateAddForm.langId) {
+            setError("Language is required")
+            setErrorField("langId");
+            return false;
+        }
+        if (!problemTemplateAddForm.methodName) {
+            setError("Method name is required")
+            setErrorField("methodName");
+            return false;
+        }
+        if (!problemTemplateAddForm.returnType) {
+            setError("Return type is required")
+            setErrorField("returnType");
+            return false;
+        }
+        if (problemTemplateAddForm.parameters.length <= 0) {
+            setError("Parameters is required");
+            setErrorField("parameters");
+            return false;
+        }
+        return true;
     }
 
     const handleSubmit = async () => {
@@ -48,6 +78,10 @@ export default function useProblemTemplateAdd() {
             setLoading(true);
             setError(null);
             setSuccess(null);
+
+            if (!validate()) {
+                return;
+            }
 
             const payload: ProblemTemplateAddRequest = {
                 problemId: problemTemplateAddForm.problemId,
@@ -58,8 +92,6 @@ export default function useProblemTemplateAdd() {
                 compileCommand: problemTemplateAddForm.compileCommand,
                 runCommand: problemTemplateAddForm.runCommand
             };
-
-            console.log(payload);
 
             const templateRepsonse = await problemTemplateAdd(payload);
             
@@ -106,6 +138,8 @@ export default function useProblemTemplateAdd() {
     }
 
     const addParameter = (variable: Variable) => {
+        setError(null);
+        setErrorField(null);
         setProblemTemplateAddForm(prev => ({
             ...prev,
             parameters: [...prev.parameters, variable]
@@ -113,6 +147,8 @@ export default function useProblemTemplateAdd() {
     };
 
     const removeParameter = (index: number) => {
+        setError(null);
+        setErrorField(null);
         setProblemTemplateAddForm(prev => ({
             ...prev,
             parameters: prev.parameters.filter((_, i) => i !== index)
