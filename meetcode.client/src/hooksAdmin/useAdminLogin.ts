@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
+import { login } from "../api/admin/auth";
 
 interface LoginForm {
     email: string;
     password: string;
 }
 
-
-export const useLogin = () => {
+export const useAdminLogin = () => {
     const [loginForm, setLoginForm] = useState<LoginForm>({email: "", password: ""});
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -31,6 +30,7 @@ export const useLogin = () => {
             const apiError = err as ApiProblemDetail;
             if (apiError.errors) {
                 const entries = Object.entries(apiError.errors ?? {});
+                
                 if (entries.length > 0) {
                     const [field, messages] = entries[0];      
                     setError(messages[0]); 

@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
+import { isAdmin } from "../helpers/adminCheck";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 import {refresh} from "./auth";
-import { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from "axios";
 
 export const enableUserAuthInterceptor = (axiosInstance: AxiosInstance): void => {
     axiosInstance.interceptors.response.use(
@@ -14,6 +16,7 @@ export const enableUserAuthInterceptor = (axiosInstance: AxiosInstance): void =>
                     await refresh();
                     return axiosInstance(request);
                 } catch (refreshError) {
+                    window.location.href = "/auth/login";
                     return Promise.reject(refreshError);
                 }
             }
@@ -21,6 +24,27 @@ export const enableUserAuthInterceptor = (axiosInstance: AxiosInstance): void =>
         }
     )
 }
+
+export const enableAdminOnlyResponseInterceptor = (
+    axiosInstance: AxiosInstance
+): void => {
+    axiosInstance.interceptors.response.use(
+        res => res,
+        async (error: AxiosError) => {
+            const status = error.response?.status;
+
+            if (status === 401) {
+                window.location.href = "admin/auth/login";
+            }
+
+            if (status === 403) {
+                window.location.href = "/forbidden";
+            }
+
+            return Promise.reject(error);
+        }
+    );
+};
 
 export const enableApiProblemDetailParsingInterceptor = (axiosInstance: AxiosInstance): void => {
     axiosInstance.interceptors.response.use(

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { enableApiProblemDetailParsingInterceptor, enableUserAuthInterceptor } from "./interceptors";
+import { enableAdminOnlyResponseInterceptor, enableApiProblemDetailParsingInterceptor, enableUserAuthInterceptor } from "./interceptors";
 
 const domain = "localhost:7254";
 
@@ -17,6 +17,19 @@ export const profileApi = axios.create({
 
 export const submitApi = axios.create({
     baseURL: "https://" + domain + "/submit",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+});
+
+/* Admin endpoints */
+export const adminMiscApi = axios.create({
+    baseURL: "https://" + domain + "/admin",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+});
+
+export const adminAuthApi = axios.create({
+    baseURL: "https://" + domain + "/admin/auth",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
 });
@@ -44,12 +57,21 @@ export const adminTagApi = axios.create({
     baseURL: "https://" + domain + "/admin/tags",
     withCredentials: true,
     headers: {"Content-Type": "application/json"},
-})
+});
+
+export const adminUserApi = axios.create({
+    baseURL: "https://" + domain + "/admin/users",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+});
 
 
 /* Interceptor enable for user auth */
 enableUserAuthInterceptor(authApi);
 enableUserAuthInterceptor(profileApi);
+
+/* Interceptor to enable status code map to redirect page */
+enableAdminOnlyResponseInterceptor(adminMiscApi);
 
 /* Interceptor enable for api problem detail parsing */
 enableApiProblemDetailParsingInterceptor(authApi);
@@ -59,3 +81,6 @@ enableApiProblemDetailParsingInterceptor(submitApi);
 enableApiProblemDetailParsingInterceptor(adminLanguageApi);
 enableApiProblemDetailParsingInterceptor(adminProblemTemplateApi);
 enableApiProblemDetailParsingInterceptor(adminTagApi);
+enableApiProblemDetailParsingInterceptor(adminMiscApi);
+enableApiProblemDetailParsingInterceptor(adminAuthApi);
+

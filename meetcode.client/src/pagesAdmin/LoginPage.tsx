@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { useLogin } from "../hooks/useLogin";
 import { useState } from "react";
+import { useAdminLogin } from "../hooksAdmin/useAdminLogin";
+import { Link } from "react-router-dom";
 
-export default function LoginPage() {
-    const {loginForm, handleChange, handleSubmit, loading, error} = useLogin();
+export default function LoginPage() { 
+    const {loginForm, handleChange, handleSubmit, loading, error} = useAdminLogin();
 
     const [randomNumber] = useState(() => Math.floor(Math.random() * 20));
 
@@ -45,9 +45,8 @@ export default function LoginPage() {
                 </div>
                 <div className="flex flex-col bg-[#161b22] px-10 py-3 gap-10 justify-center">
                     <div className="">
-                        <p className="text-2xl text-gray-200 font-black">Welcome back!<br/>
-                        Login your account <span className="text-sm font-light">or <Link to="/auth/register"><span className="font-medium hover:text-blue-300 text-blue-500 transition duration-100">Register</span></Link> to have one for $0.00!</span></p>
-                        <p className="text-sm font-extralight text-gray-200 mt-3">Ready to be tortured?</p>
+                        <p className="text-2xl text-gray-200 font-black">Welcome back!</p>
+                        <p className="text-sm font-extralight text-gray-200 mt-3">Are you tired with this?</p>
                         {error ? (
                             <p className="text-sm font-extralight text-red-600 mt-3">
                                 {error}
