@@ -19,7 +19,7 @@ export default function RegisterPage() {
 
 
     return (
-        <div className="w-screen h-screen bg-amber-300">
+        <div className="w-screen h-screen">
             <div className="grid grid-cols-[60%_40%] h-screen w-screen">
                 <div className="bg-red relative w-full h-full">
                     {randomNumber === 1 ? 

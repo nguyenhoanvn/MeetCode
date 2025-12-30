@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
 
     const [randomNumber] = useState(() => Math.floor(Math.random() * 20));
     return(
-        <div className="h-screen w-screen bg-amber-300">
+        <div className="h-screen w-screen ">
             <div className="grid grid-cols-[60%_40%] h-screen w-screen">
                 <div className="bg-red relative w-full h-full">
                     {randomNumber === 1 ? 

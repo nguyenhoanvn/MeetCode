@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import useNavBar from "../hooks/useNavBar";
+import UserMenu from "../pages/UserMenu";
 
 export default function NavigationBar() {
-    const {handleProblem, handleRegister, handleLogin, user, error, loading} = useNavBar();
+    const {handleProblem, handleLogout, handleLogin, user, error, loading} = useNavBar();
 
     return (
         <div className="flex flex-row items-center gap-10 bg-[#0D1117] border-b px-0.5 py-0.75">
@@ -21,7 +22,9 @@ export default function NavigationBar() {
                 
             )}
             {!loading && user.userId !== null && (
-                <p className="text-lg">Hello {user.displayName}</p>
+                <div className="ml-auto mr-10 flex items-center">
+                    <UserMenu handleLogout={handleLogout} />
+                </div>
             )}
         </div>
     )

@@ -5,7 +5,7 @@ export default function ResetPasswordPage() {
     const {resetPasswordForm, loading, error, handleResetPasswordFormChange, handleResetPasswordSubmit} = useResetPassword();
 
     return(
-        <div className="h-screen w-screen bg-amber-300">
+        <div className="h-screen w-screen">
             <div className="grid grid-cols-[60%_40%] h-screen w-screen">
                 <div className="bg-red relative w-full h-full">
                     {1 != 1 ? 

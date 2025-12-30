@@ -1,6 +1,8 @@
     import { useState, useEffect } from "react";
     import { profileMinimal } from "../api/profile";
     import { useNavigate } from "react-router-dom";
+import { logout } from "../api/auth";
+import { ApiProblemDetail } from "../types/system/apiProblemDetail";
 
     interface User {
         userId: string | null;
@@ -16,18 +18,30 @@
 
         const handleProblem = () => navigate("/problems")
 
-        const handleRegister = () => navigate("/auth/register")
-
         const handleLogin = () => navigate("/auth/login")
+
+        const handleLogout = async () => {
+            await logout();
+            localStorage.removeItem("accessToken");
+            navigate("/");
+        }
         
         const handleStatus = async () => {
             try {
                 setLoading(true);
                 const response:User = await profileMinimal();
                 setUser(response);
-                console.log(response);
             } catch (err: any) {
-                setError(err.message ?? "Unknown error");
+                const apiError = err as ApiProblemDetail;
+                if (apiError.errors) {
+                    const entries = Object.entries(apiError.errors ?? {});
+                    if (entries.length > 0) {
+                        const [field, messages] = entries[0];
+                        setError(messages[0]);
+                    }
+                } else {
+                    setError("Unknown error");
+                }
             } finally {
                 setLoading(false);
             }
@@ -37,5 +51,5 @@
             handleStatus();
         }, []);
 
-        return {handleProblem, handleRegister, handleLogin, user, error, loading};
+        return {handleProblem, handleLogout, handleLogin, user, error, loading};
     }
