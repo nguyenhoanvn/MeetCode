@@ -2,6 +2,7 @@
 using Ardalis.Result.AspNetCore;
 using MediatR;
 using MeetCode.Application.Queries.QueryEntities;
+using MeetCode.Application.Queries.QueryEntities.Profile;
 using MeetCode.Application.Queries.QueryResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
