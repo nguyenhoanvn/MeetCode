@@ -35,5 +35,18 @@ namespace MeetCode.Infrastructure.Services
             return result;
         }
 
+        public bool IsSubmissionAccepted(List<TestResult> testResults)
+        {
+            foreach (var testResult in testResults)
+            {
+                if (testResult.IsSuccessful == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
     }
 }

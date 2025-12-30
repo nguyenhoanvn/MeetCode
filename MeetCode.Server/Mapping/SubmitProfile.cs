@@ -12,6 +12,7 @@ namespace MeetCode.Server.Mapping
             CreateMap<(Guid jobId, RunCodeRequest request), RunCodeJobCommand>()
                 .ConstructUsing(src => new RunCodeJobCommand(
                     src.jobId,
+                    src.request.UserId,
                     src.request.Code,
                     src.request.LanguageName,
                     src.request.ProblemId,

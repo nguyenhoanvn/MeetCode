@@ -11,6 +11,7 @@ namespace MeetCode.Application.Commands.CommandEntities.Job
 {
     public sealed record RunCodeJobCommand(
         Guid JobId,
+        Guid UserId,
         string Code,
         string LanguageName,
         Guid ProblemId,

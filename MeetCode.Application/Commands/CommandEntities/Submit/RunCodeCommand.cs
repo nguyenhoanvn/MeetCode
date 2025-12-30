@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace MeetCode.Application.Commands.CommandEntities.Submit
 {
     public sealed record RunCodeCommand(
+        Guid UserId,
         string Code,
         Guid JobId,
         string LanguageName,

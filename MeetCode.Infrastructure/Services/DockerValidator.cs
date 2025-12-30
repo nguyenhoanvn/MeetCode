@@ -43,7 +43,7 @@ namespace MeetCode.Infrastructure.Services
 
         public async Task<TestResult?> RunCodeAsync(string code, Language language, ProblemTemplate problemTemplate, TestCase testCase, CancellationToken ct)
         {
-            code = problemTemplate.RunnerCode.Replace("{USER_CODE}", code);
+            code = problemTemplate.RunnerCode.Replace("// USER_CODE", code);
 
             var tempFolder = await InitializeWorkingFolderAsync(code, testCase, language, ct);
 
@@ -76,13 +76,13 @@ namespace MeetCode.Infrastructure.Services
                 }
 
                 var json = await File.ReadAllTextAsync(outputFile, ct);
-                var containerResult = JsonSerializer.Deserialize<int>(json);
+                var containerResult = JsonSerializer.Deserialize<object>(json);
 
                 var testResult = new TestResult
                 (
                     TestCase: testCase,
                     Result: containerResult.ToString(),
-                    IsSuccessful: true,
+                    IsSuccessful: testCase.ExpectedOutputText == containerResult.ToString() ? true : false,
                     ExecTimeMs: sw.ElapsedMilliseconds
                 );
 
