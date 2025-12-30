@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { problemList as fetchProblemList } from "../api/user/problem";
+import { problemList as fetchProblemList, problemSearch as fetchProblemSearch } from "../api/user/problem";
 import { useNavigate } from "react-router-dom";
 import { Problem } from "../types/user/problem";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
@@ -24,7 +24,7 @@ export default function useProblemList() {
             if (value) {
                 response = await fetchProblemSearch(value);
             } else {
-                response = await fetchProblemList();
+                response = await fetchProblemList(pageNumber, pageSize);
             }
             setProblemList(response.problemList);
         } catch (err: any) {

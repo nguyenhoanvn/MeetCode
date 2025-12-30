@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
 import { RunCode } from "../types/runCode"
-import { runCode } from "../api/submit";
+import { runCode } from "../api/user/submit";
 import { TestCase } from "../types/testCase";
 import { TestResult } from "../types/testResult";
 import { TestJobResult } from "../types/testJobResult";
+import { profileMinimal } from "../api/user/profile";
 
 export default function useRunCode(initLanguageName: string, initProblemId: string, initCode: string, initTestCaseIds: Array<string>, onResultArrived?: () => void) {
     const [runCodeRequest, setRunCode] = useState<RunCode>({
         languageName: initLanguageName,
+        userId: "",
         problemId: initProblemId,
         code: initCode,
         testCaseIds: initTestCaseIds
@@ -20,7 +22,14 @@ export default function useRunCode(initLanguageName: string, initProblemId: stri
 
     const submitJob = async () => {
         setLoading(true);
-        const resp = await runCode(runCodeRequest);
+        const user = await profileMinimal();
+
+        const request: RunCode = {
+            ...runCodeRequest,
+            userId: user.userId
+        };
+
+        const resp = await runCode(request);
         setJobId(resp.jobId);
 
     };
