@@ -47,7 +47,7 @@ export default function useProblemAdd() {
     const handleTagDelete = (tagId: string) => {
         setProblemAddForm((prev) => ({
             ...prev,
-            tag: prev.tags.filter(t => t.tagId !== tagId)
+            tags: prev.tags.filter(t => t.tagId !== tagId)
         }))
     }
 
