@@ -61,8 +61,7 @@ export default function ProblemListPage() {
                                                 <td className={`
                                                     ${item.difficulty === "easy" ? "text-green-500" : item.difficulty === "medium" ? "text-amber-300" : "text-red-500"} 
                                                     `}>{item.difficulty}</td>
-                                                <td>{item.totalSubmissionCount}</td>
-                                                <td><button>Click</button></td>
+                                                <td>{(item.acceptanceRate ?? 0).toFixed(1)}%</td>
                                             </tr>
                                         ))}
                                     </tbody>

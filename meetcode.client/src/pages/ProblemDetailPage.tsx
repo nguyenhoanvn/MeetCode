@@ -5,14 +5,17 @@ import { Splitter, SplitterPanel } from 'primereact/splitter';
 import useTabs from "../hooks/useTabs";
 import ProblemQuestionPage from "./ProblemQuestionPage";
 import CodeEditorPage from "./CodeEditorPage";
+import useProfileMinimal from "../hooks/useProfileMinimal";
+import ProblemSubmissionListPage from "./ProblemSubmissionListPage";
         
 
 export default function ProblemDetailPage() {
     const { slug } = useParams<{ slug: string }>();
     const { problem, initLoading, initError } = useProblemDetail(slug!);
+    const { user } = useProfileMinimal();
     const { selectedTab, handleSelectTab } = useTabs();
 
-    const tabs = ["Question"];
+    const tabs = ["Question", "Submission"];
 
     return(
         <>
@@ -63,6 +66,7 @@ export default function ProblemDetailPage() {
                             <div className="flex-1 w-full p-2">
                                 <div> 
                                     {selectedTab === 0 && problem && <ProblemQuestionPage problemDetail={problem} />}
+                                    {selectedTab === 1 && problem && user && <ProblemSubmissionListPage problemId={problem.problemId} userId={user.userId} />}
                                 </div>
                             </div>
                         </SplitterPanel>

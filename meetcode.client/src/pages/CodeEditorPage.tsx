@@ -70,7 +70,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                     </div>
                     <button type="button" className="absolute right-1/30 cursor-pointer" onClick={submitJob}>
                         {loading ? (
-                            <span className="material-symbols-outlined">
+                            <span className="material-symbols-outlined p-2">
                                 clock_loader_10
                             </span>
                         ) : 

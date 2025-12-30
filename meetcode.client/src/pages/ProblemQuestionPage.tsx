@@ -1,25 +1,13 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import CodeBlock from "../components/CodeBlock";
-import { Problem } from "../types/problem";
+import { Problem } from "../types/user/problem";
 
 interface ProblemQuestionPageProps {
     problemDetail: Problem;
 }
 
 export default function ProblemQuestionPage({ problemDetail }: ProblemQuestionPageProps) {
-
-    const md = `
-Given two numbers \`a\` and \`b\`, return their sum
-
-**Example 1:**
-
-\`\`\`
-Input: a = 1, b = 2
-Output: 3
-\`\`\`
-`;
-
     return (
         <>
             <div>
@@ -50,7 +38,7 @@ Output: 3
                             },
                         }}
                     >
-                        {md}
+                        {problemDetail.statementMd}
                     </ReactMarkdown>
                 </div>
             </div>

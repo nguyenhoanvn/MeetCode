@@ -28,7 +28,7 @@ export default function TestCaseListPage(props: TestCaseListPageProps) {
                             onClick={(e) => {
                                 removeTestCase(item.testId);
                             }}>
-                            <span className="material-symbols-outlined !text-xs">
+                            <span className="material-symbols-outlined text-xs!">
                                 close
                             </span>
                         </div>
