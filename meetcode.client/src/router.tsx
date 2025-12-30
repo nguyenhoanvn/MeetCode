@@ -14,6 +14,7 @@ import LanguageDetailPage from "./pagesAdmin/LanguageDetailPage";
 import ProblemTemplatePage from "./pagesAdmin/ProblemTemplatePage";
 import ProblemTemplateDetailPage from "./pagesAdmin/ProblemTemplateDetailPage";
 import ProblemDetailPage from "./pagesAdmin/ProblemDetailPage";
+import UserProblemDetailPage from "./pages/ProblemDetailPage";
 import TagPage from "./pagesAdmin/TagPage";
 import ProblemAddPage from "./pagesAdmin/ProblemAddPage";
 import TagAddPage from "./pagesAdmin/TagAddPage";
@@ -33,7 +34,7 @@ export default function AppRouter() {
                 <Route path="/problems" element={<ProblemListPage/>}/>
                 <Route path="/auth/forgot-password" element={<ForgotPasswordPage/>}/>
                 <Route path="/auth/reset-password" element={<ResetPasswordPage/>}/>
-                <Route path="/problems/:slug" element={<ProblemDetailPage/>}/>
+                <Route path="/problems/:slug" element={<UserProblemDetailPage/>}/>
                 <Route element={<AdminGuard />}>
                     <Route path="/admin" element={<AdminLayout />}>
                         <Route index element={<DashboardPage />} />

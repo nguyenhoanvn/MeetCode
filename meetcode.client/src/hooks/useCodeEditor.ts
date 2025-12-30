@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Problem } from "../types/problem";
+import { Problem } from "../types/user/problem";
 
 export default function useCodeEditor(problem?: Problem) {
 
@@ -17,7 +17,7 @@ export default function useCodeEditor(problem?: Problem) {
         if (!problem) return;
 
         const map = new Map(
-            problem.templateList.map(t => [t.languageName.toLowerCase(), t.templateCode])
+            problem.problemTemplates.map(t => [t.languageName.toLowerCase(), t.templateCode])
         );
 
         setTemplates(map);

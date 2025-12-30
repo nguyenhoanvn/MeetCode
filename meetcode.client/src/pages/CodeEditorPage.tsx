@@ -3,12 +3,10 @@ import useCodeEditor from "../hooks/useCodeEditor"
 import { Editor } from "@monaco-editor/react";
 import useTabs from "../hooks/useTabs";
 import TestCaseListPage from "./TestCaseListPage";
-import { TestCase } from "../types/testCase";
 import useRunCode from "../hooks/useRunCode";
-import { useEffect, useState } from "react";
-import { Problem } from "../types/problem";
 import TestResultsPage from "./TestResultsPage";
 import TestResultLoadingPage from "./TestResultLoadingPage";
+import { Problem } from "../types/user/problem";
 
 interface CodeEditorPageProps {
     problem?: Problem
@@ -16,7 +14,7 @@ interface CodeEditorPageProps {
 
 export default function CodeEditorPage(props: CodeEditorPageProps) {
     const { selectedLanguage, code, languageDropdown, handleLanguageChange, handleDropdownClick } = useCodeEditor(props.problem);
-    const { runCodeRequest, handleChangeCode, handleChangeTestCase, submitJob, loading, jobId, results} = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCaseList.map(tc => tc.testId) ?? [], () => handleSelectTab(1));
+    const { handleChangeCode, handleChangeTestCase, submitJob, loading, jobId, results} = useRunCode(selectedLanguage, props.problem?.problemId ?? "", code, props.problem?.testCases.map(tc => tc.testId) ?? [], () => handleSelectTab(1));
     const { selectedTab, handleSelectTab } = useTabs();
 
 
@@ -77,7 +75,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                             </span>
                         ) : 
                         (
-                            <span className="material-symbols-outlined">
+                            <span className="material-symbols-outlined p-2 rounded-lg hover:bg-blue-600 transition duration-300">
                                 play_arrow
                             </span>
                         )}
@@ -127,7 +125,7 @@ export default function CodeEditorPage(props: CodeEditorPageProps) {
                                     ))}
                                 </div>
                                 <div className="flex-1 min-h-0">
-                                    {selectedTab === 0 && <TestCaseListPage testCaseList={props.problem?.testCaseList ?? []} onChange={handleChangeTestCase}/>}
+                                    {selectedTab === 0 && <TestCaseListPage testCases={props.problem?.testCases ?? []} onChange={handleChangeTestCase}/>}
                                     {selectedTab === 1 && loading ? <TestResultLoadingPage/> : <TestResultsPage jobId={jobId} results={results}/>}
                                 </div>
                             </div>

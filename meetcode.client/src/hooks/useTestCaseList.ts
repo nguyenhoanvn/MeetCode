@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { TestCase, ParsedTestCase } from "../types/testCase";
+import { ParsedTestCase, TestCase } from "../types/user/testCase";
 
-export default function useTestCaseList(initialList: Array<TestCase>) {
-    const [testCases, setTestCases] = useState<Array<TestCase>>(initialList);
+export default function useTestCaseList(initialList: TestCase[]) {
+    const [testCases, setTestCases] = useState<TestCase[]>(initialList);
     const [selectedTab, setSelectedTab] = useState(0);
 
     useEffect(() => {

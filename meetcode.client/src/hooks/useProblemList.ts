@@ -1,29 +1,18 @@
 import { useEffect, useState } from "react";
-import { problemList as fetchProblemList } from "../api/admin/problem";
+import { problemList as fetchProblemList } from "../api/user/problem";
 import { useNavigate } from "react-router-dom";
-
-enum Difficulty {
-    Easy = 'easy',
-    Medium = 'medium',
-    Hard = 'hard'
-}
-
-interface Problem {
-    problemId: string;
-    title: string;
-    slug: string;
-    statementMd: string;
-    difficulty: Difficulty;
-    totalSubmissionCount: number;
-    scoreAcceptedCount: number;
-    acceptanceRate: number;
-}
+import { Problem } from "../types/user/problem";
+import { ApiProblemDetail } from "../types/system/apiProblemDetail";
+import { ProblemListUserReponse } from "../types/response/problemResponses";
 
 export default function useProblemList() {
-    const [problemList, setProblemList] = useState<Array<Problem>>([]);
+    const [problemList, setProblemList] = useState<Problem[]>([]);
     const [problemSearchBox, setProblemSearchBox] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [pageNumber, setPageNumber] = useState<number>(1);
+    const [pageSize] = useState<number>(20);
+    const [totalCount, setTotalCount] = useState<number>();
 
     const navigate = useNavigate();
 
@@ -49,11 +38,20 @@ export default function useProblemList() {
     const handleProblemList = async () => {
         try {
             setLoading(true);
-            var response = await fetchProblemList();
+            var response: ProblemListUserReponse = await fetchProblemList(pageNumber, pageSize);
+            setTotalCount(response.totalCount);
             setProblemList(response.problemList);
-            console.log(response);
         } catch (err: any) {
-            setError(err.message || "Failed to fetch problem list");
+            const apiError = err as ApiProblemDetail
+            if (apiError.errors) {
+                const entries = Object.entries(apiError.errors ?? {});
+                if (entries.length > 0) {
+                    const [field, messages] = entries[0];
+                    setError(messages[0]);
+                }
+            } else {
+                setError("Failed to fetch problem list");
+            }
         } finally {
             setLoading(false);
         }
@@ -63,5 +61,12 @@ export default function useProblemList() {
         handleProblemList();
     }, []);
 
-    return {problemList, problemSearchBox, loading, error, handleProblemList, handleSearch};
+    return {problemList, 
+        problemSearchBox, 
+        loading, 
+        error, 
+        handleProblemList, 
+        handleSearch,
+        totalCount
+    };
 }

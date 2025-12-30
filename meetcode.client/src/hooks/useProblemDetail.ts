@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Problem } from "../types/problem";
+import { Problem } from "../types/user/problem";
+import { problemGet } from "../api/user/problem";
 
 export default function useProblemDetail(slug: string) {
     const [problem, setProblem] = useState<Problem>();
@@ -9,8 +10,7 @@ export default function useProblemDetail(slug: string) {
     const handleGetProblem = async () => {
         try {
             setInitLoading(true);
-            var response = await problemDetail(slug);
-            console.log(response);
+            var response = await problemGet(slug);
             setProblem(response);
         } catch (err: any) {
             setInitError(err.message || "Unexpected error");
