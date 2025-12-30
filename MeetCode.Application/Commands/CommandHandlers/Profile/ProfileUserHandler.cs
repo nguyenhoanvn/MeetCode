@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MeetCode.Application.Commands.CommandEntities;
+using MeetCode.Application.Commands.CommandEntities.Profile;
 using MeetCode.Application.Commands.CommandResults.Profile;
 using MeetCode.Application.Interfaces.Repositories;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeetCode.Application.Commands.CommandHandlers
+namespace MeetCode.Application.Commands.CommandHandlers.Profile
 {
     public sealed class ProfileUserHandler : IRequestHandler<ProfileUserCommand, ProfileUserResult>
     {

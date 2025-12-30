@@ -11,6 +11,8 @@ public partial class User
 
     public string DisplayName { get; set; } = null!;
 
+    public string? AvatarUrl { get; set; } = default;
+
     public string Role { get; set; } = null!;
 
     public string PasswordHash { get; set; } = null!;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeetCode.Application.Commands.CommandEntities
+namespace MeetCode.Application.Commands.CommandEntities.Profile
 {
     public sealed record ProfileUserCommand() : IRequest<ProfileUserResult>;
 }
