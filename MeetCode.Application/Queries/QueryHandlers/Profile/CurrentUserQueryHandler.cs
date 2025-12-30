@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using MeetCode.Application.Interfaces.Repositories;
-using MeetCode.Application.Queries.QueryEntities;
+using MeetCode.Application.Queries.QueryEntities.Profile;
 using MeetCode.Application.Queries.QueryResults;
 using MeetCode.Domain.Enums;
 using Microsoft.Extensions.Logging;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeetCode.Application.Queries.QueryHandlers
+namespace MeetCode.Application.Queries.QueryHandlers.Profile
 {
     public class CurrentUserQueryHandler : IRequestHandler<CurrentUserQuery, Result<CurrentUserQueryResult>>
     {
