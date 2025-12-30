@@ -5,7 +5,6 @@
         string Visibility,
         string InputJson,
         string Output,
-        int Weight,
         Guid ProblemId
         );
 }

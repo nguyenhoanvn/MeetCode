@@ -14,8 +14,8 @@ namespace MeetCode.Application.DTOs.Response.Problem
         int TotalSubmissionCount,
         int ScoreAcceptedCount,
         double? AcceptanceRate,
-        List<TagResponse> TagList,
-        List<TestCaseResponse> TestCaseList,
-        List<ProblemTemplateResponse> TemplateList
+        List<TagResponse> Tags,
+        List<TestCaseResponse> TestCases,
+        List<ProblemTemplateResponse> problemTemplates
         );
 }

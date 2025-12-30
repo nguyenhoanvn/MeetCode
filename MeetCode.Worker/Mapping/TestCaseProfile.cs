@@ -19,7 +19,6 @@ namespace MeetCode.Server.Mapping
                     src.Visibility,
                     src.InputJson,
                     src.ExpectedOutputText,
-                    src.Weight,
                     src.ProblemId
                 ));
 
