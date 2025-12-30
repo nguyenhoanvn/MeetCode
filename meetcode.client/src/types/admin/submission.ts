@@ -1,4 +1,6 @@
 import { Language } from "./language";
+import { Problem } from "./problem";
+import { User } from "./user";
 
 export interface Submission {
     submissionId: string;
