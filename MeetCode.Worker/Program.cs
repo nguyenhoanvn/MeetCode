@@ -43,6 +43,7 @@ builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<ITestCaseRepository, TestCaseRepository>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<IProblemTemplateRepository, ProblemTemplateRepository>();
+builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
 
 // Services 
 builder.Services.AddScoped<ISessionService, SessionService>();
