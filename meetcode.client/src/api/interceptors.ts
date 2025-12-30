@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { isAdmin } from "../helpers/adminCheck";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
-import {refresh} from "./auth";
+import {refresh} from "./user/auth";
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from "axios";
 
 export const enableUserAuthInterceptor = (axiosInstance: AxiosInstance): void => {
@@ -13,7 +13,8 @@ export const enableUserAuthInterceptor = (axiosInstance: AxiosInstance): void =>
             if (error.response?.status === 401 && !request._retry) {
                 request._retry = true;
                 try {
-                    await refresh();
+                    const response = await refresh();
+                    localStorage.setItem("accessToken", response.jwt);
                     return axiosInstance(request);
                 } catch (refreshError) {
                     window.location.href = "/auth/login";
@@ -34,7 +35,7 @@ export const enableAdminOnlyResponseInterceptor = (
             const status = error.response?.status;
 
             if (status === 401) {
-                window.location.href = "admin/auth/login";
+                window.location.href = "/admin/auth/login";
             }
 
             if (status === 403) {
