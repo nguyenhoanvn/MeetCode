@@ -1,20 +1,21 @@
-﻿using MediatR;
+﻿using Ardalis.Result;
+using MediatR;
+using MeetCode.Application.Commands.CommandEntities.Auth;
+using MeetCode.Application.Commands.CommandResults.Auth;
+using MeetCode.Application.DTOs.Response.Auth;
 using MeetCode.Application.Interfaces;
+using MeetCode.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ardalis.Result;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
-using MeetCode.Application.Interfaces.Services;
-using MeetCode.Application.Commands.CommandEntities.Auth;
-using MeetCode.Application.Commands.CommandResults.Auth;
 
 namespace MeetCode.Application.Commands.CommandHandlers.Auth
 {
-    public sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenResult>>
+    public sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenResponse>>
     {
 
         private readonly ITokenService _tokenService;
@@ -31,7 +32,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
             _userService = userService;
         }
 
-        public async Task<Result<RefreshTokenResult>> Handle(RefreshTokenCommand request, CancellationToken ct)
+        public async Task<Result<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken ct)
         {
 
             _logger.LogInformation("Issue refresh token handler started");
@@ -60,7 +61,9 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
 
             _logger.LogInformation($"Issued new refresh token for user with Id: {user.UserId}");
 
-            return Result.Success(new RefreshTokenResult(jwt, refreshTokenCreate.TokenHash));
+            var resp = new RefreshTokenResponse(jwt, newRefreshToken);
+
+            return Result.Success(resp);
 
         }
     }

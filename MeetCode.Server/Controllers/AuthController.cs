@@ -124,9 +124,9 @@ public class AuthController : ControllerBase
 
     [HttpGet("refresh")]
     [TranslateResultToActionResult]
-    [ProducesResponseType(typeof(RefreshTokenResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(RefreshTokenResponse), StatusCodes.Status200OK)]
     [ExpectedFailures(ResultStatus.Error)]
-    public async Task<Result<RefreshTokenResult>> Refresh(CancellationToken ct)
+    public async Task<Result<RefreshTokenResponse>> Refresh(CancellationToken ct)
     { 
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
                 string.IsNullOrWhiteSpace(refreshTokenPlain))
@@ -141,7 +141,7 @@ public class AuthController : ControllerBase
 
         HttpContext.Response.Cookies.Append(
             "accessToken",
-            resp.Value.AccessToken,
+            resp.Value.Jwt,
             new CookieOptions
             {
                 HttpOnly = true,

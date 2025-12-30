@@ -1,13 +1,14 @@
-﻿using MediatR;
+﻿using Ardalis.Result;
+using MediatR;
+using MeetCode.Application.Commands.CommandResults.Auth;
+using MeetCode.Application.DTOs.Response.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ardalis.Result;
-using MeetCode.Application.Commands.CommandResults.Auth;
 
 namespace MeetCode.Application.Commands.CommandEntities.Auth
 {
-    public sealed record RefreshTokenCommand(string PlainRefreshToken) : IRequest<Result<RefreshTokenResult>>;
+    public sealed record RefreshTokenCommand(string PlainRefreshToken) : IRequest<Result<RefreshTokenResponse>>;
 }

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace MeetCode.Application.DTOs.Response.Auth
 {
-    public sealed record RefreshTokenResponse();
+    public sealed record RefreshTokenResponse(string Jwt, string RefreshToken);
 }
