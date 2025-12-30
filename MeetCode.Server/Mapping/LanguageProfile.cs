@@ -15,6 +15,7 @@ namespace MeetCode.Server.Mapping
         {
             CreateMap<Language, LanguageResponse>()
                 .ConstructUsing(src => new LanguageResponse(
+                    src.LangId,
                     src.Name,
                     src.Version,
                     src.RuntimeImage,
