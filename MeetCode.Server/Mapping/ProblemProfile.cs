@@ -34,12 +34,6 @@ namespace MeetCode.Server.Mapping
             // Add
             CreateMap<ProblemAddRequest, ProblemAddCommand>();
 
-            // Get all
-            CreateMap<ProblemAllQueryResult, ProblemAllResponse>()
-                .ConstructUsing((src, context) => new ProblemAllResponse(
-                    context.Mapper.Map<List<ProblemResponse>>(src.ProblemList)
-                    ));
-
             // Update
             CreateMap<(Guid problemId, ProblemUpdateRequest request), ProblemUpdateCommand>()
                 .ConstructUsing(src => new ProblemUpdateCommand(

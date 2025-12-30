@@ -87,5 +87,20 @@ namespace MeetCode.Infrastructure.Repositories
                 .AsNoTracking()
                 .AnyAsync(p => p.Slug == slug, ct);
         }
+
+        public async Task<(List<Problem>, int)> GetPagedAsync(int pageNumber, int pageSize, CancellationToken ct)
+        {
+            var query = _db.Problems.AsNoTracking();
+
+            var totalCount = await query.CountAsync(ct);
+
+            var items = await query
+                .OrderBy(p => p.CreatedAt)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+
+            return (items, totalCount);
+        }
     }
 }
