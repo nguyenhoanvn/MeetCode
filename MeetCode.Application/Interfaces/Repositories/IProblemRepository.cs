@@ -13,5 +13,7 @@ namespace MeetCode.Application.Interfaces.Repositories
         Task<Problem?> GetBySlugAsync(string slug, CancellationToken ct);
         Task<IEnumerable<Problem>> GetAllBySlugAsync(string slug, CancellationToken ct);
         Task<bool> IsProblemExistsAsync(string slug, CancellationToken ct);
+
+        Task<(List<Problem>, int)> GetByTitlePagedAsync(int pageNumber, int pageSize, string title, CancellationToken ct);
     }
 }

@@ -53,6 +53,16 @@ public partial class Problem
         Slug = Regex.Replace(Title.ToLowerInvariant().Trim(), @"\s+", "-").ToLowerInvariant();
     }
 
+    public void UpdateSubmission(string submissionVerdict)
+    {
+        TotalSubmissionCount++;
+        if (submissionVerdict == "accepted")
+        {
+            ScoreAcceptedCount++;
+        }
+        AcceptanceRate = ScoreAcceptedCount / TotalSubmissionCount;
+    }
+
     public void ToggleStatus()
     {
         IsActive = !IsActive;

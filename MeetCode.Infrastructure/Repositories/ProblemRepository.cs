@@ -102,5 +102,21 @@ namespace MeetCode.Infrastructure.Repositories
 
             return (items, totalCount);
         }
+
+        public async Task<(List<Problem>, int)> GetByTitlePagedAsync(int pageNumber, int pageSize, string title, CancellationToken ct)
+        {
+            var query = _db.Problems.AsNoTracking();
+
+            var totalCount = await query.CountAsync(ct);
+
+            var items = await query
+                .Where(x => x.Title.Contains(title))
+                .OrderBy(p => p.CreatedAt)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+
+            return (items, totalCount);
+        }
     }
 }

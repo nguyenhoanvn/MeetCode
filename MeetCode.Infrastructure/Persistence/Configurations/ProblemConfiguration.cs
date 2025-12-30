@@ -22,7 +22,11 @@ namespace MeetCode.Infrastructure.Persistence.Configurations
             b.HasIndex(e => e.Slug, "UQ__Problems__BC7B5FB67ED9FA0C").IsUnique();
 
             b.Property(e => e.ProblemId).HasDefaultValueSql("(newsequentialid())");
-            b.Property(e => e.AcceptanceRate).HasComputedColumnSql("(CONVERT([float],[ScoreAcceptedCount])/nullif([TotalSubmissionCount],(0)))", true);
+            b.Property(e => e.AcceptanceRate)
+                 .HasComputedColumnSql(
+                     "(CONVERT([float],[ScoreAcceptedCount]) / NULLIF([TotalSubmissionCount], 0)) * 100.0",
+                     stored: true
+                 );
             b.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
             b.Property(e => e.Difficulty).HasMaxLength(20);
             b.Property(e => e.IsActive).HasDefaultValue(true);

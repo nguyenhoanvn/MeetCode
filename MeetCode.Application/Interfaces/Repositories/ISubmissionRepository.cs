@@ -9,5 +9,6 @@ namespace MeetCode.Application.Interfaces.Repositories
 {
     public interface ISubmissionRepository : IRepository<Submission>
     {
+        Task<IEnumerable<Submission>> GetAllByUserIdAndProblemIdAsync(Guid userId, Guid problemId, CancellationToken ct);
     }
 }
