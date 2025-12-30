@@ -61,16 +61,8 @@ public class Runner
             
             var solution = new UserSubmission.Solution();
             var result = solution.{methodCall};
-            
-            // Handle different return types
-            if (result is System.Collections.IEnumerable enumerable && !(result is string))
-            {{
-                Console.WriteLine(""["" + string.Join("","", enumerable.Cast<object>()) + ""]"");
-            }}
-            else
-            {{
-                Console.WriteLine(result);
-            }}
+
+            Console.WriteLine(result);
         }}
         catch (System.Exception ex)
         {{

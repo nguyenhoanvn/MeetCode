@@ -70,24 +70,7 @@ public class Runner {{
             Solution solution = new Solution();
             Object result = solution.{methodCall};
             
-            // Handle different return types
-            if (result instanceof int[]) {{
-                System.out.println(Arrays.toString((int[]) result));
-            }} else if (result instanceof long[]) {{
-                System.out.println(Arrays.toString((long[]) result));
-            }} else if (result instanceof double[]) {{
-                System.out.println(Arrays.toString((double[]) result));
-            }} else if (result instanceof boolean[]) {{
-                System.out.println(Arrays.toString((boolean[]) result));
-            }} else if (result instanceof String[]) {{
-                System.out.println(Arrays.toString((String[]) result));
-            }} else if (result instanceof Object[]) {{
-                System.out.println(Arrays.deepToString((Object[]) result));
-            }} else if (result instanceof List) {{
-                System.out.println(result);
-            }} else {{
-                System.out.println(result);
-            }}
+            System.out.println(result);
         }} catch (Exception e) {{
             System.err.println(""Error: "" + e.getMessage());
             e.printStackTrace();

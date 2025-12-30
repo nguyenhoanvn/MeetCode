@@ -23,14 +23,14 @@ namespace MeetCode.Infrastructure.Helpers
             // Handle common types
             return baseType.ToLower() switch
             {
-                "int" or "int32" => $"int.Parse(lines[{lineIndex}])",
-                "long" or "int64" => $"long.Parse(lines[{lineIndex}])",
-                "double" => $"double.Parse(lines[{lineIndex}])",
-                "float" => $"float.Parse(lines[{lineIndex}])",
-                "bool" or "boolean" => $"bool.Parse(lines[{lineIndex}])",
-                "string" => $"lines[{lineIndex}]",
-                "char" => $"char.Parse(lines[{lineIndex}])",
-                _ => $"System.Text.Json.JsonSerializer.Deserialize<{type}>(lines[{lineIndex}])"
+                "int" or "int32" => $"int.Parse(lines[{lineIndex}]);",
+                "long" or "int64" => $"long.Parse(lines[{lineIndex}]);",
+                "double" => $"double.Parse(lines[{lineIndex}]);",
+                "float" => $"float.Parse(lines[{lineIndex}]);",
+                "bool" or "boolean" => $"bool.Parse(lines[{lineIndex}]);",
+                "string" => $"lines[{lineIndex}];",
+                "char" => $"char.Parse(lines[{lineIndex}]);",
+                _ => $"System.Text.Json.JsonSerializer.Deserialize<{type}>(lines[{lineIndex}]);"
             };
         }
 
