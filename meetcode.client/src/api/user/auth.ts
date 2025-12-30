@@ -1,5 +1,7 @@
-import { LoginResponse } from "../types/response/authResponses";
-import { authApi } from "./client";
+import { LoginResponse, RefreshResponse } from "../../types/response/authResponses";
+import { authApi } from "../client";
+
+
 
 export const register = async (registerRequest: {displayName: string; email: string; password: string;}) => {
     const response = await authApi.post("/register", registerRequest);
@@ -13,7 +15,8 @@ export const login = async (loginRequest: {email: string; password: string;}) =>
 }
 
 export const refresh = async () => {
-    await authApi.get("/refresh");
+    const response = await authApi.get<RefreshResponse>("/refresh");
+    return response.data;
 }
 
 export const forgotPassword = async (forgotPasswordRequest: {email: string;}) => {

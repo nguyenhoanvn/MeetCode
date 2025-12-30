@@ -10,6 +10,11 @@ export const problemList = async (pageNumber: number, pageSize: number) => {
 } 
 
 export const problemGet = async (slug: string) => {
-    const response = await problemApi.get<Problem>(`/${slug}`);
+    const response = await problemApi.get<ProblemListUserReponse>(`/${slug}`);
+    return response.data;
+}
+
+export const problemSearch = async (title: string) => {
+    const response = await problemApi.get<ProblemListUserReponse>(`/search?title=${title}`);
     return response.data;
 }

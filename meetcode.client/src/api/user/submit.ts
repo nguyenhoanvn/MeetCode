@@ -1,6 +1,8 @@
-import { EnqueueResult } from "../types/enqueueResult";
-import { RunCode } from "../types/runCode";
-import { submitApi } from "./client"
+
+import { EnqueueResult } from "../../types/enqueueResult";
+import { RunCode } from "../../types/runCode";
+import { submitApi } from "../client";
+
 
 export const runCode = async (runCodeRequest: RunCode): Promise<EnqueueResult> => {
     console.log(runCodeRequest);
