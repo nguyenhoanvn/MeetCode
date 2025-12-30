@@ -42,7 +42,6 @@ namespace MeetCode.Server.ControllersAdmin
             });
         }
 
-
         [Authorize]
         [HttpGet("me")]
         [TranslateResultToActionResult]
@@ -57,8 +56,7 @@ namespace MeetCode.Server.ControllersAdmin
                 return Result.Success();
             }
 
-            var request = new ProfileUserRequest();
-            var cmd = _mapper.Map<ProfileUserQuery>((Guid.Parse(userId), request));
+            var cmd = new ProfileUserQuery(Guid.Parse(userId));
 
             var result = await _mediator.Send(cmd, ct);
 
