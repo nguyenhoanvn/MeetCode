@@ -182,20 +182,25 @@ namespace MeetCode.Infrastructure.Services
         public async Task<bool> InvalidateRefreshToken(Guid userId, CancellationToken ct)
         {
             var refreshTokenEntity = await _refreshTokenRepository.GetByUserId(userId, ct);
+
             if (refreshTokenEntity == null)
             {
-                _logger.LogWarning($"Refresh token with user id {userId} not found");
-                return false;
+                _logger.LogInformation($"No refresh token found for user {userId}, logout treated as success");
+                return true;
             }
-            if (!refreshTokenEntity.IsValid())
+
+            if (refreshTokenEntity.IsRevoked)
             {
-                _logger.LogWarning("Refresh token is revoked or expired");
-                return false;
+                _logger.LogInformation($"Refresh token for user {userId} already revoked");
+                return true;
             }
+
             refreshTokenEntity.IsRevoked = true;
             await _unitOfWork.SaveChangesAsync(ct);
+
             _logger.LogInformation($"Refresh token with userId {userId} revoked");
             return true;
         }
+
     }
 }

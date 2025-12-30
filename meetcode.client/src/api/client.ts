@@ -21,6 +21,12 @@ export const submitApi = axios.create({
     headers: {"Content-Type": "application/json"},
 });
 
+export const problemApi = axios.create({
+    baseURL: "https://" + domain + "/problems",
+    withCredentials: true,
+    headers: {"Content-Type": "application/json"},
+});
+
 /* Admin endpoints */
 export const adminMiscApi = axios.create({
     baseURL: "https://" + domain + "/admin",

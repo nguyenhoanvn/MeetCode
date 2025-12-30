@@ -27,10 +27,7 @@ namespace MeetCode.Application.Commands.CommandHandlers.Auth
         {
             _logger.LogInformation($"User {request.UserId} logout started");
 
-            if (!(await _tokenService.InvalidateRefreshToken(request.UserId, ct)))
-            {
-                return Result.Error("Something went wrong when trying to invalidate refresh token");
-            }
+            await _tokenService.InvalidateRefreshToken(request.UserId, ct);
 
             return Result.Success(new LogoutCommandResult(true));
         }

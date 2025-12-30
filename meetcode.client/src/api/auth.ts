@@ -1,3 +1,4 @@
+import { LoginResponse } from "../types/response/authResponses";
 import { authApi } from "./client";
 
 export const register = async (registerRequest: {displayName: string; email: string; password: string;}) => {
@@ -7,8 +8,8 @@ export const register = async (registerRequest: {displayName: string; email: str
     
 
 export const login = async (loginRequest: {email: string; password: string;}) =>  {
-    const response = await authApi.post("/login", loginRequest);
-    return response;
+    const response = await authApi.post<LoginResponse>("/login", loginRequest);
+    return response.data;
 }
 
 export const refresh = async () => {
@@ -27,5 +28,10 @@ export const verifyOtp = async (verifyOtpRequest: {code: string;}) => {
 
 export const resetPassword = async (resetPasswordRequest: {email:string; newPassword: string;}) => {
     const response = await authApi.post("/reset-password", resetPasswordRequest);
+    return response.data;
+}
+
+export const logout = async () => {
+    const response = await authApi.post("/logout");
     return response.data;
 }

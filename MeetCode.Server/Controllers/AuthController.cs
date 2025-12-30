@@ -1,19 +1,20 @@
+using Ardalis.Result;
+using Ardalis.Result.AspNetCore;
+using AutoMapper;
 using MediatR;
+using MeetCode.Application.Commands.CommandEntities.Auth;
+using MeetCode.Application.Commands.CommandResults.Auth;
+using MeetCode.Application.DTOs.Request.Auth;
+using MeetCode.Application.DTOs.Response.Auth;
+using MeetCode.Application.Interfaces.Services;
+using MeetCode.Application.Queries.QueryEntities.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
-using Ardalis.Result;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using System.Security.Cryptography;
-using MeetCode.Application.Commands.CommandResults.Auth;
-using MeetCode.Application.Interfaces.Services;
-using MeetCode.Application.Queries.QueryEntities.Auth;
-using MeetCode.Application.Commands.CommandEntities.Auth;
-using MeetCode.Application.DTOs.Response.Auth;
-using MeetCode.Application.DTOs.Request.Auth;
-using Ardalis.Result.AspNetCore;
 
 namespace MeetCode.Server.Controllers;
 [ApiController]
@@ -88,20 +89,19 @@ public class AuthController : ControllerBase
         return resp;
     }
 
-    [Authorize(Roles = "User")]
+    [Authorize]
     [HttpPost("logout")]
     [TranslateResultToActionResult]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<Result<string>> Logout(CancellationToken ct)
     {
-        var userIdClaim = User.FindFirst("userId");
-        if (userIdClaim == null)
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
         {
             return Result.Unauthorized("Not logged in");
         }
 
-        var userId = Guid.Parse(userIdClaim.Value);
-        var cmd = new LogoutCommand(userId);
+        var cmd = new LogoutCommand(Guid.Parse(userId));
 
         var result = await _mediator.Send(cmd, ct);
 
@@ -131,7 +131,7 @@ public class AuthController : ControllerBase
         if (!HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshTokenPlain) ||
                 string.IsNullOrWhiteSpace(refreshTokenPlain))
         {
-            _logger.LogWarning("Refresh token failed because of mission token");
+            _logger.LogWarning("Refresh failed because of missing token");
             return Result.Success();
         }
 

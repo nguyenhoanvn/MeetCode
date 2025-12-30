@@ -26,6 +26,9 @@ export const useLogin = () => {
         try {
             setLoading(true); 
             const response = await login(loginForm);
+
+            localStorage.setItem("accessToken", response.accessToken);
+
             navigate("/", { replace: true });
         } catch (err: unknown) {
             const apiError = err as ApiProblemDetail;
