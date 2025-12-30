@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { resetPassword } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
+import { resetPassword } from "../api/user/auth";
 
 interface ResetPasswordForm {
     newPassword: string;

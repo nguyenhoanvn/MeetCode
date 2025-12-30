@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { login, register } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
+import { login, register } from "../api/user/auth";
 
 interface RegisterForm {
     displayName: string;

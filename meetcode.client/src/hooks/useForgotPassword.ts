@@ -1,7 +1,7 @@
 import { use, useState } from "react"
-import { forgotPassword, resetPassword, verifyOtp } from "../api/auth";
 import { useNavigate } from "react-router-dom";
 import { ApiProblemDetail } from "../types/system/apiProblemDetail";
+import { forgotPassword, verifyOtp } from "../api/user/auth";
 
 interface ForgotPasswordForm {
     email: string;
