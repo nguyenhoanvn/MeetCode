@@ -121,6 +121,7 @@ builder.Services.AddSingleton<IJobSender, RabbitMqSender>();
 builder.Services.AddScoped<IDockerValidator, DockerValidator>();
 builder.Services.AddSingleton<ILanguageTemplateGenerator, CSharpTemplateGenerator>();
 builder.Services.AddSingleton<ILanguageTemplateGenerator, JavaTemplateGenerator>();
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
 builder.Services.AddControllers(options =>
 {
