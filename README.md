@@ -53,6 +53,21 @@ The system follow clean, layered architecture with CQRS separation for scalabili
 + Testing: xUnit
 + Deployment and Version Control: Docker Compose, Github, Azure
  
+## Features
+### 1. Home Page
+The homepage will contains trending content accross the website, but currently, it only contains user and moderator accounts for anyone want to test both user and admin features on the website as the website got deployed.<br/>
+<placeholder_image>
 
+### 2. Admin Pages
+Admin interfaces will contain two components: the sidebar and the main content page. The sidebar can be used to navigate through different table data with near-zero delay because each time admin choose another page in sidebar, the page will only change the main content page instead of rerender the whole page. About the main content page component, it will be one of the below:
+#### 2.1 Overview Data Page
+This is a sample page to list every record that exists in the database belongs to a specific table. There will be key properties of the entity, an option to view detail of a record, and a button to add new record.<br/>
+<placeholder_image>
 
+#### 2.2 Detail Data Page
+This is a sample page to list every properties belong to an entity, some fields such as turn on/off status and foreign records on other tables are clickable for different functions.<br/>
+<placeholder_image>
 
+#### 2.3 Add Record Page
+This is a sample page to allow administrator to create new record in a table by entering/choosing data inside fields. Note that each of entity has different UI for this type of page, some even has something playful in it!<br/>
+<placeholder_image>
